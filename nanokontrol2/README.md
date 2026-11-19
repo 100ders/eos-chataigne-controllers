@@ -172,6 +172,8 @@ Plus simple : refaire le projet avec le [configurateur](#le-configurateur). Pour
 3. **Address** :
    - touche Eos : la touche à « appuyer » (ex. `/eos/at/remdim`, `/eos/key/live`) ;
    - commande tapée : toujours `/eos/cmd`.
+
+   Liste complète des adresses et des noms de touches : [dictionnaire OSC d'Eos](https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm) (ETC, en anglais).
 4. **Argument** :
    - touche Eos : aucun ;
    - commande tapée : le texte tel qu'on le tape sur Eos, `#` = Enter (ex. `Sneak Time 0`, `Update CueOnly #`). Sans `#`, la commande attend d'être validée.

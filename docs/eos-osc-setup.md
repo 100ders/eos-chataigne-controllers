@@ -53,6 +53,12 @@ Ensuite dans Eos :
 5. **UDP RX Port** : le port de réception d'Eos (8000).
 6. **Time Last Received** : heure du dernier message reçu.
 
+## Aller plus loin
+Le [dictionnaire OSC d'Eos](https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm) (ETC, en anglais) liste toutes les commandes OSC :
+- **OSC Inputs** : les adresses qu'Eos reçoit, celles à mettre dans Chataigne (`/eos/key/…`, `/eos/fader/…`, `/eos/wheel/…`…) ;
+- **OSC Outputs** : ce qu'Eos renvoie quand OSC TX est activé ;
+- **OSC Eos Keys** : les noms des touches à utiliser après `/eos/key/` (ex. `go_0`, `select_active`).
+
 ## Dépannage
 | Symptôme | Cause probable | Solution |
 |---|---|---|

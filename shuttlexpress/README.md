@@ -59,7 +59,7 @@ Notes :
 |---|---|
 | Changer la vitesse du jog | L'argument des Actions `JOG +` / `JOG -` de chaque State (2 / -2 par défaut) |
 | Changer la vitesse de la bague | Le filtre **Remap** du Mapping `BAGUE …` (sortie -3…3 ; -1…1 pour l'intensité) |
-| Piloter un autre paramètre | L'adresse `/eos/wheel/coarse/<paramètre>` et `/eos/switch/<paramètre>` dans un State JOG |
+| Piloter un autre paramètre | L'adresse `/eos/wheel/coarse/<paramètre>` et `/eos/switch/<paramètre>` dans un State JOG (noms des paramètres : [dictionnaire OSC d'Eos](https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm), en anglais) |
 | Réglage plus fin | Remplacer `coarse` par `fine` et augmenter l'argument (un cran *fine* est très petit) |
 | Réaffecter un bouton | La condition `/shuttle/button/<n>` de l'Action dans le State **BOUTONS** |
 

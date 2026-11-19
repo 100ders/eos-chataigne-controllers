@@ -144,6 +144,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 }
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .lang{font-size:.85rem;padding:5px 12px}
+.hint{font-size:.78rem;color:var(--muted);margin:2px 0 4px}
 .topr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .bmc{font-size:.85rem;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;white-space:nowrap}
 .bmc:hover{background:var(--accent);color:#1b1b1b}
@@ -181,6 +182,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
       </select>
       <label for="c-value" id="c-value-l"></label>
       <input id="c-value" required>
+      <p class="hint" id="c-hint" data-h="dict_hint" hidden></p>
       <button type="submit" data-i="c_add"></button>
     </form>
     <p class="note" data-h="lib_note"></p>
@@ -254,7 +256,9 @@ fr:{
  step1:"<b>Assignez</b> des fonctions aux boutons : glissez-les, ou touchez une fonction puis un bouton.",
  step2:"<b>Réglez</b> chaque tranche : cliquez dessus (⚙ Régler) ou sur ses cases S, M, R.",
  step3:"<b>Téléchargez</b> le projet et ouvrez-le dans Chataigne.",
- help:"Aide : <a href='{0}' target='_blank' rel='noopener'>régler l'OSC dans Eos</a> · <a href='{1}' target='_blank' rel='noopener'>mode d'emploi du nano</a>",
+ help:"Aide : <a href='{0}' target='_blank' rel='noopener'>régler l'OSC dans Eos</a> · <a href='{1}' target='_blank' rel='noopener'>mode d'emploi du nano</a> · <a href='{2}' target='_blank' rel='noopener'>dictionnaire OSC d'Eos (en anglais) ↗</a>",
+ dict_hint:"Liste des adresses : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
+ dict_param:"Noms des paramètres : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
  lib_title:"Bibliothèque de fonctions", leg_key:"Touche Eos", leg_cmd:"Commande tapée",
  c_name:"Nom affiché", c_name_ph:"ex. MACRO 5", c_type:"Type", c_macro:"Macro Eos (numéro)", c_osc:"Adresse OSC", c_cmd:"Commande tapée (texte)", c_add:"Ajouter la fonction",
  cv_macro:"Numéro de macro", cv_key:"Adresse OSC", cv_cmd:"Texte tapé sur Eos (# = Enter)",
@@ -332,7 +336,9 @@ en:{
  step1:"<b>Assign</b> functions to buttons: drag them, or tap a function then a button.",
  step2:"<b>Set up</b> each strip: click it (⚙ Set up) or its S, M, R boxes.",
  step3:"<b>Download</b> the project and open it in Chataigne.",
- help:"Help: <a href='{0}' target='_blank' rel='noopener'>Eos OSC setup</a> · <a href='{1}' target='_blank' rel='noopener'>nano user guide</a>",
+ help:"Help: <a href='{0}' target='_blank' rel='noopener'>Eos OSC setup</a> · <a href='{1}' target='_blank' rel='noopener'>nano user guide</a> · <a href='{2}' target='_blank' rel='noopener'>Eos OSC dictionary ↗</a>",
+ dict_hint:"Address list: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
+ dict_param:"Parameter names: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
  lib_title:"Function library", leg_key:"Eos key", leg_cmd:"Typed command",
  c_name:"Display name", c_name_ph:"e.g. MACRO 5", c_type:"Type", c_macro:"Eos macro (number)", c_osc:"OSC address", c_cmd:"Typed command (text)", c_add:"Add function",
  cv_macro:"Macro number", cv_key:"OSC address", cv_cmd:"Text typed on Eos (# = Enter)",
@@ -412,12 +418,13 @@ function tl(lang,k,...a){ let s=I18N[lang][k]; if(s===undefined) s=I18N.fr[k]; i
 const t=(k,...a)=>tl(LANG,k,...a), tf=(k,...a)=>tl("fr",k,...a);
 const L=(x,lang=LANG)=>(x&&typeof x==="object")?(x[lang]||x.fr):x;   // texte bilingue {fr,en} ou simple
 const HELP_URL=()=>REPO+"/blob/main/docs/eos-osc-setup"+(LANG==="en"?".en":"")+".md";
+const OSC_DICT="https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm";
 const NANO_URL=()=>REPO+"/blob/main/nanokontrol2/README"+(LANG==="en"?".en":"")+".md";
 
 function applyStatic(){
   document.documentElement.lang=LANG; document.title=t("title");
   document.querySelectorAll("[data-i]").forEach(e=>{ e.textContent=t(e.dataset.i); });
-  document.querySelectorAll("[data-h]").forEach(e=>{ e.innerHTML=e.dataset.h==="help"?t("help",HELP_URL(),NANO_URL()):t(e.dataset.h); });
+  document.querySelectorAll("[data-h]").forEach(e=>{ e.innerHTML=e.dataset.h==="help"?t("help",HELP_URL(),NANO_URL(),OSC_DICT):e.dataset.h==="dict_hint"?t("dict_hint",OSC_DICT):t(e.dataset.h); });
   document.querySelectorAll("[data-p]").forEach(e=>{ e.placeholder=t(e.dataset.p); });
   document.querySelectorAll("[data-a]").forEach(e=>{ e.setAttribute("aria-label",t(e.dataset.a)); });
   const lb=document.getElementById("lang"); lb.textContent=t("lang_btn"); lb.setAttribute("aria-label",t("lang_aria")); lb.lang=LANG==="fr"?"en":"fr";
@@ -664,7 +671,8 @@ function renderEditor(){
     fs2.append(field(t("ed_param"),ps));
     if(!known){ const o=document.createElement("input"); o.id="ed-other"; o.placeholder=t("ed_other_ph"); o.value=kb.p||"";
       o.addEventListener("change",()=>{ kb.p=o.value.trim().toLowerCase().replace(/\s+/g,"_"); changed(); });
-      fs2.append(field(t("ed_other_l"),o)); }
+      fs2.append(field(t("ed_other_l"),o));
+      const hp=document.createElement("p"); hp.className="hint"; hp.innerHTML=t("dict_param",OSC_DICT); fs2.append(hp); }
     if(kb.p!=="intens"){ const ws=document.createElement("select"); ws.id="ed-w"; opt(ws,"coarse",t("ed_normal"),kb.w); opt(ws,"fine",t("ed_fine"),kb.w); ws.addEventListener("change",()=>{kb.w=ws.value;changed();}); fs2.append(field(t("ed_prec"),ws)); }
     const kk=document.createElement("input"); kk.id="ed-k"; kk.type="number"; kk.min=1; kk.max=50; kk.value=Math.abs(kb.k);
     kk.addEventListener("change",()=>{ const v=Math.max(1,Math.min(50,parseInt(kk.value)||1)); kb.k=(kb.k<0?-v:v); changed(); });
@@ -888,7 +896,7 @@ function exportProject(){
 
 // ---------- evenements ----------
 function updateCustomValue(){ const v=document.getElementById("c-type").value;
-  document.getElementById("c-value-l").textContent=t("cv_"+v); document.getElementById("c-value").placeholder={macro:"5",key:"/eos/key/...",cmd:"Macro 5 #"}[v]; }
+  document.getElementById("c-value-l").textContent=t("cv_"+v); document.getElementById("c-hint").hidden=(v!=="key"); document.getElementById("c-value").placeholder={macro:"5",key:"/eos/key/...",cmd:"Macro 5 #"}[v]; }
 document.getElementById("c-type").addEventListener("change",updateCustomValue);
 document.getElementById("custom-form").addEventListener("submit",e=>{
   e.preventDefault(); const ty=document.getElementById("c-type").value; let v=document.getElementById("c-value").value.trim();

@@ -59,7 +59,7 @@ Notes:
 |---|---|
 | Change jog speed | The argument of the `JOG +` / `JOG -` Actions in each State (2 / -2 by default) |
 | Change ring speed | The **Remap** filter of the `BAGUE …` Mapping (output -3…3; -1…1 for intensity) |
-| Control another parameter | The `/eos/wheel/coarse/<parameter>` and `/eos/switch/<parameter>` addresses in a JOG State |
+| Control another parameter | The `/eos/wheel/coarse/<parameter>` and `/eos/switch/<parameter>` addresses in a JOG State (parameter names: [Eos OSC Dictionary](https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm)) |
 | Finer control | Replace `coarse` with `fine` and raise the argument (one *fine* step is very small) |
 | Reassign a button | The `/shuttle/button/<n>` condition of the Action in the **BOUTONS** State |
 

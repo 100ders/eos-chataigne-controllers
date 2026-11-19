@@ -174,6 +174,8 @@ Easiest: rebuild the project with the [configurator](#the-configurator). To edit
 3. **Address**:
    - Eos key: the key to "press" (e.g. `/eos/at/remdim`, `/eos/key/live`);
    - typed command: always `/eos/cmd`.
+
+   Full list of addresses and key names: [Eos OSC Dictionary](https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/en/Content/22_Show_Control/08_OSC/OSC_Dictionary.htm) (ETC).
 4. **Argument**:
    - Eos key: none;
    - typed command: the text as typed on Eos, `#` = Enter (e.g. `Sneak Time 0`, `Update CueOnly #`). Without `#`, the command waits to be confirmed.
