@@ -120,6 +120,8 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
 
 Good to know:
 - The configuration stays in the browser. To use it elsewhere, **Save to file**, then **Open file**. The `.json` is also in every `.zip`.
+- **Library**: below the nano, in tabs (All, Playback, Entry…), with a search box. A function already in use shows **✓**, or **×2** when it is on two buttons (duplicates are allowed but flagged). Clicking it selects it and makes the buttons carrying it flash.
+- **Action bar**: Download, Save, Open, Clear all and the warning count stay at the bottom of the screen.
 - **Clear an item**: the **✕** in the corner of a set button or knob, **✕ Clear** in its menu, or the Delete key on the keyboard.
 - Clearing, **Clear all**, applying a template or opening a file can be undone for 8 seconds with **Undo**.
 - Errors (red) block the download. Warnings (orange) don't.

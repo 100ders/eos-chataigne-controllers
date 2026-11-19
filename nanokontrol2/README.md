@@ -118,6 +118,8 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
 
 Bon à savoir :
 - La configuration reste dans le navigateur. Pour la retrouver ailleurs, **Enregistrer dans un fichier**, puis **Ouvrir un fichier**. Le `.json` est aussi dans chaque `.zip`.
+- **Bibliothèque** : sous le nano, en onglets (Toutes, Restitution, Saisie…), avec une recherche. Une fonction déjà utilisée porte **✓**, ou **×2** si elle est sur deux boutons (doublon possible, mais signalé). La cliquer la sélectionne et fait clignoter les boutons qui la portent.
+- **Barre d'actions** : Télécharger, Enregistrer, Ouvrir, Tout vider et le nombre d'avertissements restent en bas de l'écran.
 - **Libérer un élément** : la croix **✕** dans le coin d'un bouton ou d'un potentiomètre réglé, **✕ Libérer** dans son menu, ou la touche Suppr au clavier.
 - Libérer, **Tout vider**, appliquer un modèle ou ouvrir un fichier s'annulent pendant 8 secondes avec **Annuler**.
 - Les erreurs (en rouge) bloquent le téléchargement. Les avertissements (en orange) non.
