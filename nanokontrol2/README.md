@@ -101,12 +101,14 @@ Rien en 1 : problème de MIDI (voir [Module MIDI](#module-midi)). Rien en 2 : pr
 ## Le configurateur
 Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.html`) : **[ouvrir le configurateur](https://100ders.github.io/eos-chataigne-controllers/)**. Elle existe en français et en anglais (bouton en haut à droite) ; le projet Chataigne produit est le même dans les deux langues.
 
-1. **Assigner** : glisser une fonction de la bibliothèque sur un bouton, ou toucher une fonction puis un bouton (tablette, téléphone, clavier). Les fonctions personnalisées acceptent une macro Eos, une adresse OSC ou un texte de ligne de commande.
-2. **Placer les roues** : le groupe **Roues (potentiomètres)** de la bibliothèque contient INTENSITÉ, PAN, PAN FIN, TILT, TILT FIN et ZOOM. Les glisser sur les potentiomètres (le cercle en haut de chaque tranche), ou toucher une roue puis un potentiomètre. Le bouton **Placer les 6 roues sur les potentiomètres 1–6** les pose toutes d'un coup.
-   - **Changer l'ordre** : glisser un potentiomètre sur un autre pour échanger leurs réglages.
-   - **Libérer un potentiomètre** : le sélectionner au clavier et appuyer sur Suppr.
-   - Vitesse, précision et sens se règlent ensuite dans **⚙ Régler**.
-3. **Régler une tranche** : cliquer sur la tranche (**⚙ Régler**) pour choisir ce que pilotent son fader et son potentiomètre, puis sur une case **S**, **M** ou **R** pour son rôle.
+1. **Assigner les boutons** : glisser une fonction de la bibliothèque sur un bouton, ou toucher une fonction puis un bouton (tablette, téléphone, clavier). Toucher un bouton déjà réglé ouvre son menu : message envoyé, **Choisir une fonction…**, **✕ Libérer**. Les fonctions personnalisées acceptent une macro Eos, une adresse OSC ou un texte de ligne de commande.
+2. **Choisir les roues** : toucher un potentiomètre (le cercle en haut de chaque tranche) ouvre son menu :
+   - **Roues Eos** : INTENSITÉ, PAN, PAN FIN, TILT, TILT FIN, ZOOM ;
+   - **Autre** : fader Eos, sub ou circuit, réglés dans **⚙ Régler** ;
+   - **✕ Libérer**.
+
+   La ligne **Potentiomètres**, au-dessus du nano, a deux raccourcis : **🎚 Placer les 6 roues sur 1–6** et **Tout libérer**. Pour changer l'ordre, glisser un potentiomètre sur un autre : leurs réglages s'échangent. Vitesse, précision et sens se règlent dans **⚙ Régler**.
+3. **Régler une tranche** : toucher une case **S**, **M** ou **R** pour son rôle, ou **⚙ Régler** pour tout le détail du fader et du potentiomètre.
 
    ![Réglage d'une tranche](../docs/images/configurateur-tranche.png)
 
@@ -116,9 +118,10 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
 
 Bon à savoir :
 - La configuration reste dans le navigateur. Pour la retrouver ailleurs, **Enregistrer dans un fichier**, puis **Ouvrir un fichier**. Le `.json` est aussi dans chaque `.zip`.
-- **Tout vider**, appliquer un modèle ou ouvrir un fichier s'annulent pendant 8 secondes avec **Annuler**.
+- **Libérer un élément** : la croix **✕** dans le coin d'un bouton ou d'un potentiomètre réglé, **✕ Libérer** dans son menu, ou la touche Suppr au clavier.
+- Libérer, **Tout vider**, appliquer un modèle ou ouvrir un fichier s'annulent pendant 8 secondes avec **Annuler**.
 - Les erreurs (en rouge) bloquent le téléchargement. Les avertissements (en orange) non.
-- Le menu **Modèle des faders** (Fader Wing, Subs, Circuits) ne règle que les faders et leurs S / M / R. Il **ne touche pas aux potentiomètres 1 à 6** : les roues restent en place. Fader Wing règle aussi les potentiomètres 7 et 8 sur les faders Eos 9 et 10. Sur un nano vide, les boutons de modèle posent en plus les 6 roues.
+- Le menu **Modèle des faders** (Fader Wing, Subs, Circuits) ne règle que les faders et leurs S / M / R. Il **ne touche pas aux potentiomètres 1 à 6** : les roues restent en place. Pour les potentiomètres 7 et 8, Fader Wing les règle sur les faders Eos 9 et 10, Subs et Circuits les libèrent. Sur un nano vide, les boutons de modèle posent en plus les 6 roues.
 
 **Ce que peut piloter une tranche**
 | Fader ou potentiomètre | Message | Rôles possibles pour S / M / R |

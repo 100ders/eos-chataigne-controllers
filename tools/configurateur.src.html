@@ -95,11 +95,21 @@ button.link{background:none;border:none;color:#8fc3ff;text-decoration:underline;
 .bar select{max-width:100%}
 #rowbar .rl{font-weight:600;color:var(--accent);margin-left:6px;display:inline-block;width:1.3em}
 /* mode "toucher puis toucher" : les zones de depot pulsent */
-body.picking-fn .target,body.picking-fn .slot,body.picking-wheel .knob{animation:pulse 1.2s ease-in-out infinite}
+body.picking .target,body.picking .slot{animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 3px var(--accent)}}
-@media(prefers-reduced-motion:reduce){body.picking-fn .target,body.picking-fn .slot,body.picking-wheel .knob{animation:none;box-shadow:0 0 0 2px var(--accent)}}
-.chip.wheel{border-left-color:#3fc6e2}
-.wheelbtn{margin-top:6px;font-size:.82rem}
+@media(prefers-reduced-motion:reduce){body.picking .target,body.picking .slot{animation:none;box-shadow:0 0 0 2px var(--accent)}}
+/* croix de liberation rapide (souris / toucher ; au clavier : Suppr ou le menu) */
+.target,.kwrap{position:relative}
+.xq{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;line-height:1;background:#2b2f37;border:1px solid #5a606b;color:#cfd3da;cursor:pointer;z-index:2;opacity:.8}
+.target:hover .xq,.kwrap:hover .xq,.xq:hover{opacity:1}
+.xq:hover{background:var(--err);border-color:var(--err);color:#fff}
+.kwrap .xq{top:-6px;right:-12px}
+@media(pointer:coarse){.xq{width:26px;height:26px;top:-10px;right:-10px;opacity:1}}
+.pop .psec{margin:8px 0 4px;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.pop .wgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.pop button.o.wh{--bc:#3fc6e2}
+.pop button.o.free{margin-top:8px;--bc:var(--err);color:#ffb3ad}
+.pop .sent{font-size:.75rem;color:var(--muted);margin:0 0 6px;overflow-wrap:anywhere}
 .knob{cursor:pointer}
 .knob.over{outline:3px solid var(--accent)}
 @media(pointer:coarse){.knob{width:44px;height:44px}}
@@ -211,6 +221,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
       <label for="preset-start" data-i="preset_from"></label><input type="number" id="preset-start" min="1" value="1">
       <button type="button" id="apply-preset" data-i="preset_apply"></button>
     </div>
+    <div class="bar" id="knobbar"><span class="bl" data-i="knobbar_l"></span><button type="button" id="place-wheels" data-i="wheels_place"></button><button type="button" id="clear-knobs" data-i="knobs_clear"></button></div>
     <div class="bar" id="rowbar"><span class="bl" data-i="rowbar_l"></span></div>
     <p class="scrollhint" data-i="scrollhint"></p>
     <div class="nanowrap">
@@ -260,8 +271,8 @@ const I18N = {
 fr:{
  lang_btn:"English", lang_aria:"Switch to English", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nanoKONTROL2",
- step1:"<b>Assignez</b> des fonctions aux boutons et des roues aux potentiomètres : glissez-les, ou touchez puis touchez la cible.",
- step2:"<b>Réglez</b> chaque tranche : cliquez dessus (⚙ Régler) ou sur ses cases S, M, R.",
+ step1:"<b>Assignez</b> des fonctions aux boutons : glissez-les, ou touchez une fonction puis un bouton.",
+ step2:"<b>Réglez</b> les potentiomètres (roues) et les cases S, M, R en les touchant, ou toute la tranche avec ⚙ Régler.",
  step3:"<b>Téléchargez</b> le projet et ouvrez-le dans Chataigne.",
  help:"💡 Aide : <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 Mode d'emploi</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ régler l'OSC dans Eos</a> · <a href='{2}' target='_blank' rel='noopener'>📚 dictionnaire OSC d'Eos (en anglais) ↗</a>",
  dict_hint:"Liste des adresses : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
@@ -323,10 +334,12 @@ fr:{
  done_4:"Dans Eos, activez la réception OSC sur le port 8000 : <a href='{0}' target='_blank' rel='noopener'>pas à pas</a>.",
  cf_macro_err:"Indiquez un numéro de macro (ex. 5).", cf_osc_err:"Une adresse OSC commence par « / » (ex. /eos/key/live).", cf_added:"Fonction « {0} » ajoutée : glissez-la sur un bouton.",
  preset_done:"Modèle « {0} » appliqué aux faders (potentiomètres 1–6 inchangés).", preset_done_full:"Modèle « {0} » appliqué, avec les 6 roues.",
- g_wheels:"Roues (potentiomètres)", wheels_place:"Placer les 6 roues sur les potentiomètres 1–6", wheels_placed:"6 roues placées sur les potentiomètres 1–6.",
- wheel_d:"Roue Eos : {0}", pick_wheel:"« {0} » sélectionnée : touchez un potentiomètre.",
+ knobbar_l:"Potentiomètres :", knobs_clear:"Tout libérer", knobs_cleared:"Potentiomètres libérés.",
+ kpop_title:"Potentiomètre {0} — {1}", kpop_wheels:"Roues Eos", kpop_other:"Autre", kpop_setup:"Fader Eos / Sub / Circuit… → ⚙ Régler",
+ free_btn:"✕ Libérer", bpop_title:"{0} — {1}", bpop_choose:"Choisir une fonction…", x_title:"Libérer {0}",
+ wheels_place:"🎚 Placer les 6 roues sur 1–6", wheels_placed:"6 roues placées sur les potentiomètres 1–6.",
  knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", knob_cleared:"Potentiomètre {0} libéré.",
- knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : choisissez une roue.", wheel_noknob:"Une roue va sur un potentiomètre (cercle en haut de chaque tranche).", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
+ knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : touchez-le ensuite pour choisir une roue.", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
  opened:"Configuration « {0} » ouverte.", bad_file:"« {0} » n'est pas une configuration du configurateur (fichier .json attendu).",
  cleared:"Tout est vidé (fonctions personnalisées conservées).", reset_done:"Modèle Fader Wing rétabli.",
  readme_name:"LISEZ-MOI.txt",
@@ -344,8 +357,8 @@ fr:{
 en:{
  lang_btn:"Français", lang_aria:"Passer en français", bmc:"☕ Buy me a coffee",
  title:"nanoKONTROL2 → ETC Eos configurator", skip:"Skip to the nanoKONTROL2",
- step1:"<b>Assign</b> functions to buttons and wheels to knobs: drag them, or tap one then tap the target.",
- step2:"<b>Set up</b> each strip: click it (⚙ Set up) or its S, M, R boxes.",
+ step1:"<b>Assign</b> functions to buttons: drag them, or tap a function then a button.",
+ step2:"<b>Set up</b> knobs (wheels) and S, M, R boxes by tapping them, or the whole strip with ⚙ Set up.",
  step3:"<b>Download</b> the project and open it in Chataigne.",
  help:"💡 Help: <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 User guide</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Eos OSC setup</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Eos OSC dictionary ↗</a>",
  dict_hint:"Address list: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
@@ -407,10 +420,12 @@ en:{
  done_4:"In Eos, enable OSC reception on port 8000: <a href='{0}' target='_blank' rel='noopener'>step by step</a>.",
  cf_macro_err:"Enter a macro number (e.g. 5).", cf_osc_err:"An OSC address starts with “/” (e.g. /eos/key/live).", cf_added:"Function “{0}” added: drag it onto a button.",
  preset_done:"Template “{0}” applied to the faders (knobs 1–6 unchanged).", preset_done_full:"Template “{0}” applied, with the 6 wheels.",
- g_wheels:"Wheels (knobs)", wheels_place:"Place the 6 wheels on knobs 1–6", wheels_placed:"6 wheels placed on knobs 1–6.",
- wheel_d:"Eos wheel: {0}", pick_wheel:"“{0}” selected: tap a knob.",
+ knobbar_l:"Knobs:", knobs_clear:"Clear all", knobs_cleared:"Knobs cleared.",
+ kpop_title:"Knob {0} — {1}", kpop_wheels:"Eos wheels", kpop_other:"Other", kpop_setup:"Eos fader / Sub / Channel… → ⚙ Set up",
+ free_btn:"✕ Clear", bpop_title:"{0} — {1}", bpop_choose:"Choose a function…", x_title:"Clear {0}",
+ wheels_place:"🎚 Place the 6 wheels on 1–6", wheels_placed:"6 wheels placed on knobs 1–6.",
  knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", knob_cleared:"Knob {0} cleared.",
- knob_nofn:"A button function can't go on a knob: pick a wheel.", wheel_noknob:"A wheel goes on a knob (circle at the top of each strip).", saved_file:"Configuration saved to nanokontrol2-config.json.",
+ knob_nofn:"A button function can't go on a knob: tap the knob afterwards to pick a wheel.", saved_file:"Configuration saved to nanokontrol2-config.json.",
  opened:"Configuration “{0}” opened.", bad_file:"“{0}” is not a configurator file (.json expected).",
  cleared:"Everything cleared (custom functions kept).", reset_done:"Fader Wing template restored.",
  readme_name:"README.txt",
@@ -573,14 +588,14 @@ function isEmpty(){ return !Object.keys(cfg.buttons).length && cfg.faders.every(
 
 // ---------- mode "toucher une fonction puis un bouton" ----------
 function setPick(id){
-  selected=id; document.body.classList.toggle("picking-fn",!!id&&!isWheel(id)); document.body.classList.toggle("picking-wheel",isWheel(id));
+  selected=id; document.body.classList.toggle("picking",!!id);
   const bar=document.getElementById("pickbar");
-  if(id){ document.getElementById("pickmsg").textContent=isWheel(id)?t("pick_wheel",L(wheelById(id).label)):t("pick_msg",fnLabel(fnById(id))); bar.classList.add("show"); }
+  if(id){ document.getElementById("pickmsg").textContent=t("pick_msg",fnLabel(fnById(id))); bar.classList.add("show"); }
   else bar.classList.remove("show");
   renderLib();
 }
 document.getElementById("pick-cancel").onclick=()=>setPick(null);
-document.getElementById("pick-go").onclick=()=>{ document.getElementById("nano-section").scrollIntoView({behavior:"smooth",block:"start"}); const x=document.querySelector(isWheel(selected)?".knob":".target"); if(x) x.focus({preventScroll:true}); };
+document.getElementById("pick-go").onclick=()=>{ document.getElementById("nano-section").scrollIntoView({behavior:"smooth",block:"start"}); const x=document.querySelector(".target"); if(x) x.focus({preventScroll:true}); };
 
 // ---------- rendu ----------
 function chip(f){
@@ -597,16 +612,6 @@ function chip(f){
   if(selected===f.id) el.classList.add("sel");
   return el;
 }
-function wheelChip(w){
-  const el=document.createElement("div"); el.className="chip wheel"+(selected===w.id?" sel":""); el.draggable=true; el.tabIndex=0; el.dataset.id=w.id;
-  el.setAttribute("role","button"); el.setAttribute("aria-pressed",selected===w.id?"true":"false");
-  el.append(L(w.label)); const sm=document.createElement("small"); sm.textContent=t("wheel_d",knobLabel(w.k)); el.append(sm);
-  el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain","wheel:"+w.id));
-  const pick=()=>setPick(selected===w.id?null:w.id);
-  el.addEventListener("click",pick);
-  el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();} });
-  return el;
-}
 function renderLib(){
   const fid=document.activeElement&&document.activeElement.classList.contains("chip")?document.activeElement.dataset.id:null;
   const box=document.getElementById("libs"); box.replaceChildren();
@@ -615,9 +620,6 @@ function renderLib(){
     l.append(...LIB.filter(f=>f.g===g).map(chip)); box.append(h,l);
     if(GROUP_NOTE[g]){ const n=document.createElement("p"); n.className="gnote"; n.textContent=t(GROUP_NOTE[g]); box.append(n); }
   });
-  const hw=document.createElement("h3"); hw.textContent=t("g_wheels"); const lw=document.createElement("div"); lw.className="lib";
-  lw.append(...WHEELS.map(wheelChip)); const pb=document.createElement("button"); pb.type="button"; pb.className="wheelbtn"; pb.textContent=t("wheels_place"); pb.onclick=placeWheels;
-  box.append(hw,lw,pb);
   document.getElementById("lib-custom").replaceChildren(...cfg.custom.map(chip));
   if(fid){ const c=document.querySelector('.chip[data-id="'+fid+'"]'); if(c) c.focus(); }
 }
@@ -628,10 +630,14 @@ function renderButtons(){
     const hw=document.createElement("span"); hw.className="hw"; hw.textContent=BTN_LABEL[cc];
     const fn=document.createElement("span"); fn.className="fn"+(f?"":" empty"); fn.textContent=f?fnLabel(f):t("free_drop");
     x.append(hw,fn); x.title=f?(fnLabel(f)+" : "+f.value):t("free_title");
+    if(f) x.append(xButton(t("x_title",BTN_LABEL[cc]),()=>removeButton(cc)));
     x.setAttribute("aria-label",BTN_LABEL[cc]+" : "+(f?fnLabel(f):t("free")));
   });
   document.getElementById("empty").hidden=!isEmpty();
 }
+// croix de liberation : hors tabulation (au clavier : Suppr, ou « Libérer » dans le menu)
+function xButton(title,fn){ const b=document.createElement("span"); b.className="xq"; b.textContent="✕"; b.title=title; b.setAttribute("aria-hidden","true");
+  b.addEventListener("click",e=>{ e.stopPropagation(); e.preventDefault(); fn(); }); b.addEventListener("mousedown",e=>e.stopPropagation()); return b; }
 function renderStrips(){
   const box=document.getElementById("strips"); box.replaceChildren();
   for(let i=0;i<8;i++){
@@ -643,7 +649,10 @@ function renderStrips(){
     kn.title=t("knob_title",i+1,(km==="rel"?t("knob_wheel"):"")+knobLabel(cfg.knobs[i]));
     kn.setAttribute("aria-label",kn.title);
     const kl=document.createElement("div"); kl.className="lbl t-"+km+(km==="none"?" empty":" set kset"); kl.textContent=knobLabel(cfg.knobs[i]);
-    s.append(kn,kl);
+    kn.setAttribute("aria-haspopup","dialog");
+    const kw=document.createElement("div"); kw.className="kwrap"; kw.append(kn);
+    if(km!=="none") kw.append(xButton(t("x_title",t("knob_title",i+1,knobLabel(cfg.knobs[i]))),()=>clearKnob(i)));
+    s.append(kw,kl);
     for(const slot of ["S","M","R"]){
       const cur=cfg.smr[i][slot], ok=available(i,cur.b);
       const b=document.createElement("div"); b.className="slot b-"+cur.b+(ok?"":" na"); b.dataset.strip=i; b.dataset.slot=slot; b.tabIndex=0;
@@ -654,8 +663,8 @@ function renderStrips(){
       b.addEventListener("dragover",e=>{e.preventDefault();b.classList.add("over");});
       b.addEventListener("dragleave",()=>b.classList.remove("over"));
       b.addEventListener("drop",e=>{ e.preventDefault(); b.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(d.startsWith("fn:")) setSlotFn(i,slot,d.slice(3)); });
-      b.addEventListener("click",e=>{ e.stopPropagation(); if(isWheel(selected)){ toast(t("wheel_noknob")); return; } if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); } else openPop(i,slot,b); });
-      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); if(isWheel(selected)){ toast(t("wheel_noknob")); return; } if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); focusSlot(i,slot); } else openPop(i,slot,b); } });
+      b.addEventListener("click",e=>{ e.stopPropagation(); if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); } else openPop(i,slot,b); });
+      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); focusSlot(i,slot); } else openPop(i,slot,b); } });
       s.append(b);
     }
     const fd=document.createElement("div"); fd.className="fader t-"+cfg.faders[i].t;
@@ -664,11 +673,8 @@ function renderStrips(){
     s.append(fd,fl,cf);
     const open=()=>{ openStrip=(openStrip===i)?null:i; renderStrips(); renderEditor(); const ns=document.querySelector('.strip[data-strip="'+i+'"]'); if(ns) ns.focus({preventScroll:true});
       if(openStrip!==null) document.getElementById("editor").scrollIntoView({behavior:"smooth",block:"nearest"}); };
-    // potentiometre : depot d'une roue, echange avec un autre potentiometre, toucher puis toucher
-    const knobAct=e=>{ e.stopPropagation();
-      if(isWheel(selected)){ const w=wheelById(selected); setPick(null); setKnobWheel(i,w); focusKnob(i); }
-      else if(selected) toast(t("knob_nofn"));
-      else open(); };
+    // potentiometre : menu (roues, autre reglage, liberer) ; glisser sur un autre potentiometre = echange
+    const knobAct=e=>{ e.stopPropagation(); if(selected) toast(t("knob_nofn")); else openKnobPop(i,kn); };
     kn.addEventListener("click",knobAct);
     kn.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); knobAct(e); }
       if(e.key==="Delete"||e.key==="Backspace"){ e.preventDefault(); e.stopPropagation(); clearKnob(i); } });
@@ -677,8 +683,7 @@ function renderStrips(){
       z.addEventListener("dragover",e=>{ e.preventDefault(); kn.classList.add("over"); });
       z.addEventListener("dragleave",()=>kn.classList.remove("over"));
       z.addEventListener("drop",e=>{ e.preventDefault(); e.stopPropagation(); kn.classList.remove("over"); const d=e.dataTransfer.getData("text/plain");
-        if(d.startsWith("wheel:")) setKnobWheel(i,wheelById(d.slice(6)));
-        else if(d.startsWith("knob:")) swapKnobs(+d.slice(5),i);
+        if(d.startsWith("knob:")) swapKnobs(+d.slice(5),i);
         else if(d.startsWith("fn:")) toast(t("knob_nofn")); });
     });
     s.addEventListener("click",open);
@@ -687,7 +692,7 @@ function renderStrips(){
   }
 }
 function focusKnob(i){ const n=document.querySelector('.knob[data-knob="'+i+'"]'); if(n) n.focus(); }
-function setKnobWheel(i,w){ if(!w) return; cfg.knobs[i]={...w.k}; changed(); toast(t("knob_set",i+1,L(w.label))); }
+function setKnobWheel(i,w){ if(!w) return; closePop(false); cfg.knobs[i]={...w.k}; changed(); toast(t("knob_set",i+1,L(w.label))); focusKnob(i); }
 function swapKnobs(a,b){ if(a===b) return; [cfg.knobs[a],cfg.knobs[b]]=[cfg.knobs[b],cfg.knobs[a]]; changed(); toast(t("knob_swap",a+1,b+1)); focusKnob(b); }
 function clearKnob(i){ if(cfg.knobs[i].m==="none") return; undoable(t("knob_cleared",i+1),()=>{ cfg.knobs[i]={m:"none"}; }); }
 function focusSlot(i,slot){ const n=document.querySelector('.slot[data-strip="'+i+'"][data-slot="'+slot+'"]'); if(n) n.focus(); }
@@ -749,37 +754,73 @@ function renderEditor(){
 function valLabel(v,type){ return v.startsWith("fn:")?fnLabel(fnById(v.slice(3))):v==="none"?t("beh_none"):behName(v,type); }
 function setSlot(i,slot,val,row){ const list=row?[0,1,2,3,4,5,6,7]:[i]; list.forEach(k=>{ cfg.smr[k][slot]=val.startsWith("fn:")?{b:"fn",id:val.slice(3)}:{b:val}; }); closePop(false); changed();
   toast(row?t("row_set",slot,valLabel(val,"fader")):t("slot_set",slot+(i+1),valLabel(val,cfg.faders[i].t))); focusSlot(i,slot); }
-let pop=null, popAnchor=null;
-function closePop(refocus){ if(pop){ pop.remove(); pop=null; if(refocus&&popAnchor) focusSlot(popAnchor.i,popAnchor.slot); popAnchor=null; } }
-function openPop(i,slot,anchor){
-  closePop(false); popAnchor={i,slot};
-  const fa=cfg.faders[i], cur=cfg.smr[i][slot];
+// fenetre contextuelle commune : titre, croix, piege de focus, retour du focus a la fermeture
+let pop=null, popBack=null;
+function closePop(refocus){ if(pop){ pop.remove(); pop=null; const b=popBack; popBack=null; if(refocus&&b) b(); } }
+function popShell(title,back){
+  closePop(false); popBack=back;
   pop=document.createElement("div"); pop.className="pop"; pop.setAttribute("role","dialog"); pop.setAttribute("aria-modal","true"); pop.setAttribute("aria-labelledby","pop-h");
-  const h=document.createElement("h4"); h.id="pop-h"; h.textContent=t("pop_title",slot,i+1,targetLabel(fa.t,fa.n)); pop.append(h);
+  const h=document.createElement("h4"); h.id="pop-h"; h.textContent=title; pop.append(h);
   const x=document.createElement("button"); x.type="button"; x.className="close"; x.setAttribute("aria-label",t("close")); x.textContent="✕"; x.onclick=()=>closePop(true); pop.append(x);
-  const opts=document.createElement("div"); opts.className="opts"; pop.append(opts);
-  const row=document.createElement("label"); const cb=document.createElement("input"); cb.type="checkbox"; row.append(cb,t("pop_row",slot));
-  [...BEH_ALL,"none"].forEach(k=>{
-    const o=document.createElement("button"); o.type="button"; o.className="o b-"+k+(cur.b===k?" cur":""); o.textContent=k==="none"?t("beh_none"):behName(k,fa.t);
-    if(cur.b===k) o.setAttribute("aria-current","true");
-    const sm=document.createElement("small");
-    if(!available(i,k)){ o.disabled=true; sm.textContent=t("pop_na",t("tn_"+fa.t)); }
-    else if(k!=="none") sm.textContent=t("bd_"+k);
-    if(sm.textContent) o.append(sm);
-    o.onclick=()=>setSlot(i,slot,k,cb.checked); opts.append(o);
-  });
-  const sel=document.createElement("select"); sel.setAttribute("aria-label",t("pop_other")); opt(sel,"",t("pop_other"),"");
-  GROUPS.concat(["__custom"]).forEach(g=>{ const list=g==="__custom"?cfg.custom:LIB.filter(f=>f.g===g); if(!list.length) return;
-    const og=document.createElement("optgroup"); og.label=g==="__custom"?t("g_custom"):t("g_"+g); list.forEach(f=>{ const o=document.createElement("option"); o.value="fn:"+f.id; o.textContent=fnLabel(f); if(cur.b==="fn"&&cur.id===f.id) o.selected=true; og.append(o); }); sel.append(og); });
-  sel.onchange=()=>{ if(sel.value) setSlot(i,slot,sel.value,cb.checked); };
-  pop.append(sel,row);
-  // piege de focus : Tab reste dans la fenetre
   pop.addEventListener("keydown",e=>{ if(e.key!=="Tab") return; const f=[...pop.querySelectorAll("button:not([disabled]),select,input")]; const a=f[0], z=f[f.length-1];
     if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus();} else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus();} });
+  return pop;
+}
+function popShow(anchor){
   document.body.append(pop);
   const r=anchor.getBoundingClientRect(); let x0=r.left+window.scrollX, y=r.bottom+window.scrollY+4;
   x0=Math.min(x0,window.scrollX+document.documentElement.clientWidth-pop.offsetWidth-8); pop.style.left=Math.max(8,x0)+"px"; pop.style.top=y+"px";
-  (pop.querySelector("button.o.cur:not([disabled])")||pop.querySelector("button.o:not([disabled])")||sel).focus();
+  (pop.querySelector("button.o.cur:not([disabled])")||pop.querySelector("button.o:not([disabled]),select")).focus();
+}
+function popButton(cls,label,small,onclick,disabled){ const o=document.createElement("button"); o.type="button"; o.className="o "+cls; o.textContent=label;
+  if(small){ const sm=document.createElement("small"); sm.textContent=small; o.append(sm); } if(disabled) o.disabled=true; o.onclick=onclick; return o; }
+function popSection(label){ const p=document.createElement("p"); p.className="psec"; p.textContent=label; return p; }
+// liste deroulante des fonctions de la bibliotheque, par groupe
+function fnSelect(placeholder,curId,onpick){
+  const sel=document.createElement("select"); sel.setAttribute("aria-label",placeholder); opt(sel,"",placeholder,"");
+  GROUPS.concat(["__custom"]).forEach(g=>{ const list=g==="__custom"?cfg.custom:LIB.filter(f=>f.g===g); if(!list.length) return;
+    const og=document.createElement("optgroup"); og.label=g==="__custom"?t("g_custom"):t("g_"+g);
+    list.forEach(f=>{ const o=document.createElement("option"); o.value=f.id; o.textContent=fnLabel(f); if(curId===f.id) o.selected=true; og.append(o); }); sel.append(og); });
+  sel.onchange=()=>{ if(sel.value) onpick(sel.value); }; return sel;
+}
+
+// case S / M / R
+function openPop(i,slot,anchor){
+  const fa=cfg.faders[i], cur=cfg.smr[i][slot];
+  popShell(t("pop_title",slot,i+1,targetLabel(fa.t,fa.n)),()=>focusSlot(i,slot));
+  const opts=document.createElement("div"); opts.className="opts"; pop.append(opts);
+  const row=document.createElement("label"); const cb=document.createElement("input"); cb.type="checkbox"; row.append(cb,t("pop_row",slot));
+  BEH_ALL.forEach(k=>{
+    const ok=available(i,k), o=popButton("b-"+k+(cur.b===k?" cur":""),behName(k,fa.t),ok?t("bd_"+k):t("pop_na",t("tn_"+fa.t)),()=>setSlot(i,slot,k,cb.checked),!ok);
+    if(cur.b===k) o.setAttribute("aria-current","true"); opts.append(o);
+  });
+  pop.append(fnSelect(t("pop_other"),cur.b==="fn"?cur.id:null,id=>setSlot(i,slot,"fn:"+id,cb.checked)),row,
+    popButton("free",t("free_btn"),"",()=>setSlot(i,slot,"none",cb.checked)));
+  popShow(anchor);
+}
+
+// potentiometre : les 6 roues, un autre reglage, liberer
+const sameKnob=(a,b)=>a.m===b.m&&a.p===b.p&&a.w===b.w&&a.k===b.k;
+function openKnobPop(i,anchor){
+  const cur=cfg.knobs[i];
+  popShell(t("kpop_title",i+1,knobLabel(cur)),()=>focusKnob(i));
+  pop.append(popSection(t("kpop_wheels")));
+  const g=document.createElement("div"); g.className="wgrid";
+  WHEELS.forEach(w=>{ const o=popButton("wh"+(sameKnob(cur,w.k)?" cur":""),L(w.label),knobLabel(w.k),()=>setKnobWheel(i,w)); if(sameKnob(cur,w.k)) o.setAttribute("aria-current","true"); g.append(o); });
+  pop.append(g,popSection(t("kpop_other")),
+    popButton("",t("kpop_setup"),"",()=>{ closePop(false); openStrip=i; renderStrips(); renderEditor(); document.getElementById("editor").scrollIntoView({behavior:"smooth",block:"nearest"}); document.getElementById("ed-km")?.focus({preventScroll:true}); }),
+    popButton("free",t("free_btn"),"",()=>{ closePop(false); clearKnob(i); focusKnob(i); },cur.m==="none"));
+  popShow(anchor);
+}
+
+// bouton de transport : fonction actuelle, choisir une fonction, liberer
+function openBtnPop(cc,anchor){
+  const f=fnById(cfg.buttons[cc]);
+  popShell(t("bpop_title",BTN_LABEL[cc],f?fnLabel(f):t("free")),()=>anchor.focus());
+  if(f){ const p=document.createElement("p"); p.className="sent"; p.append(t("ed_sends")); const c=document.createElement("code"); c.textContent=f.value; p.append(c); pop.append(p); }
+  pop.append(fnSelect(t("bpop_choose"),f?f.id:null,id=>{ closePop(false); setButton(cc,id); toast(t("slot_set",BTN_LABEL[cc],fnLabel(fnById(id)))); anchor.focus(); }),
+    popButton("free",t("free_btn"),"",()=>{ closePop(false); removeButton(cc); anchor.focus(); },!f));
+  popShow(anchor);
 }
 document.addEventListener("click",e=>{ if(pop&&!pop.contains(e.target)) closePop(false); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ if(pop) closePop(true); else if(selected) setPick(null); } });
@@ -847,15 +888,13 @@ function initButtons(){
     x.addEventListener("drop",e=>{ e.preventDefault(); x.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(!d) return;
       if(d.startsWith("from:")){ const [,src,id]=d.split(":"); if(src===cc) return; const here=cfg.buttons[cc]; setButton(cc,id); setButton(src,here||null); toast(t("swapped",BTN_LABEL[src],BTN_LABEL[cc])); }
       else if(d.startsWith("fn:")){ const id=d.slice(3); setButton(cc,id); toast(t("slot_set",BTN_LABEL[cc],fnLabel(fnById(id)))); } });
-    const act=()=>{
-      if(isWheel(selected)){ toast(t("wheel_noknob")); return; }
+    x.setAttribute("aria-haspopup","dialog");
+    const act=e=>{ if(e) e.stopPropagation();
       if(selected){ const id=selected; setPick(null); setButton(cc,id); toast(t("slot_set",BTN_LABEL[cc],fnLabel(fnById(id)))); x.focus(); return; }
-      const f=fnById(cfg.buttons[cc]);
-      if(f) toast(t("slot_set",BTN_LABEL[cc],fnLabel(f)+" ("+f.value+")"),{label:t("remove"),fn:()=>removeButton(cc)});
-      else toast(t("btn_free",BTN_LABEL[cc]));
+      openBtnPop(cc,x);
     };
     x.addEventListener("click",act);
-    x.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();act();} if(e.key==="Delete"||e.key==="Backspace"){ e.preventDefault(); removeButton(cc); } });
+    x.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();act(e);} if(e.key==="Delete"||e.key==="Backspace"){ e.preventDefault(); removeButton(cc); } });
   });
 }
 
@@ -972,10 +1011,12 @@ document.getElementById("custom-form").addEventListener("submit",e=>{
 // withWheels : nano vide -> on place aussi les 6 roues (et les boutons par defaut pour le Fader Wing)
 function applyPreset(k,st,withWheels){ undoable(t(withWheels?"preset_done_full":"preset_done",t("preset_"+k)),()=>{
   const p=presetStrips(k,st); cfg.faders=p.faders; cfg.smr=p.smr;
-  if(k==="wing"){ cfg.knobs[6]={m:"fader",n:9}; cfg.knobs[7]={m:"fader",n:10}; }
+  if(k==="wing"){ cfg.knobs[6]={m:"fader",n:9}; cfg.knobs[7]={m:"fader",n:10}; } else { cfg.knobs[6]={m:"none"}; cfg.knobs[7]={m:"none"}; }
   if(withWheels){ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); if(k==="wing"&&!Object.keys(cfg.buttons).length) cfg.buttons={...DEFAULT_BUTTONS}; }
   openStrip=null; }); }
 function placeWheels(){ undoable(t("wheels_placed"),()=>{ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); }); }
+document.getElementById("place-wheels").onclick=placeWheels;
+document.getElementById("clear-knobs").onclick=()=>{ if(cfg.knobs.every(k=>k.m==="none")) return; undoable(t("knobs_cleared"),()=>{ cfg.knobs=cfg.knobs.map(()=>({m:"none"})); }); };
 document.getElementById("apply-preset").onclick=()=>applyPreset(document.getElementById("preset").value,document.getElementById("preset-start").value,false);
 document.querySelectorAll("#empty [data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset,1,true));
 document.getElementById("export").onclick=exportProject;

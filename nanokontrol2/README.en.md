@@ -103,12 +103,14 @@ Nothing in 1: MIDI problem (see [MIDI module](#midi-module)). Nothing in 2: proj
 ## The configurator
 A web page, nothing to install, also works offline (`docs/index.html`): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (button at the top right).
 
-1. **Assign**: drag a function from the library onto a button, or tap a function then a button (tablet, phone, keyboard). Custom functions accept an Eos macro, an OSC address or command-line text.
-2. **Place the wheels**: the library's **Wheels (knobs)** group holds INTENSITY, PAN, PAN FINE, TILT, TILT FINE and ZOOM. Drag them onto the knobs (the circle at the top of each strip), or tap a wheel then a knob. The **Place the 6 wheels on knobs 1–6** button sets them all at once.
-   - **Change the order**: drag a knob onto another to swap their settings.
-   - **Clear a knob**: select it with the keyboard and press Delete.
-   - Speed, precision and direction are then set in **⚙ Set up**.
-3. **Set up a strip**: click the strip (**⚙ Set up**) to choose what its fader and knob control, then an **S**, **M** or **R** box for its role.
+1. **Assign buttons**: drag a function from the library onto a button, or tap a function then a button (tablet, phone, keyboard). Tapping a button that is already set opens its menu: message sent, **Choose a function…**, **✕ Clear**. Custom functions accept an Eos macro, an OSC address or command-line text.
+2. **Choose the wheels**: tapping a knob (the circle at the top of each strip) opens its menu:
+   - **Eos wheels**: INTENSITY, PAN, PAN FINE, TILT, TILT FINE, ZOOM;
+   - **Other**: Eos fader, sub or channel, set in **⚙ Set up**;
+   - **✕ Clear**.
+
+   The **Knobs** row, above the nano, has two shortcuts: **🎚 Place the 6 wheels on 1–6** and **Clear all**. To change the order, drag a knob onto another: their settings swap. Speed, precision and direction are set in **⚙ Set up**.
+3. **Set up a strip**: tap an **S**, **M** or **R** box for its role, or **⚙ Set up** for the full fader and knob settings.
 
    ![Strip setup](../docs/images/configurateur-tranche-en.png)
 
@@ -118,9 +120,10 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
 
 Good to know:
 - The configuration stays in the browser. To use it elsewhere, **Save to file**, then **Open file**. The `.json` is also in every `.zip`.
-- **Clear all**, applying a template or opening a file can be undone for 8 seconds with **Undo**.
+- **Clear an item**: the **✕** in the corner of a set button or knob, **✕ Clear** in its menu, or the Delete key on the keyboard.
+- Clearing, **Clear all**, applying a template or opening a file can be undone for 8 seconds with **Undo**.
 - Errors (red) block the download. Warnings (orange) don't.
-- The **Fader template** menu (Fader Wing, Subs, Channels) only sets the faders and their S / M / R. It **leaves knobs 1 to 6 alone**: the wheels stay in place. Fader Wing also sets knobs 7 and 8 to Eos faders 9 and 10. On an empty nano, the template buttons also place the 6 wheels.
+- The **Fader template** menu (Fader Wing, Subs, Channels) only sets the faders and their S / M / R. It **leaves knobs 1 to 6 alone**: the wheels stay in place. For knobs 7 and 8, Fader Wing sets them to Eos faders 9 and 10, Subs and Channels clear them. On an empty nano, the template buttons also place the 6 wheels.
 
 **What a strip can control**
 | Fader or knob | Message | Possible S / M / R roles |
