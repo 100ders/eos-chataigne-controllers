@@ -19,7 +19,7 @@ Transforme un **Korg nanoKONTROL2** en **fader wing** (contrôleur MIDI) pour **
    - [Module OSC](#module-osc)
    - [Tester](#tester)
 3. [Correspondance par défaut](#correspondance-par-défaut)
-4. [Le configurateur](#le-configurateur)
+4. [Le configurateur](#le-configurateur) (et [hors ligne](#hors-ligne))
 5. [Pages de faders](#pages-de-faders)
 6. [Potentiomètres en roues](#potentiomètres-en-roues)
 7. [Le projet Chataigne](#le-projet-chataigne)
@@ -99,7 +99,7 @@ Rien en 1 : problème de MIDI (voir [Module MIDI](#module-midi)). Rien en 2 : pr
 ---
 
 ## Le configurateur
-Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.html`) : **[ouvrir le configurateur](https://100ders.github.io/eos-chataigne-controllers/)**. Elle existe en français et en anglais (menu 🌐 en haut à droite) ; le projet Chataigne produit est le même dans les deux langues.
+Une page web, sans installation, qui fonctionne aussi hors ligne (voir [Hors ligne](#hors-ligne)) : **[ouvrir le configurateur](https://100ders.github.io/eos-chataigne-controllers/)**. Elle existe en français et en anglais (menu 🌐 en haut à droite) ; le projet Chataigne produit est le même dans les deux langues.
 
 1. **Assigner les boutons** : glisser une fonction de la bibliothèque (en bas) sur un bouton du nano, ou toucher le bouton pour la choisir (tablette, téléphone, clavier). Toucher un bouton ouvre son menu : message envoyé, **Choisir une fonction…**, **✕ Libérer**. Les fonctions personnalisées acceptent une macro Eos, une adresse OSC ou un texte de ligne de commande.
 2. **Choisir les roues** : toucher un potentiomètre (le cercle en haut de chaque tranche) ouvre son menu :
@@ -142,6 +142,16 @@ Bon à savoir :
 Une case S / M / R peut aussi recevoir n'importe quelle fonction de la bibliothèque. Un rôle qui n'existe pas pour le type de fader est barré et ignoré à l'export.
 
 ---
+
+### Hors ligne
+Le configurateur est un seul fichier HTML, sans dépendance : il fonctionne sans Internet.
+
+1. Télécharger le fichier : lien **⬇ Version hors ligne** en haut de la page, ou `configurateur-nanokontrol2.html` dans la [dernière version publiée](https://github.com/100ders/eos-chataigne-controllers/releases/latest).
+2. L'ouvrir d'un double-clic (Chrome, Edge, Firefox ou Safari).
+
+- Tout marche, export du `.zip` compris ; seuls les liens d'aide (mode d'emploi, dictionnaire OSC) demandent Internet.
+- Le profil de la version hors ligne est gardé à part de celui du site, et lié à l'emplacement du fichier : après un déplacement, rouvrir son `.json` (**Réglages → Profil → Ouvrir…**).
+- La version locale ne se met pas à jour seule : le numéro de version est affiché en bas de page.
 
 ## Pages de faders
 ⚠️ Les fonctions **PAGE FADERS + / −** envoient deux messages : l'un change la page des faders du nano (`/eos/fader/1/page/±1`), l'autre la page affichée dans Eos (`/eos/key/page_up` / `page_down`).

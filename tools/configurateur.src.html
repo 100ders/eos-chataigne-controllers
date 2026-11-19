@@ -397,6 +397,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 
 <script type="application/json" id="template">__TEMPLATE__</script>
 <script>
+const VERSION="1.2.0"; // a mettre a jour a chaque version publiee
 "use strict";
 const TPL = JSON.parse(document.getElementById("template").textContent);
 const REPO = "https://github.com/100ders/eos-chataigne-controllers";
@@ -411,12 +412,12 @@ fr:{
  set_summary:"Faders : {0} · Roues : {1} · {2}", custom_deleted:"Fonction « {0} » supprimée.", custom_deleted_used_one:"Fonction « {1} » supprimée et retirée de {0} élément.", custom_deleted_used_other:"Fonction « {1} » supprimée et retirée de {0} éléments.", legend_show:"🎨 Légende des couleurs", legend_hide:"🎨 Masquer la légende", steps_show:"▾ Afficher les étapes", steps_hide:"▴ Masquer les étapes", search_ph:"Rechercher une fonction…", leg_used:"Déjà utilisée (✓, ×2 = doublon)", used_on:"utilisée sur {0}",
  lib_hint:"Survolez une fonction pour sa description. Cliquez-la pour la sélectionner et la retrouver sur le nano.", no_result:"Aucune fonction « {0} ».", create_custom:"Créer une fonction personnalisée « {0} »",
  custom_empty:"Aucune fonction personnalisée : créez-en une ci-dessous.", rules_err_one:"⛔ {0} erreur", rules_err_other:"⛔ {0} erreurs", rules_warn_one:"⚠ {0} avertissement", rules_warn_other:"⚠ {0} avertissements",
- footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Code source et mode d’emploi sur GitHub' title='Code source et mode d’emploi sur GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · Logiciel libre (GPL v3) · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
+ footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Code source et mode d’emploi sur GitHub' title='Code source et mode d’emploi sur GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · v{V} · Logiciel libre (GPL v3) · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nano", skip_lib:"Aller à la bibliothèque", skip_export:"Aller au téléchargement", skips_aria:"Accès rapide",
  step1:"<b>Assignez</b> : glissez une fonction de la bibliothèque (en bas) sur un bouton du nano, ou touchez le bouton pour la choisir.",
  step2:"<b>Réglez</b> les potentiomètres (roues) et les cases S, M, R en les touchant, ou toute la tranche avec ⚙ Régler.",
  step3:"<b>Téléchargez</b> le projet et ouvrez-le dans Chataigne.",
- help:"💡 Aide : <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 Mode d'emploi</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Régler l'OSC dans Eos</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Dictionnaire OSC d'Eos (en anglais) ↗</a>",
+ help:"💡 Aide : <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 Mode d'emploi</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Régler l'OSC dans Eos</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Dictionnaire OSC d'Eos (en anglais) ↗</a><span class='offl'> · <a href='index.html' download='configurateur-nanokontrol2.html' title='Un seul fichier, fonctionne sans Internet : ouvrez-le d’un double-clic'>⬇ Version hors ligne</a></span>",
  dict_hint:"Liste des adresses : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
  dict_param:"Noms des paramètres : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
  lib_title:"Bibliothèque de fonctions", leg_key:"Touche Eos", leg_cmd:"Commande tapée",
@@ -432,7 +433,7 @@ fr:{
  aria_transport:"Boutons de transport", aria_strips:"Tranches 1 à 8", aria_editor:"Réglages de la tranche", aria_file:"Fichier de configuration",
  export:"Télécharger le projet Chataigne (.zip)", saved:"✓ Enregistré dans ce navigateur", not_saved:"⚠ Non enregistré (navigation privée ?) : utilisez « Enregistrer dans un fichier »",
  save_file:"Enregistrer dans un fichier", open_file:"Ouvrir un fichier", clear_all:"Tout vider", reset_wing:"Revenir au modèle Fader Wing",
- bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potentiomètres en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. Le profil reste dans ce navigateur : enregistrez-le (Réglages → Profil) pour le retrouver ailleurs.",
+ bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potentiomètres en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. Le profil reste dans ce navigateur : enregistrez-le (Réglages → Profil) pour le retrouver ailleurs.<br><b>Hors ligne :</b> l'outil fonctionne sans Internet. Téléchargez la <b>⬇ Version hors ligne</b> (lien en haut de page, ou dans chaque version publiée sur GitHub) et ouvrez-la d'un double-clic. Le profil y est gardé à part : si vous déplacez le fichier, rouvrez votre <code>.json</code>.",
  pick_go:"Aller au nano ↑", cancel:"Annuler", undo:"Annuler", remove:"Retirer", close:"Fermer",
  pick_msg:"« {0} » sélectionnée : touchez un bouton du nano ou une case S / M / R.",
  undone:"Modification annulée.",
@@ -502,12 +503,12 @@ en:{
  set_summary:"Faders: {0} · Wheels: {1} · {2}", custom_deleted:"Function “{0}” deleted.", custom_deleted_used_one:"Function “{1}” deleted and removed from {0} item.", custom_deleted_used_other:"Function “{1}” deleted and removed from {0} items.", legend_show:"🎨 Colour legend", legend_hide:"🎨 Hide legend", steps_show:"▾ Show steps", steps_hide:"▴ Hide steps", search_ph:"Search a function…", leg_used:"Already used (✓, ×2 = duplicate)", used_on:"used on {0}",
  lib_hint:"Hover a function for its description. Click it to select it and find it on the nano.", no_result:"No function “{0}”.", create_custom:"Create a custom function “{0}”",
  custom_empty:"No custom function yet: create one below.", rules_err_one:"⛔ {0} error", rules_err_other:"⛔ {0} errors", rules_warn_one:"⚠ {0} warning", rules_warn_other:"⚠ {0} warnings",
- footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Source code and user guide on GitHub' title='Source code and user guide on GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · Free software (GPL v3) · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
+ footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Source code and user guide on GitHub' title='Source code and user guide on GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · v{V} · Free software (GPL v3) · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
  title:"nanoKONTROL2 → ETC Eos fader wing configurator", skip:"Skip to the nano", skip_lib:"Skip to the library", skip_export:"Skip to download", skips_aria:"Quick access",
  step1:"<b>Assign</b>: drag a function from the library (below) onto a nano button, or tap the button to pick one.",
  step2:"<b>Set up</b> knobs (wheels) and S, M, R boxes by tapping them, or the whole strip with ⚙ Set up.",
  step3:"<b>Download</b> the project and open it in Chataigne.",
- help:"💡 Help: <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 User guide</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Eos OSC setup</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Eos OSC dictionary ↗</a>",
+ help:"💡 Help: <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 User guide</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Eos OSC setup</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Eos OSC dictionary ↗</a><span class='offl'> · <a href='index.html' download='configurator-nanokontrol2.html' title='A single file that works without Internet: double-click to open it'>⬇ Offline version</a></span>",
  dict_hint:"Address list: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
  dict_param:"Parameter names: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
  lib_title:"Function library", leg_key:"Eos key", leg_cmd:"Typed command",
@@ -523,7 +524,7 @@ en:{
  aria_transport:"Transport buttons", aria_strips:"Strips 1 to 8", aria_editor:"Strip settings", aria_file:"Configuration file",
  export:"Download the Chataigne project (.zip)", saved:"✓ Saved in this browser", not_saved:"⚠ Not saved (private browsing?): use “Save to file”",
  save_file:"Save to file", open_file:"Open file", clear_all:"Clear all", reset_wing:"Back to the Fader Wing template",
- bottom_note:"The Eos fader bank has 10 faders: Eos pages move by 10 with PAGE FADERS + / −. Knobs used as wheels rely on the <code>encodeurs-relatifs.js</code> script, included in the .zip. The profile stays in this browser: save it (Settings → Profile) to use it elsewhere.",
+ bottom_note:"The Eos fader bank has 10 faders: Eos pages move by 10 with PAGE FADERS + / −. Knobs used as wheels rely on the <code>encodeurs-relatifs.js</code> script, included in the .zip. The profile stays in this browser: save it (Settings → Profile) to use it elsewhere.<br><b>Offline:</b> the tool works without Internet. Download the <b>⬇ Offline version</b> (link at the top of the page, or in every release on GitHub) and double-click it to open it. Its profile is kept separately: if you move the file, reopen your <code>.json</code>.",
  pick_go:"Go to the nano ↑", cancel:"Cancel", undo:"Undo", remove:"Remove", close:"Close",
  pick_msg:"“{0}” selected: tap a nano button or an S / M / R box.",
  undone:"Change undone.",
@@ -624,7 +625,8 @@ function toggleUI(k){ ui[k]=!ui[k]; try{ localStorage.setItem("nano-eos-ui",JSON
 function applyStatic(){
   document.documentElement.lang=LANG; document.title=t("title");
   document.querySelectorAll("[data-i]").forEach(e=>{ e.textContent=t(e.dataset.i); });
-  document.querySelectorAll("[data-h]").forEach(e=>{ e.innerHTML=e.dataset.h==="help"?t("help",HELP_URL(),NANO_URL(),OSC_DICT):e.dataset.h==="dict_hint"?t("dict_hint",OSC_DICT):t(e.dataset.h); });
+  document.querySelectorAll("[data-h]").forEach(e=>{ e.innerHTML=e.dataset.h==="help"?t("help",HELP_URL(),NANO_URL(),OSC_DICT):e.dataset.h==="dict_hint"?t("dict_hint",OSC_DICT):t(e.dataset.h).replace("{V}",VERSION); });
+  if(location.protocol==="file:") document.querySelectorAll(".offl").forEach(e=>e.hidden=true);
   document.querySelectorAll("[data-p]").forEach(e=>{ e.placeholder=t(e.dataset.p); });
   document.querySelectorAll("[data-a]").forEach(e=>{ e.setAttribute("aria-label",t(e.dataset.a)); });
   renderDoc();

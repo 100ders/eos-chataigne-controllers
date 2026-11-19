@@ -1,0 +1,19 @@
+# Joint la version hors ligne du configurateur (un seul fichier HTML) a chaque version publiee.
+name: Version hors ligne
+on:
+  release:
+    types: [published]
+permissions:
+  contents: write
+jobs:
+  attach:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Joindre configurateur-nanokontrol2.html a la version
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.release.tag_name }}
+        run: |
+          cp docs/index.html configurateur-nanokontrol2.html
+          gh release upload "$TAG" configurateur-nanokontrol2.html --clobber

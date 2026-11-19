@@ -25,7 +25,11 @@ Contrôleur ──USB──▶ Chataigne ──OSC :8000──▶ Eos
 2. **Réglez** chaque tranche : fader Eos, sub ou circuit, potentiomètre en roue (pan, tilt…), rôle des boutons S / M / R.
 3. **Téléchargez** le projet : un `.zip` prêt à ouvrir dans Chataigne, avec le script des potentiomètres, votre configuration et un mode d'emploi.
 
-Fonctionne sur ordinateur, tablette et téléphone, et hors ligne (fichier `docs/index.html`). Détails : [README du nano](nanokontrol2/README.md#le-configurateur).
+Fonctionne sur ordinateur, tablette et téléphone.
+
+**🔌 Utilisable hors ligne** (en régie, sans réseau) : le configurateur tient en un seul fichier HTML. Téléchargez-le avec le lien **⬇ Version hors ligne** en haut de la page, ou depuis la [dernière version publiée](https://github.com/100ders/eos-chataigne-controllers/releases/latest) (`configurateur-nanokontrol2.html`), puis ouvrez-le d'un double-clic. Rien à installer ; seuls les liens d'aide demandent Internet.
+
+Détails : [README du nano](nanokontrol2/README.md#le-configurateur).
 
 ---
 
@@ -49,7 +53,7 @@ Testé avec ETCnomad en mode Offline, sous Windows et macOS.
 ## Contenu du dépôt
 ```
 docs/
-  index.html                  configurateur (GitHub Pages)
+  index.html                  configurateur (GitHub Pages, aussi la version hors ligne)
   eos-osc-setup.md            paramétrage OSC d'Eos (+ .en.md)
   images/
 nanokontrol2/
@@ -63,6 +67,8 @@ tools/
   configurateur.src.html      source du configurateur
   build-configurateur.py      génère docs/index.html
   templates.json              modèles Chataigne
+.github/workflows/
+  release-offline.yml         joint la version hors ligne à chaque version publiée
 ```
 
 **Modifier le configurateur** : éditer `tools/configurateur.src.html`, puis lancer `python3 tools/build-configurateur.py`, qui génère `docs/index.html` à partir du `.noisette` du nano. Ne pas modifier `docs/index.html` directement.

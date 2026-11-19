@@ -21,7 +21,7 @@ The configurator is available in English and French (🌐 menu at the top right)
    - [OSC module](#osc-module)
    - [Test](#test)
 3. [Default mapping](#default-mapping)
-4. [The configurator](#the-configurator)
+4. [The configurator](#the-configurator) (and [offline](#offline))
 5. [Fader pages](#fader-pages)
 6. [Knobs as wheels](#knobs-as-wheels)
 7. [The Chataigne project](#the-chataigne-project)
@@ -101,7 +101,7 @@ Nothing in 1: MIDI problem (see [MIDI module](#midi-module)). Nothing in 2: proj
 ---
 
 ## The configurator
-A web page, nothing to install, also works offline (`docs/index.html`): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (🌐 menu at the top right).
+A web page, nothing to install, also works offline (see [Offline](#offline)): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (🌐 menu at the top right).
 
 1. **Assign buttons**: drag a function from the library (below) onto a nano button, or tap the button to pick one (tablet, phone, keyboard). Tapping a button opens its menu: message sent, **Choose a function…**, **✕ Clear**. Custom functions accept an Eos macro, an OSC address or command-line text.
 2. **Choose the wheels**: tapping a knob (the circle at the top of each strip) opens its menu:
@@ -144,6 +144,16 @@ Good to know:
 An S / M / R box can also hold any library function. A role that doesn't exist for the fader type is struck through and skipped on export.
 
 ---
+
+### Offline
+The configurator is a single HTML file with no dependencies: it works without Internet.
+
+1. Download the file: **⬇ Offline version** link at the top of the page, or `configurateur-nanokontrol2.html` in the [latest release](https://github.com/100ders/eos-chataigne-controllers/releases/latest).
+2. Double-click it (Chrome, Edge, Firefox or Safari).
+
+- Everything works, including the `.zip` export; only the help links (user guide, OSC dictionary) need Internet.
+- The offline version keeps its own profile, separate from the website's and tied to the file's location: after moving it, reopen your `.json` (**Settings → Profile → Open…**).
+- The local copy doesn't update itself: the version number is shown at the bottom of the page.
 
 ## Fader pages
 ⚠️ **PAGE FADERS + / −** send two messages: one changes the nano's fader page (`/eos/fader/1/page/±1`), the other the page displayed in Eos (`/eos/key/page_up` / `page_down`).

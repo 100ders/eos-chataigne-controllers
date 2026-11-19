@@ -25,7 +25,11 @@ Controller ──USB──▶ Chataigne ──OSC :8000──▶ Eos
 2. **Set up** each strip: Eos fader, sub or channel, knob as a wheel (pan, tilt…), S / M / R button roles.
 3. **Download** the project: a `.zip` ready to open in Chataigne, with the knob script, your configuration and instructions.
 
-Works on desktop, tablet and phone, and offline (file `docs/index.html`). Details: [nano README](nanokontrol2/README.en.md#the-configurator).
+Works on desktop, tablet and phone.
+
+**🔌 Works offline** (at the desk, with no network): the configurator is a single HTML file. Download it with the **⬇ Offline version** link at the top of the page, or from the [latest release](https://github.com/100ders/eos-chataigne-controllers/releases/latest) (`configurateur-nanokontrol2.html`), then double-click it. Nothing to install; only the help links need Internet.
+
+Details: [nano README](nanokontrol2/README.en.md#the-configurator).
 
 ---
 
@@ -63,6 +67,8 @@ tools/
   configurateur.src.html      configurator source
   build-configurateur.py      builds docs/index.html
   templates.json              Chataigne templates
+.github/workflows/
+  release-offline.yml         attaches the offline version to every release
 ```
 
 **Editing the configurator**: edit `tools/configurateur.src.html`, then run `python3 tools/build-configurateur.py`, which builds `docs/index.html` from the nano's `.noisette`. Don't edit `docs/index.html` directly.
