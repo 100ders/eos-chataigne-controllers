@@ -117,7 +117,7 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
    ![Projet prêt](../docs/images/configurateur-export.png)
 
 Bon à savoir :
-- **Menu 📁 Projet** (en haut) : **Nouveau : modèle Fader Wing**, **Nouveau : vide**, **Ouvrir une configuration (.json)…**, **Enregistrer la configuration (.json)**. La configuration reste aussi dans le navigateur, et le `.json` est inclus dans chaque `.zip`.
+- **Nom de la configuration** (à côté du titre, par exemple **📁 Fader Wing · modifiée ▾**) : il indique le modèle ou le fichier d'origine, et si vous l'avez modifié. Son menu propose **Nouveau : modèle Fader Wing**, **Nouveau : vide**, **Ouvrir une configuration (.json)…**, **Enregistrer la configuration (.json)**. La configuration reste aussi dans le navigateur, et le `.json` est inclus dans chaque `.zip`.
 - **Organisation de la page** : le nano seul dans sa case ; dessous, la case **Réglages** (modèle des faders, potentiomètres, boutons S / M / R, et le bouton **🎨 Légende des couleurs**) ; puis la **Bibliothèque**. Les étapes de l'en-tête se replient avec **▴ Masquer les étapes**, et la case Réglages avec **▴ Replier** : elle n'affiche alors qu'un résumé d'une ligne.
 - **Bibliothèque** : une cinquantaine de fonctions, en onglets (Toutes, Restitution, Saisie, Palettes, Édition…), avec une recherche. Si la recherche ne trouve rien, elle propose de créer une fonction personnalisée de ce nom. Une fonction déjà utilisée porte **✓**, ou **×2** si elle est sur deux boutons (doublon possible, mais signalé). La cliquer la sélectionne et fait clignoter les boutons qui la portent.
 - **Barre du bas** : l'état d'enregistrement, le nombre d'avertissements et le bouton **Télécharger le projet Chataigne (.zip)**.

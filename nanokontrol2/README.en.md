@@ -119,7 +119,7 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
    ![Project ready](../docs/images/configurateur-export-en.png)
 
 Good to know:
-- **📁 Project menu** (top): **New: Fader Wing template**, **New: empty**, **Open a configuration (.json)…**, **Save the configuration (.json)**. The configuration also stays in the browser, and the `.json` is included in every `.zip`.
+- **Configuration name** (next to the title, e.g. **📁 Fader Wing · modified ▾**): it shows the original template or file, and whether you changed it. Its menu offers **New: Fader Wing template**, **New: empty**, **Open a configuration (.json)…**, **Save the configuration (.json)**. The configuration also stays in the browser, and the `.json` is included in every `.zip`.
 - **Page layout**: the nano alone in its box; below it, the **Settings** box (fader template, knobs, S / M / R buttons, and the **🎨 Colour legend** button); then the **Library**. The header steps fold away with **▴ Hide steps**, and the Settings box with **▴ Fold**: it then shows a one-line summary.
 - **Library**: about fifty functions, in tabs (All, Playback, Entry, Palettes, Editing…), with a search box. When the search finds nothing, it offers to create a custom function with that name. A function already in use shows **✓**, or **×2** when it is on two buttons (duplicates are allowed but flagged). Clicking it selects it and makes the buttons carrying it flash.
 - **Bottom bar**: save status, warning count and the **Download the Chataigne project (.zip)** button.
