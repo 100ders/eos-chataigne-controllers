@@ -144,13 +144,18 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 }
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .lang{font-size:.85rem;padding:5px 12px}
+.topr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.bmc{font-size:.85rem;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;white-space:nowrap}
+.bmc:hover{background:var(--accent);color:#1b1b1b}
+@media(pointer:coarse){.bmc{min-height:44px;display:inline-flex;align-items:center}}
 </style>
 </head>
 <body>
 <a class="skip" href="#h-nano" data-i="skip">Aller au nanoKONTROL2</a>
 <header>
   <div class="top"><h1 data-i="title">Configurateur nanoKONTROL2 → ETC Eos</h1>
-    <button type="button" id="lang" class="lang"></button></div>
+    <div class="topr"><a class="bmc" href="https://buymeacoffee.com/100ders" target="_blank" rel="noopener" data-i="bmc" title="buymeacoffee.com/100ders"></a>
+      <button type="button" id="lang" class="lang"></button></div></div>
   <ol class="steps">
     <li data-h="step1"></li>
     <li data-h="step2"></li>
@@ -244,7 +249,7 @@ const REPO = "https://github.com/100ders/eos-chataigne-controllers";
 // seule l'interface, le mode d'emploi du zip et les liens d'aide changent de langue.
 const I18N = {
 fr:{
- lang_btn:"English", lang_aria:"Switch to English",
+ lang_btn:"English", lang_aria:"Switch to English", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nanoKONTROL2",
  step1:"<b>Assignez</b> des fonctions aux boutons : glissez-les, ou touchez une fonction puis un bouton.",
  step2:"<b>Réglez</b> chaque tranche : cliquez dessus (⚙ Régler) ou sur ses cases S, M, R.",
@@ -322,7 +327,7 @@ fr:{
  readme_s:" (le script encodeurs-relatifs.js doit rester a cote du .noisette)"
 },
 en:{
- lang_btn:"Français", lang_aria:"Passer en français",
+ lang_btn:"Français", lang_aria:"Passer en français", bmc:"☕ Buy me a coffee",
  title:"nanoKONTROL2 → ETC Eos configurator", skip:"Skip to the nanoKONTROL2",
  step1:"<b>Assign</b> functions to buttons: drag them, or tap a function then a button.",
  step2:"<b>Set up</b> each strip: click it (⚙ Set up) or its S, M, R boxes.",
