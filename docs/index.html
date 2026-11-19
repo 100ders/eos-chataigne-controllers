@@ -3,7 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Configurateur nanoKONTROL2 → ETC Eos</title>
+<title>nanoKONTROL2 → ETC Eos fader wing configurator (Chataigne, OSC)</title>
+<meta name="description" content="Free online configurator: turn a Korg nanoKONTROL2 into a fader wing for ETC Eos / ETCnomad, through Chataigne and OSC. Configurateur gratuit, en français et en anglais.">
+<link rel="canonical" href="https://100ders.github.io/eos-chataigne-controllers/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eos × Chataigne">
+<meta property="og:title" content="nanoKONTROL2 → ETC Eos fader wing configurator">
+<meta property="og:description" content="Free online configurator: turn a Korg nanoKONTROL2 into a fader wing for ETC Eos / ETCnomad, through Chataigne and OSC. Configurateur gratuit, en français et en anglais.">
+<meta property="og:url" content="https://100ders.github.io/eos-chataigne-controllers/">
+<meta property="og:image" content="https://100ders.github.io/eos-chataigne-controllers/images/social-preview.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{--bg:#16181c;--panel:#22252b;--panel2:#2b2f37;--line:#3a3f49;--text:#e8e9ec;--muted:#9aa0aa;--empty:#8f95a0;--accent:#e2a03f;--key:#3f8fe2;--cmd:#3fbf8a;--warn:#e2a03f;--err:#ff7a70;--ok:#5fd08f}
 *{box-sizing:border-box}
@@ -161,6 +172,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 }
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .lang{font-size:.85rem;padding:5px 12px}
+.pagefoot{text-align:center;font-size:.82rem;color:var(--muted);padding:6px 20px 24px}
 .hint{font-size:.78rem;color:var(--muted);margin:2px 0 4px}
 .topr{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .bmc{font-size:.85rem;padding:5px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);text-decoration:none;white-space:nowrap}
@@ -253,6 +265,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
     <p class="note" data-h="bottom_note"></p>
   </section>
 </main>
+<footer class="pagefoot" data-h="footer"></footer>
 <div class="dock" aria-live="polite">
   <div class="pickbar" id="pickbar"><span id="pickmsg"></span><button type="button" id="pick-go" data-i="pick_go"></button><button type="button" id="pick-cancel" data-i="cancel"></button></div>
   <div class="toast" id="toast"><span id="toastmsg"></span></div>
@@ -269,7 +282,8 @@ const REPO = "https://github.com/100ders/eos-chataigne-controllers";
 // seule l'interface, le mode d'emploi du zip et les liens d'aide changent de langue.
 const I18N = {
 fr:{
- lang_btn:"English", lang_aria:"Switch to English", bmc:"☕ Offrir un café",
+ lang_btn:"English", lang_aria:"Switch to English",
+ footer:"Logiciel libre (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Code source et mode d'emploi sur GitHub</a> · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nanoKONTROL2",
  step1:"<b>Assignez</b> des fonctions aux boutons : glissez-les, ou touchez une fonction puis un bouton.",
  step2:"<b>Réglez</b> les potentiomètres (roues) et les cases S, M, R en les touchant, ou toute la tranche avec ⚙ Régler.",
@@ -355,8 +369,9 @@ fr:{
  readme_s:" (le script encodeurs-relatifs.js doit rester a cote du .noisette)"
 },
 en:{
- lang_btn:"Français", lang_aria:"Passer en français", bmc:"☕ Buy me a coffee",
- title:"nanoKONTROL2 → ETC Eos configurator", skip:"Skip to the nanoKONTROL2",
+ lang_btn:"Français", lang_aria:"Passer en français",
+ footer:"Free software (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Source code and user guide on GitHub</a> · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
+ title:"nanoKONTROL2 → ETC Eos fader wing configurator", skip:"Skip to the nanoKONTROL2",
  step1:"<b>Assign</b> functions to buttons: drag them, or tap a function then a button.",
  step2:"<b>Set up</b> knobs (wheels) and S, M, R boxes by tapping them, or the whole strip with ⚙ Set up.",
  step3:"<b>Download</b> the project and open it in Chataigne.",

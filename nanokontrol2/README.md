@@ -2,7 +2,7 @@
 
 🇬🇧 [English version](README.en.md)
 
-Transforme un nanoKONTROL2 en **fader wing** pour Eos : 10 faders, touches de restitution, ligne de commande et potentiomètres en roues (pan, tilt, zoom, intensité).
+Transforme un **Korg nanoKONTROL2** en **fader wing** (contrôleur MIDI) pour **ETC Eos / ETCnomad** : 10 faders, touches de restitution, ligne de commande et potentiomètres en roues (pan, tilt, zoom, intensité).
 
 ![Correspondance par défaut](images/01-correspondance-par-defaut.png)
 

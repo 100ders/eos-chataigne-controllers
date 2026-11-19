@@ -2,7 +2,7 @@
 
 🇫🇷 [Version française](README.md)
 
-Control **ETC Eos / ETCnomad** with affordable USB controllers, through [Chataigne](https://github.com/benkuper/Chataigne) and OSC. Ready-to-use projects and an online configurator, no coding.
+Turn a **Korg nanoKONTROL2** into a **fader wing** for **ETC Eos / ETCnomad**, and drive the wheels with a **Contour ShuttleXpress**: affordable MIDI and USB controllers linked to Eos through [Chataigne](https://github.com/benkuper/Chataigne) and OSC. Ready-to-use projects and an online configurator, no coding.
 
 | Controller | Folder | Features |
 |---|---|---|

@@ -2,7 +2,7 @@
 
 🇫🇷 [Version française](README.md)
 
-Turns a nanoKONTROL2 into an Eos **fader wing**: 10 faders, playback keys, command line and knobs as wheels (pan, tilt, zoom, intensity).
+Turns a **Korg nanoKONTROL2** into a **fader wing** (MIDI controller) for **ETC Eos / ETCnomad**: 10 faders, playback keys, command line and knobs as wheels (pan, tilt, zoom, intensity).
 
 ![Default mapping](images/01-correspondance-par-defaut-en.png)
 
