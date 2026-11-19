@@ -11,7 +11,7 @@ Turns a **Korg nanoKONTROL2** into a **fader wing** (MIDI controller) for **ETC 
 | `nanoKONTROL2-EOS.noisette` | Ready-to-use [Chataigne](https://github.com/benkuper/Chataigne) project (mapping above) |
 | `encodeurs-relatifs.js` | Script for knobs 1–6 as wheels, keep it next to the `.noisette` |
 
-The configurator is available in English and French (button at the top right). The Chataigne project keeps French names (States, Actions) whatever the language; the Chataigne screenshots only carry numbers, explained below each one.
+The configurator is available in English and French (🌐 menu at the top right). The Chataigne project keeps French names (States, Actions) whatever the language; the Chataigne screenshots only carry numbers, explained below each one.
 
 ## Contents
 1. [Two ways to use it](#two-ways-to-use-it)
@@ -101,7 +101,7 @@ Nothing in 1: MIDI problem (see [MIDI module](#midi-module)). Nothing in 2: proj
 ---
 
 ## The configurator
-A web page, nothing to install, also works offline (`docs/index.html`): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (button at the top right).
+A web page, nothing to install, also works offline (`docs/index.html`): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (🌐 menu at the top right).
 
 1. **Assign buttons**: drag a function from the library (below) onto a nano button, or tap the button to pick one (tablet, phone, keyboard). Tapping a button opens its menu: message sent, **Choose a function…**, **✕ Clear**. Custom functions accept an Eos macro, an OSC address or command-line text.
 2. **Choose the wheels**: tapping a knob (the circle at the top of each strip) opens its menu:
@@ -119,15 +119,17 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
    ![Project ready](../docs/images/configurateur-export-en.png)
 
 Good to know:
-- **Configuration name** (next to the title, e.g. **📁 Fader Wing · modified ▾**): it shows the original template or file, and whether you changed it. Its menu offers **New: Fader Wing template**, **New: empty**, **Open a configuration (.json)…**, **Save the configuration (.json)**. The configuration also stays in the browser, and the `.json` is included in every `.zip`.
-- **Page layout**: the nano alone in its box; below it, the **Settings** box (fader template, knobs, S / M / R buttons, and the **🎨 Colour legend** button); then the **Library**. The header steps fold away with **▴ Hide steps**, and the Settings box with **▴ Fold**: it then shows a one-line summary.
+- **Profile** (first row of the **Settings** box): an editable name (e.g. “Festival 2027”), followed by **● modified** when the profile changed since it was created, opened or saved. **New ▾** (Fader Wing profile, Empty profile), **Open…** and **Save (.json)**. The name is also used for the `.json` file and the `.zip`. The profile stays in the browser, and the `.json` is included in every `.zip`.
+- **Page layout**: the nano alone in its box; below it, the **Settings** box (fader template, knobs, S / M / R buttons); then the **Library**; at the bottom, the **Good to know** box with the colour legend. The header steps fold away with **▴ Hide steps**, and the Settings box with **▴ Fold**: it then shows a one-line summary.
 - **Library**: about fifty functions, in tabs (All, Playback, Entry, Palettes, Editing…), with a search box. When the search finds nothing, it offers to create a custom function with that name. A function already in use shows **✓**, or **×2** when it is on two buttons (duplicates are allowed but flagged). Clicking it selects it and makes the buttons carrying it flash.
 - **Bottom bar**: save status, warning count and the **Download the Chataigne project (.zip)** button.
 - **Keyboard**: skip links to the nano, the library and the download (first Tab). Each group (nano buttons, strips, library) is a single Tab stop: move inside it with the arrow keys. In the strips, ←/→ changes strip and ↑/↓ goes from the knob to S, M, R then **⚙ Set up**. Enter opens the menu, Delete clears.
 - **Phone**: the transport buttons move on top, and the 8 strips scroll sideways (3 visible at a time).
 - **Custom functions**: **Custom** tab. To delete one: the **✕** in its corner, or Delete on the keyboard. It is also removed from the buttons carrying it; **Undo** puts everything back.
+- **Copy a strip**: in **⚙ Set up**, the **Copy to other strips** row (strips *from… to…*, Fader / Knob / S / M / R checkboxes, **Copy** button). Numbers go up by 1 per strip (Sub 12 → 13 → 14…), capped at 10 for Eos faders; wheels and S / M / R are copied as they are. With the mouse: drag the small orange square in a strip's corner onto other strips.
+- **Drag and drop**: while dragging, allowed places get a dashed outline and the others fade out (drop impossible). A function goes onto a transport button or an S / M / R box; a wheel onto another knob (swap); a fader onto another fader: the strips then swap fader and S / M / R.
 - **Clear an item**: the **✕** in the corner of a set button or knob, **✕ Clear** in its menu, or the Delete key on the keyboard.
-- Clearing, **New**, applying a template or opening a configuration can be undone for 8 seconds with **Undo**.
+- Clearing, **New**, applying a template or opening a profile can be undone for 8 seconds with **Undo**.
 - Errors (red) block the download. Warnings (orange) don't.
 - The **Fader template** menu (Fader Wing, Subs, Channels) then **Apply to the 8 faders** only sets the faders and their S / M / R. For Subs and Channels, **First no.** sets the number of fader 1. It **leaves knobs 1 to 6 alone**: the wheels stay in place. For knobs 7 and 8, Fader Wing sets them to Eos faders 9 and 10, Subs and Channels clear them. On an empty nano, the template buttons also place the 6 wheels.
 

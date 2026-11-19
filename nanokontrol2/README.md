@@ -87,7 +87,7 @@ Rien en 1 : problème de MIDI (voir [Module MIDI](#module-midi)). Rien en 2 : pr
 |---|---|---|
 | Faders 1–8 | Faders 1–8 de la page affichée | `/eos/fader/1/<n>` (0–1) |
 | Potentiomètres 7–8 | Faders 9–10 (ex. Grand Master, salle) | `/eos/fader/1/9`, `/10` |
-| Potentiomètres 1–6 | Intensité · Pan · Pan fin · Tilt · Tilt fin · Zoom, en roues | `/eos/wheel/…` (script) |
+| Potentiomètres 1–6 | Intensité · Pan · Pan fine · Tilt · Tilt fine · Zoom, en roues | `/eos/wheel/…` (script) |
 | S · M · R | Full · Out · Flash du fader de la même tranche | `/eos/fader/1/<n>/full`, `/out`, `/fire` |
 | Track ◀ · ▶ | Live · Blind | `/eos/key/live`, `/blind` |
 | Cycle | Clear | `/eos/key/clear_cmd` |
@@ -99,15 +99,15 @@ Rien en 1 : problème de MIDI (voir [Module MIDI](#module-midi)). Rien en 2 : pr
 ---
 
 ## Le configurateur
-Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.html`) : **[ouvrir le configurateur](https://100ders.github.io/eos-chataigne-controllers/)**. Elle existe en français et en anglais (bouton en haut à droite) ; le projet Chataigne produit est le même dans les deux langues.
+Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.html`) : **[ouvrir le configurateur](https://100ders.github.io/eos-chataigne-controllers/)**. Elle existe en français et en anglais (menu 🌐 en haut à droite) ; le projet Chataigne produit est le même dans les deux langues.
 
 1. **Assigner les boutons** : glisser une fonction de la bibliothèque (en bas) sur un bouton du nano, ou toucher le bouton pour la choisir (tablette, téléphone, clavier). Toucher un bouton ouvre son menu : message envoyé, **Choisir une fonction…**, **✕ Libérer**. Les fonctions personnalisées acceptent une macro Eos, une adresse OSC ou un texte de ligne de commande.
 2. **Choisir les roues** : toucher un potentiomètre (le cercle en haut de chaque tranche) ouvre son menu :
-   - **Roues Eos** : INTENSITÉ, PAN, PAN FIN, TILT, TILT FIN, ZOOM ;
+   - **Roues Eos** : INTENSITÉ, PAN, PAN FINE, TILT, TILT FINE, ZOOM ;
    - **Autre** : fader Eos, sub ou circuit, réglés dans **⚙ Régler** ;
    - **✕ Libérer**.
 
-   Dans la case **Réglages**, sous le nano, la ligne **Potentiomètres** a deux raccourcis : **Roues par défaut** (1 Intensité · 2 Pan · 3 Pan fin · 4 Tilt · 5 Tilt fin · 6 Zoom) et **Libérer les 8**. Pour changer l'ordre, glisser un potentiomètre sur un autre : leurs réglages s'échangent. Vitesse, précision et sens se règlent dans **⚙ Régler**.
+   Dans la case **Réglages**, sous le nano, la ligne **Potentiomètres** a deux raccourcis : **Roues par défaut** (1 Intensité · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom) et **Libérer les 8**. Pour changer l'ordre, glisser un potentiomètre sur un autre : leurs réglages s'échangent. Vitesse, précision et sens se règlent dans **⚙ Régler**.
 3. **Régler une tranche** : toucher une case **S**, **M** ou **R** pour son rôle, ou **⚙ Régler** pour tout le détail du fader et du potentiomètre.
 
    ![Réglage d'une tranche](../docs/images/configurateur-tranche.png)
@@ -117,15 +117,17 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
    ![Projet prêt](../docs/images/configurateur-export.png)
 
 Bon à savoir :
-- **Nom de la configuration** (à côté du titre, par exemple **📁 Fader Wing · modifiée ▾**) : il indique le modèle ou le fichier d'origine, et si vous l'avez modifié. Son menu propose **Nouveau : modèle Fader Wing**, **Nouveau : vide**, **Ouvrir une configuration (.json)…**, **Enregistrer la configuration (.json)**. La configuration reste aussi dans le navigateur, et le `.json` est inclus dans chaque `.zip`.
-- **Organisation de la page** : le nano seul dans sa case ; dessous, la case **Réglages** (modèle des faders, potentiomètres, boutons S / M / R, et le bouton **🎨 Légende des couleurs**) ; puis la **Bibliothèque**. Les étapes de l'en-tête se replient avec **▴ Masquer les étapes**, et la case Réglages avec **▴ Replier** : elle n'affiche alors qu'un résumé d'une ligne.
+- **Profil** (première ligne de la case **Réglages**) : un nom modifiable (par exemple « Festival 2027 »), suivi de **● modifié** quand le profil a changé depuis sa création, son ouverture ou son enregistrement. **Nouveau ▾** (Profil Fader Wing, Profil vide), **Ouvrir…** et **Enregistrer (.json)**. Le nom sert aussi pour le fichier `.json` et le `.zip`. Le profil reste dans le navigateur, et le `.json` est inclus dans chaque `.zip`.
+- **Organisation de la page** : le nano seul dans sa case ; dessous, la case **Réglages** (modèle des faders, potentiomètres, boutons S / M / R) ; puis la **Bibliothèque** ; en bas, la case **Bon à savoir** avec la légende des couleurs. Les étapes de l'en-tête se replient avec **▴ Masquer les étapes**, et la case Réglages avec **▴ Replier** : elle n'affiche alors qu'un résumé d'une ligne.
 - **Bibliothèque** : une cinquantaine de fonctions, en onglets (Toutes, Restitution, Saisie, Palettes, Édition…), avec une recherche. Si la recherche ne trouve rien, elle propose de créer une fonction personnalisée de ce nom. Une fonction déjà utilisée porte **✓**, ou **×2** si elle est sur deux boutons (doublon possible, mais signalé). La cliquer la sélectionne et fait clignoter les boutons qui la portent.
 - **Barre du bas** : l'état d'enregistrement, le nombre d'avertissements et le bouton **Télécharger le projet Chataigne (.zip)**.
 - **Clavier** : liens d'accès rapide au nano, à la bibliothèque et au téléchargement (premier Tab). Chaque groupe (boutons du nano, tranches, bibliothèque) est un seul arrêt Tab : on s'y déplace avec les flèches. Dans les tranches, ←/→ change de tranche et ↑/↓ passe du potentiomètre à S, M, R puis **⚙ Régler**. Entrée ouvre le menu, Suppr libère.
 - **Téléphone** : les boutons de transport passent au-dessus, et les 8 tranches défilent horizontalement (3 visibles à la fois).
 - **Fonctions personnalisées** : onglet **Personnalisées**. Pour en supprimer une : la croix **✕** dans son coin, ou Suppr au clavier. Elle est aussi retirée des boutons qui la portent ; **Annuler** remet tout en place.
+- **Recopier une tranche** : dans **⚙ Régler**, la ligne **Recopier vers d'autres tranches** (tranches *de… à…*, cases Fader / Potentiomètre / S / M / R, bouton **Recopier**). Les numéros avancent de 1 par tranche (Sub 12 → 13 → 14…), plafonnés à 10 pour les faders Eos ; les roues et les S / M / R sont copiés tels quels. À la souris : tirer le petit carré orange dans le coin d'une tranche vers d'autres tranches.
+- **Glisser-déposer** : pendant un glisser, les endroits permis sont entourés en pointillés et les autres s'estompent (dépôt impossible). Une fonction va sur un bouton de transport ou une case S / M / R ; une roue, sur un autre potentiomètre (échange) ; un fader, sur un autre fader : la tranche échange alors fader et S / M / R.
 - **Libérer un élément** : la croix **✕** dans le coin d'un bouton ou d'un potentiomètre réglé, **✕ Libérer** dans son menu, ou la touche Suppr au clavier.
-- Libérer, **Nouveau**, appliquer un modèle ou ouvrir une configuration s'annulent pendant 8 secondes avec **Annuler**.
+- Libérer, **Nouveau**, appliquer un modèle ou ouvrir un profil s'annulent pendant 8 secondes avec **Annuler**.
 - Les erreurs (en rouge) bloquent le téléchargement. Les avertissements (en orange) non.
 - Le menu **Modèle des faders** (Fader Wing, Subs, Circuits) puis **Appliquer aux 8 faders** ne règle que les faders et leurs S / M / R. Pour Subs et Circuits, **Premier n°** fixe le numéro du fader 1. Il **ne touche pas aux potentiomètres 1 à 6** : les roues restent en place. Pour les potentiomètres 7 et 8, Fader Wing les règle sur les faders Eos 9 et 10, Subs et Circuits les libèrent. Sur un nano vide, les boutons de modèle posent en plus les 6 roues.
 

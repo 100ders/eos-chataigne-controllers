@@ -45,9 +45,10 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:10px;
 .setgrid{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;align-items:center}
 .setgrid .sl{font-size:.88rem;color:var(--muted);font-weight:600}
 .setgrid .sc{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
-.setgrid .sc .shint{order:99;flex-basis:100%}
+.setgrid .sc .shint{flex-basis:auto;margin-left:6px}
+.setgrid .slsub{display:block;font-weight:400;font-size:.75rem;margin-top:2px}
 .setgrid .sc label{font-size:.85rem;color:var(--muted)}
-.setgrid .shint{flex-basis:100%;font-size:.78rem;color:var(--muted)}
+.setgrid .shint{font-size:.78rem;color:var(--muted)}
 @media(max-width:700px){.setgrid{grid-template-columns:minmax(0,1fr);gap:4px}.setgrid .sc{margin-bottom:8px}}
 #legends{margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
 .libhead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:8px}
@@ -83,11 +84,31 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:10px;
 h2{font-size:.95rem;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 h3{font-size:.85rem;margin:14px 0 6px;color:var(--muted)}
 .lib{display:flex;flex-wrap:wrap;gap:6px}
+/* glisser : zones permises en pointilles, les autres estompees (curseur interdit) */
+.strip,.target,.left{user-select:none;-webkit-user-select:none}
+body[data-drag] .dz{transition:opacity .12s}
+body[data-drag] .dz{opacity:.28}
+body[data-drag=fn] .target.dz,body[data-drag=fn] .slot.dz,body[data-drag=btn] .target.dz,body[data-drag=knob] .knob.dz,body[data-drag=fader] .fwrap.dz{opacity:1;outline:2px dashed var(--accent);outline-offset:3px}
+.fillh{position:absolute;right:-5px;bottom:-5px;width:12px;height:12px;background:var(--accent);border:2px solid #0d0e10;border-radius:2px;cursor:crosshair;opacity:0;transition:opacity .12s;z-index:3}
+.strip:hover .fillh,.strip.active .fillh{opacity:1}
+@media(pointer:coarse){.fillh{display:none}}
+body[data-drag=fill] .dz{opacity:1;outline:none}
+body[data-drag=fill] .left{opacity:.28}
+.strip.fillsel{outline:2px dashed var(--accent);outline-offset:2px;background:#1d1b17}
+.strip.fillsrc{border-color:var(--accent)}
+#editor fieldset.copy{grid-column:1/-1}
+#editor .ck{display:inline-flex;align-items:center;gap:4px;font-size:.85rem}
+#editor .copy input[type=number]{width:4.5em}
+.fwrap{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;border-radius:6px}
+.fwrap[draggable=true]{cursor:grab}
+.fwrap.over{background:#2b2f36}
 .chip{padding:5px 10px;border-radius:6px;cursor:grab;user-select:none;font-size:.85rem;background:var(--panel);border-left:4px solid var(--key);white-space:nowrap}
 .chip.cmd{border-left-color:var(--cmd)}
 .chip.sel{outline:3px solid var(--accent);background:#3a3326}
 .chip .ctag{font-size:.7rem;color:var(--muted);background:#2a2d33;border-radius:4px;padding:1px 5px;margin-left:6px;font-weight:400}
 .chip.hasx{position:relative;padding-right:16px}
+.tips{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.tips .note{margin:8px 0 0}
 .gnote{font-size:.78rem;color:var(--warn);margin:6px 0 0}
 form.custom{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
 form.custom label{display:grid;gap:2px;font-size:.78rem;color:var(--muted)}
@@ -121,7 +142,7 @@ button.link{background:none;border:none;color:#8fc3ff;text-decoration:underline;
 .target.over,.slot.over{background:#33383f;border-color:var(--accent)}
 .spacer{flex:1 1 0}
 .strips{display:flex;gap:8px;flex:1}
-.strip{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:6px;align-items:center;background:#15171a;border:1px solid #2a2d33;border-radius:8px;padding:8px 4px 6px;cursor:pointer}
+.strip{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:6px;align-items:center;background:#15171a;border:1px solid #2a2d33;border-radius:8px;padding:8px 4px 6px;cursor:pointer}
 .strip:hover{border-color:#555b66}
 .strip.active{border-color:var(--accent);background:#1d1b17}
 .strip .cfg{margin-top:auto;font-size:12px;color:var(--muted);background:none;border:none;border-top:1px solid #2a2d33;border-radius:0;width:100%;text-align:center;padding:4px 0 0;font-family:inherit}
@@ -223,11 +244,15 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 .hint{font-size:.78rem;color:var(--muted);margin:2px 0 4px}
 .tleft{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
 .menuwrap{position:relative}
-#proj-btn{display:inline-flex;align-items:center;gap:6px;max-width:100%}
-#proj-btn .dname{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:22ch}
-#proj-btn .dstate{color:var(--muted);font-size:.78rem}
-#proj-btn .dstate.mod{color:var(--accent)}
+#doc-name{font-weight:700;width:18ch;max-width:100%}
+.dstate{color:var(--accent);font-size:.8rem;min-width:5ch}
+.menu.right{left:auto;right:0;min-width:150px}
+.menu [aria-checked=true]::after{content:" ✓";color:var(--accent)}
+.pagefoot .gh{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.pagefoot .gh svg{width:20px;height:20px;fill:currentColor;vertical-align:-4px}
 .menu{position:absolute;left:0;top:calc(100% + 4px);z-index:45;min-width:270px;background:var(--panel);border:1px solid var(--accent);border-radius:8px;padding:6px;box-shadow:0 8px 24px #000a;display:grid;gap:2px}
+.menu{display:grid}
+.menu[hidden]{display:none}
 .menu button{text-align:left;border:none;background:none;padding:8px 10px;border-radius:6px}
 .menu button:hover,.menu button:focus{background:var(--panel2)}
 .menu button small{display:block;font-size:.72rem;color:var(--muted)}
@@ -249,19 +274,15 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 <nav class="skips" data-a="skips_aria"><a class="skip" href="#h-nano" data-i="skip"></a><a class="skip" href="#lib-search" data-i="skip_lib"></a><a class="skip" href="#export" data-i="skip_export"></a></nav>
 <header>
   <div class="top"><div class="tleft"><h1 data-i="title">Configurateur nanoKONTROL2 → ETC Eos</h1>
-<div class="menuwrap"><button type="button" id="proj-btn" class="lang" aria-haspopup="menu" aria-expanded="false" aria-controls="proj-menu"></button>
-        <div class="menu" role="menu" id="proj-menu" aria-labelledby="proj-btn" hidden>
-          <button type="button" role="menuitem" data-act="new-wing"><span data-i="m_new_wing"></span></button>
-          <button type="button" role="menuitem" data-act="new-blank"><span data-i="m_new_blank"></span></button>
-          <div role="separator"></div>
-          <button type="button" role="menuitem" data-act="open"><span data-i="m_open"></span></button>
-          <button type="button" role="menuitem" data-act="save"><span data-i="m_save"></span><small data-i="m_save_hint"></small></button>
-        </div>
-        <input type="file" id="load-cfg" accept=".json,application/json" hidden data-a="aria_file"></div></div>
+</div>
     <div class="topr">
 
       <button type="button" id="steps-btn" class="lang" aria-controls="steps"></button><a class="bmc" href="https://buymeacoffee.com/100ders" target="_blank" rel="noopener" data-i="bmc" title="buymeacoffee.com/100ders"></a>
-      <button type="button" id="lang" class="lang"></button></div></div>
+      <span class="menuwrap"><button type="button" id="lang" class="lang" aria-haspopup="menu" aria-expanded="false" aria-controls="lang-menu"></button>
+        <span class="menu right" role="menu" id="lang-menu" aria-labelledby="lang" hidden>
+          <button type="button" role="menuitemradio" data-lang="fr" lang="fr">Français</button>
+          <button type="button" role="menuitemradio" data-lang="en" lang="en">English</button>
+        </span></span></div></div>
   <ol class="steps" id="steps">
     <li data-h="step1"></li>
     <li data-h="step2"></li>
@@ -293,9 +314,18 @@ code{background:#000;padding:1px 4px;border-radius:4px}
   <!-- reglages globaux : une ligne par sujet -->
   <section aria-labelledby="h-set" id="set-section">
     <div class="sechead"><h2 id="h-set" data-i="set_title"></h2><span class="setsum" id="set-summary"></span>
-      <span class="sep"></span><button type="button" id="legend-btn" aria-controls="legends"></button><button type="button" id="set-btn" aria-controls="set-body"></button></div>
+      <span class="sep"></span><button type="button" id="set-btn" aria-controls="set-body"></button></div>
     <div id="set-body">
     <div class="setgrid">
+      <label class="sl" for="doc-name" data-i="doc_l"></label>
+      <div class="sc" id="docbar"><input type="text" id="doc-name" maxlength="40" autocomplete="off" spellcheck="false"><span class="dstate" id="doc-state" aria-live="polite"></span>
+        <span class="menuwrap"><button type="button" id="new-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="new-menu" data-i="doc_new"></button>
+          <span class="menu" role="menu" id="new-menu" aria-labelledby="new-btn" hidden>
+            <button type="button" role="menuitem" data-act="new-wing" data-i="m_new_wing"></button>
+            <button type="button" role="menuitem" data-act="new-blank" data-i="m_new_blank"></button>
+          </span></span>
+        <button type="button" data-act="open" data-i="doc_open"></button><button type="button" data-act="save" data-i="doc_save"></button>
+        <input type="file" id="load-cfg" accept=".json,application/json" hidden data-a="aria_file"></div>
       <label class="sl" for="preset" data-i="preset_l"></label>
       <div class="sc">
         <select id="preset">
@@ -309,10 +339,9 @@ code{background:#000;padding:1px 4px;border-radius:4px}
       <span class="sl" data-i="knobbar_l"></span>
       <div class="sc" id="knobbar"><button type="button" id="place-wheels" data-i="wheels_place" aria-describedby="wheels-hint"></button><button type="button" id="clear-knobs" data-i="knobs_clear"></button>
         <span class="shint" id="wheels-hint" data-i="wheels_hint"></span></div>
-      <span class="sl" data-i="rowbar_l"></span>
-      <div class="sc" id="rowbar"><span class="shint" data-i="rowbar_hint"></span></div>
+      <span class="sl"><span data-i="rowbar_l"></span><small class="slsub" data-i="rowbar_hint"></small></span>
+      <div class="sc" id="rowbar"></div>
     </div>
-    <div id="legends" hidden><div class="tlegend" id="tlegend"></div><div class="blegend" id="blegend"></div></div>
     </div>
   </section>
 
@@ -344,7 +373,11 @@ code{background:#000;padding:1px 4px;border-radius:4px}
   <section id="out-section" aria-label="Export">
     <ul id="rules" aria-live="polite"></ul>
     <div id="done" role="status" tabindex="-1"></div>
-    <p class="note" data-h="bottom_note"></p>
+    <div class="tips">
+      <h2 id="h-tips" data-i="tips_title"></h2>
+      <div id="legends"><div class="tlegend" id="tlegend"></div><div class="blegend" id="blegend"></div></div>
+      <p class="note" data-h="bottom_note"></p>
+    </div>
   </section>
 </main>
 <!-- barre d'actions toujours visible -->
@@ -371,12 +404,12 @@ const REPO = "https://github.com/100ders/eos-chataigne-controllers";
 // seule l'interface, le mode d'emploi du zip et les liens d'aide changent de langue.
 const I18N = {
 fr:{
- lang_btn:"English", lang_aria:"Switch to English",
+ lang_btn:"English", lang_aria:"Langue / Language",
  tab_all:"Toutes", set_fold:"▴ Replier", set_unfold:"▾ Déplier", sum_mixed:"mixte",
  set_summary:"Faders : {0} · Roues : {1} · {2}", custom_deleted:"Fonction « {0} » supprimée.", custom_deleted_used_one:"Fonction « {1} » supprimée et retirée de {0} élément.", custom_deleted_used_other:"Fonction « {1} » supprimée et retirée de {0} éléments.", legend_show:"🎨 Légende des couleurs", legend_hide:"🎨 Masquer la légende", steps_show:"▾ Afficher les étapes", steps_hide:"▴ Masquer les étapes", search_ph:"Rechercher une fonction…", leg_used:"Déjà utilisée (✓, ×2 = doublon)", used_on:"utilisée sur {0}",
  lib_hint:"Survolez une fonction pour sa description. Cliquez-la pour la sélectionner et la retrouver sur le nano.", no_result:"Aucune fonction « {0} ».", create_custom:"Créer une fonction personnalisée « {0} »",
  custom_empty:"Aucune fonction personnalisée : créez-en une ci-dessous.", rules_err_one:"⛔ {0} erreur", rules_err_other:"⛔ {0} erreurs", rules_warn_one:"⚠ {0} avertissement", rules_warn_other:"⚠ {0} avertissements",
- footer:"Logiciel libre (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Code source et mode d'emploi sur GitHub</a> · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
+ footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Code source et mode d’emploi sur GitHub' title='Code source et mode d’emploi sur GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · Logiciel libre (GPL v3) · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nano", skip_lib:"Aller à la bibliothèque", skip_export:"Aller au téléchargement", skips_aria:"Accès rapide",
  step1:"<b>Assignez</b> : glissez une fonction de la bibliothèque (en bas) sur un bouton du nano, ou touchez le bouton pour la choisir.",
  step2:"<b>Réglez</b> les potentiomètres (roues) et les cases S, M, R en les touchant, ou toute la tranche avec ⚙ Régler.",
@@ -390,14 +423,14 @@ fr:{
  lib_note:"Bleu : touche Eos ou adresse OSC. Vert : commande tapée sur Eos (<code>#</code> = Enter).",
  empty_msg:"<b>Le nano est vide.</b> Commencez par un modèle, ou glissez <b>GO</b> sur <b>▶ Play</b>.",
  empty_wing:"Modèle Fader Wing", empty_subs:"Modèle Subs", empty_chans:"Modèle Circuits",
- preset_l:"Modèle des faders", set_title:"Réglages", wheels_hint:"1 Intensité · 2 Pan · 3 Pan fin · 4 Tilt · 5 Tilt fin · 6 Zoom", preset_wing:"Fader Wing (faders Eos 1–10)", preset_subs:"Subs", preset_chans:"Circuits",
+ preset_l:"Modèle des faders", set_title:"Réglages", tips_title:"Bon à savoir", wheels_hint:"1 Intensité · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom", preset_wing:"Fader Wing (faders Eos 1–10)", preset_subs:"Subs", preset_chans:"Circuits",
  preset_from:"Premier n°", preset_apply:"Appliquer aux 8 faders",
  rowbar_l:"Boutons S / M / R", row_aria:"Les 8 boutons {0}", row_diff:"(différents)", row_fngroup:"Fonction de la bibliothèque",
  scrollhint:"↔ Faites défiler le nano horizontalement pour voir toutes les tranches.",
  aria_transport:"Boutons de transport", aria_strips:"Tranches 1 à 8", aria_editor:"Réglages de la tranche", aria_file:"Fichier de configuration",
  export:"Télécharger le projet Chataigne (.zip)", saved:"✓ Enregistré dans ce navigateur", not_saved:"⚠ Non enregistré (navigation privée ?) : utilisez « Enregistrer dans un fichier »",
  save_file:"Enregistrer dans un fichier", open_file:"Ouvrir un fichier", clear_all:"Tout vider", reset_wing:"Revenir au modèle Fader Wing",
- bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potentiomètres en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. La configuration reste dans ce navigateur : enregistrez-la dans un fichier pour la retrouver ailleurs.",
+ bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potentiomètres en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. Le profil reste dans ce navigateur : enregistrez-le (Réglages → Profil) pour le retrouver ailleurs.",
  pick_go:"Aller au nano ↑", cancel:"Annuler", undo:"Annuler", remove:"Retirer", close:"Fermer",
  pick_msg:"« {0} » sélectionnée : touchez un bouton du nano ou une case S / M / R.",
  undone:"Modification annulée.",
@@ -434,21 +467,21 @@ fr:{
  w_fader:"fader {0}", w_knob:"potentiomètre {0}",
  exp_blocked:"Impossible de télécharger : corrigez d'abord les erreurs en rouge ({0}).",
  done_title:"✅ Projet prêt ({0} éléments)",
- done_1:"Décompressez <code>nanoKONTROL2-EOS.zip</code> et gardez les fichiers ensemble{0}.",
+ done_1:"Décompressez le <code>.zip</code> téléchargé et gardez les fichiers ensemble{0}.",
  done_1s:" (le script <code>encodeurs-relatifs.js</code> doit rester à côté du <code>.noisette</code>)",
  done_2:"Ouvrez <code>nanoKONTROL2-EOS.noisette</code> dans Chataigne.",
  done_3:"Vérifiez le périphérique MIDI (nanoKONTROL2) et l'adresse IP de la console dans le module OSC.",
  done_4:"Dans Eos, activez la réception OSC sur le port 8000 : <a href='{0}' target='_blank' rel='noopener'>pas à pas</a>.",
  cf_macro_err:"Indiquez un numéro de macro (ex. 5).", cf_osc_err:"Une adresse OSC commence par « / » (ex. /eos/key/live).", cf_added:"Fonction « {0} » ajoutée : glissez-la sur un bouton.",
  preset_done:"Modèle « {0} » appliqué aux faders (potentiomètres 1–6 inchangés).", preset_done_full:"Modèle « {0} » appliqué, avec les 6 roues.",
- knobbar_l:"Potentiomètres", rowbar_hint:"les 3 boutons de chaque tranche", strip_set_aria:"Régler la tranche {0}", x_hint:" · Suppr pour libérer", export_done:"✅ Projet téléchargé : suivez les 4 étapes pour l'ouvrir dans Chataigne.", export_see:"Voir les étapes", doc_wing:"Fader Wing", doc_blank:"Configuration vide", doc_subs:"Modèle Subs", doc_chans:"Modèle Circuits", doc_mine:"Ma configuration", doc_mod:"modifiée", doc_orig:"non modifiée", doc_title:"Configuration « {0} » : nouveau, ouvrir, enregistrer", doc_aria:"Configuration {0}, {1}. Menu nouveau, ouvrir, enregistrer", m_new_wing:"Nouveau : modèle Fader Wing", m_new_blank:"Nouveau : vide", m_open:"Ouvrir une configuration (.json)…", m_save:"Enregistrer la configuration (.json)", m_save_hint:"aussi incluse dans chaque .zip", empty_open:"Ouvrir une configuration…", knobs_clear:"Libérer les 8", knobs_cleared:"Potentiomètres libérés.",
+ knobbar_l:"Potentiomètres", rowbar_hint:"les 3 boutons de chaque tranche", strip_set_aria:"Régler la tranche {0}", x_hint:" · Suppr pour libérer", export_done:"✅ Projet téléchargé : suivez les 4 étapes pour l'ouvrir dans Chataigne.", export_see:"Voir les étapes", doc_l:"Profil", doc_wing:"Fader Wing", doc_blank:"Nouveau profil", doc_subs:"Subs", doc_chans:"Circuits", doc_mine:"Profil personnalisé", doc_mod:"● modifié", doc_new:"Nouveau ▾", doc_open:"Ouvrir…", doc_save:"Enregistrer (.json)", m_new_wing:"Profil Fader Wing", m_new_blank:"Profil vide", empty_open:"Ouvrir un profil…", knobs_clear:"Libérer les 8", knobs_cleared:"Potentiomètres libérés.",
  kpop_title:"Potentiomètre {0} — {1}", kpop_wheels:"Roues Eos", kpop_other:"Autre", kpop_setup:"Fader Eos / Sub / Circuit… → ⚙ Régler",
  free_btn:"✕ Libérer", bpop_title:"{0} — {1}", bpop_choose:"Choisir une fonction…", x_title:"Libérer {0}",
  wheels_place:"Roues par défaut", wheels_placed:"Roues par défaut placées sur les potentiomètres 1 à 6.",
- knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", knob_cleared:"Potentiomètre {0} libéré.",
- knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : touchez-le ensuite pour choisir une roue.", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
+ knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", fader_swap:"Tranches {0} ⇄ {1} : faders et S / M / R échangés", copy_title:"Recopier vers d'autres tranches", copy_from:"Tranches", copy_to:"à", copy_f:"Fader", copy_k:"Potentiomètre", copy_s:"S / M / R", copy_go:"Recopier", copy_none:"Cochez au moins un élément à recopier.", copy_hint:"Les numéros avancent de 1 par tranche (Sub 12 → 13 → 14…). Les roues et les S / M / R sont copiés tels quels. Avec la souris : tirez le petit carré orange dans le coin d'une tranche.", copy_done:"Tranche {0} recopiée vers {1}.", copy_capped:"Numéros plafonnés à la limite (faders Eos : 10).", fill_title:"Tirer vers d'autres tranches pour recopier (numéros +1)", fader_drag:"Glissez sur un autre fader pour échanger (avec S / M / R)", knob_cleared:"Potentiomètre {0} libéré.",
+ knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : touchez-le ensuite pour choisir une roue.", saved_file:"Profil enregistré dans {0}.",
  opened:"Configuration « {0} » ouverte.", bad_file:"« {0} » n'est pas une configuration du configurateur (fichier .json attendu).",
- cleared:"Nouvelle configuration vide (fonctions personnalisées conservées).", reset_done:"Nouvelle configuration Fader Wing.",
+ cleared:"Nouveau profil vide (fonctions personnalisées conservées).", reset_done:"Nouveau profil Fader Wing.",
  readme_name:"LISEZ-MOI.txt",
  readme:["nanoKONTROL2 -> ETC Eos : projet Chataigne","",
   "1. Gardez tous les fichiers de ce dossier ensemble{0}.",
@@ -462,12 +495,12 @@ fr:{
  readme_s:" (le script encodeurs-relatifs.js doit rester a cote du .noisette)"
 },
 en:{
- lang_btn:"Français", lang_aria:"Passer en français",
+ lang_btn:"Français", lang_aria:"Language / Langue",
  tab_all:"All", set_fold:"▴ Fold", set_unfold:"▾ Unfold", sum_mixed:"mixed",
  set_summary:"Faders: {0} · Wheels: {1} · {2}", custom_deleted:"Function “{0}” deleted.", custom_deleted_used_one:"Function “{1}” deleted and removed from {0} item.", custom_deleted_used_other:"Function “{1}” deleted and removed from {0} items.", legend_show:"🎨 Colour legend", legend_hide:"🎨 Hide legend", steps_show:"▾ Show steps", steps_hide:"▴ Hide steps", search_ph:"Search a function…", leg_used:"Already used (✓, ×2 = duplicate)", used_on:"used on {0}",
  lib_hint:"Hover a function for its description. Click it to select it and find it on the nano.", no_result:"No function “{0}”.", create_custom:"Create a custom function “{0}”",
  custom_empty:"No custom function yet: create one below.", rules_err_one:"⛔ {0} error", rules_err_other:"⛔ {0} errors", rules_warn_one:"⚠ {0} warning", rules_warn_other:"⚠ {0} warnings",
- footer:"Free software (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Source code and user guide on GitHub</a> · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
+ footer:"<a class='gh' href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener' aria-label='Source code and user guide on GitHub' title='Source code and user guide on GitHub'><svg viewBox='0 0 16 16' aria-hidden='true'><path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'/></svg></a> · Free software (GPL v3) · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
  title:"nanoKONTROL2 → ETC Eos fader wing configurator", skip:"Skip to the nano", skip_lib:"Skip to the library", skip_export:"Skip to download", skips_aria:"Quick access",
  step1:"<b>Assign</b>: drag a function from the library (below) onto a nano button, or tap the button to pick one.",
  step2:"<b>Set up</b> knobs (wheels) and S, M, R boxes by tapping them, or the whole strip with ⚙ Set up.",
@@ -481,14 +514,14 @@ en:{
  lib_note:"Blue: Eos key or OSC address. Green: command typed on Eos (<code>#</code> = Enter).",
  empty_msg:"<b>The nano is empty.</b> Start from a template, or drag <b>GO</b> onto <b>▶ Play</b>.",
  empty_wing:"Fader Wing template", empty_subs:"Subs template", empty_chans:"Channels template",
- preset_l:"Fader template", set_title:"Settings", wheels_hint:"1 Intensity · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom", preset_wing:"Fader Wing (Eos faders 1–10)", preset_subs:"Subs", preset_chans:"Channels",
+ preset_l:"Fader template", set_title:"Settings", tips_title:"Good to know", wheels_hint:"1 Intensity · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom", preset_wing:"Fader Wing (Eos faders 1–10)", preset_subs:"Subs", preset_chans:"Channels",
  preset_from:"First no.", preset_apply:"Apply to the 8 faders",
  rowbar_l:"S / M / R buttons", row_aria:"All 8 {0} buttons", row_diff:"(mixed)", row_fngroup:"Library function",
  scrollhint:"↔ Scroll the nano sideways to see all strips.",
  aria_transport:"Transport buttons", aria_strips:"Strips 1 to 8", aria_editor:"Strip settings", aria_file:"Configuration file",
  export:"Download the Chataigne project (.zip)", saved:"✓ Saved in this browser", not_saved:"⚠ Not saved (private browsing?): use “Save to file”",
  save_file:"Save to file", open_file:"Open file", clear_all:"Clear all", reset_wing:"Back to the Fader Wing template",
- bottom_note:"The Eos fader bank has 10 faders: Eos pages move by 10 with PAGE FADERS + / −. Knobs used as wheels rely on the <code>encodeurs-relatifs.js</code> script, included in the .zip. The configuration stays in this browser: save it to a file to use it elsewhere.",
+ bottom_note:"The Eos fader bank has 10 faders: Eos pages move by 10 with PAGE FADERS + / −. Knobs used as wheels rely on the <code>encodeurs-relatifs.js</code> script, included in the .zip. The profile stays in this browser: save it (Settings → Profile) to use it elsewhere.",
  pick_go:"Go to the nano ↑", cancel:"Cancel", undo:"Undo", remove:"Remove", close:"Close",
  pick_msg:"“{0}” selected: tap a nano button or an S / M / R box.",
  undone:"Change undone.",
@@ -525,21 +558,21 @@ en:{
  w_fader:"fader {0}", w_knob:"knob {0}",
  exp_blocked:"Can't download: fix the errors in red first ({0}).",
  done_title:"✅ Project ready ({0} items)",
- done_1:"Unzip <code>nanoKONTROL2-EOS.zip</code> and keep the files together{0}.",
+ done_1:"Unzip the downloaded <code>.zip</code> and keep the files together{0}.",
  done_1s:" (the <code>encodeurs-relatifs.js</code> script must stay next to the <code>.noisette</code>)",
  done_2:"Open <code>nanoKONTROL2-EOS.noisette</code> in Chataigne.",
  done_3:"Check the MIDI device (nanoKONTROL2) and the console's IP address in the OSC module.",
  done_4:"In Eos, enable OSC reception on port 8000: <a href='{0}' target='_blank' rel='noopener'>step by step</a>.",
  cf_macro_err:"Enter a macro number (e.g. 5).", cf_osc_err:"An OSC address starts with “/” (e.g. /eos/key/live).", cf_added:"Function “{0}” added: drag it onto a button.",
  preset_done:"Template “{0}” applied to the faders (knobs 1–6 unchanged).", preset_done_full:"Template “{0}” applied, with the 6 wheels.",
- knobbar_l:"Knobs", rowbar_hint:"the 3 buttons of each strip", strip_set_aria:"Set up strip {0}", x_hint:" · Delete to clear", export_done:"✅ Project downloaded: follow the 4 steps to open it in Chataigne.", export_see:"See the steps", doc_wing:"Fader Wing", doc_blank:"Empty configuration", doc_subs:"Subs template", doc_chans:"Channels template", doc_mine:"My configuration", doc_mod:"modified", doc_orig:"unmodified", doc_title:"Configuration “{0}”: new, open, save", doc_aria:"Configuration {0}, {1}. New, open, save menu", m_new_wing:"New: Fader Wing template", m_new_blank:"New: empty", m_open:"Open a configuration (.json)…", m_save:"Save the configuration (.json)", m_save_hint:"also included in every .zip", empty_open:"Open a configuration…", knobs_clear:"Clear all 8", knobs_cleared:"Knobs cleared.",
+ knobbar_l:"Knobs", rowbar_hint:"the 3 buttons of each strip", strip_set_aria:"Set up strip {0}", x_hint:" · Delete to clear", export_done:"✅ Project downloaded: follow the 4 steps to open it in Chataigne.", export_see:"See the steps", doc_l:"Profile", doc_wing:"Fader Wing", doc_blank:"New profile", doc_subs:"Subs", doc_chans:"Channels", doc_mine:"Custom profile", doc_mod:"● modified", doc_new:"New ▾", doc_open:"Open…", doc_save:"Save (.json)", m_new_wing:"Fader Wing profile", m_new_blank:"Empty profile", empty_open:"Open a profile…", knobs_clear:"Clear all 8", knobs_cleared:"Knobs cleared.",
  kpop_title:"Knob {0} — {1}", kpop_wheels:"Eos wheels", kpop_other:"Other", kpop_setup:"Eos fader / Sub / Channel… → ⚙ Set up",
  free_btn:"✕ Clear", bpop_title:"{0} — {1}", bpop_choose:"Choose a function…", x_title:"Clear {0}",
  wheels_place:"Default wheels", wheels_placed:"Default wheels placed on knobs 1 to 6.",
- knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", knob_cleared:"Knob {0} cleared.",
- knob_nofn:"A button function can't go on a knob: tap the knob afterwards to pick a wheel.", saved_file:"Configuration saved to nanokontrol2-config.json.",
+ knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", fader_swap:"Strips {0} ⇄ {1}: faders and S / M / R swapped", copy_title:"Copy to other strips", copy_from:"Strips", copy_to:"to", copy_f:"Fader", copy_k:"Knob", copy_s:"S / M / R", copy_go:"Copy", copy_none:"Tick at least one item to copy.", copy_hint:"Numbers go up by 1 per strip (Sub 12 → 13 → 14…). Wheels and S / M / R are copied as they are. With the mouse: drag the small orange square in a strip's corner.", copy_done:"Strip {0} copied to {1}.", copy_capped:"Numbers capped at the limit (Eos faders: 10).", fill_title:"Drag to other strips to copy (numbers +1)", fader_drag:"Drag onto another fader to swap (with S / M / R)", knob_cleared:"Knob {0} cleared.",
+ knob_nofn:"A button function can't go on a knob: tap the knob afterwards to pick a wheel.", saved_file:"Profile saved to {0}.",
  opened:"Configuration “{0}” opened.", bad_file:"“{0}” is not a configurator file (.json expected).",
- cleared:"New empty configuration (custom functions kept).", reset_done:"New Fader Wing configuration.",
+ cleared:"New empty profile (custom functions kept).", reset_done:"New Fader Wing profile.",
  readme_name:"README.txt",
  readme:["nanoKONTROL2 -> ETC Eos: Chataigne project","",
   "1. Keep all the files of this folder together{0}.",
@@ -568,10 +601,9 @@ const NANO_URL=()=>REPO+"/blob/main/nanokontrol2/README"+(LANG==="en"?".en":"")+
 // etat de l'interface : legende ouverte, etapes affichees (memorise dans le navigateur)
 const ui=(()=>{ try{ return Object.assign({legend:false,steps:true,settings:true},JSON.parse(localStorage.getItem("nano-eos-ui")||"{}")); }catch(e){ return {legend:false,steps:true,settings:true}; } })();
 function applyUI(){
-  document.getElementById("legends").hidden=!ui.legend; document.getElementById("steps").hidden=!ui.steps;
-  const lb=document.getElementById("legend-btn"); lb.textContent=t(ui.legend?"legend_hide":"legend_show"); lb.setAttribute("aria-expanded",ui.legend?"true":"false");
+  document.getElementById("steps").hidden=!ui.steps;
   // case Reglages : depliee = tout ; repliee = resume d'une ligne
-  document.getElementById("set-body").hidden=!ui.settings; document.getElementById("legend-btn").hidden=!ui.settings;
+  document.getElementById("set-body").hidden=!ui.settings;
   document.getElementById("set-section").classList.toggle("folded",!ui.settings); document.getElementById("set-summary").hidden=ui.settings;
   const fb=document.getElementById("set-btn"); fb.textContent=t(ui.settings?"set_fold":"set_unfold"); fb.setAttribute("aria-expanded",ui.settings?"true":"false");
   renderSummary();
@@ -584,7 +616,7 @@ function renderSummary(){
   const fad=ft.length>1?t("sum_mixed"):ft[0]==="none"?t("free"):targetLabel(ft[0],Math.min(...fn))+(Math.max(...fn)>Math.min(...fn)?"–"+Math.max(...fn):"");
   const wheels=cfg.knobs.filter(k=>k.m==="rel").length;
   const smr=["S","M","R"].map(sl=>{ const v=cfg.smr.map(x=>x[sl].b==="fn"?"fn:"+x[sl].id:x[sl].b); return sl+" "+(v.every(x=>x===v[0])?valLabel(v[0],"fader"):t("row_diff")); }).join(" · ");
-  el.textContent=t("set_summary",fad,wheels,smr);
+  el.textContent=docName()+" · "+t("set_summary",fad,wheels,smr);
 }
 function toggleUI(k){ ui[k]=!ui[k]; try{ localStorage.setItem("nano-eos-ui",JSON.stringify(ui)); }catch(e){} applyUI(); }
 function applyStatic(){
@@ -594,7 +626,8 @@ function applyStatic(){
   document.querySelectorAll("[data-p]").forEach(e=>{ e.placeholder=t(e.dataset.p); });
   document.querySelectorAll("[data-a]").forEach(e=>{ e.setAttribute("aria-label",t(e.dataset.a)); });
   renderDoc();
-  const lb=document.getElementById("lang"); lb.textContent=t("lang_btn"); lb.setAttribute("aria-label",t("lang_aria")); lb.lang=LANG==="fr"?"en":"fr";
+  const lb=document.getElementById("lang"); lb.textContent="🌐 "+LANG.toUpperCase()+" ▾"; lb.setAttribute("aria-label",t("lang_aria")); lb.title=t("lang_aria");
+  document.querySelectorAll("#lang-menu [data-lang]").forEach(b=>b.setAttribute("aria-checked",b.dataset.lang===LANG?"true":"false"));
   updateCustomValue(); setSaved(true); applyUI();
 }
 function setLang(l){ LANG=l; try{ localStorage.setItem("nano-eos-lang",l); }catch(e){}
@@ -681,9 +714,9 @@ const MAXN = {fader:10,sub:999,chan:99999};
 const WHEELS = [
  {id:"w:intens",  label:{fr:"INTENSITÉ",en:"INTENSITY"}, k:{m:"rel",p:"intens",w:"coarse",k:1}},
  {id:"w:pan",     label:{fr:"PAN",en:"PAN"},             k:{m:"rel",p:"pan",w:"coarse",k:10}},
- {id:"w:panfine", label:{fr:"PAN FIN",en:"PAN FINE"},    k:{m:"rel",p:"pan",w:"coarse",k:1}},
+ {id:"w:panfine", label:"PAN FINE",    k:{m:"rel",p:"pan",w:"coarse",k:1}},
  {id:"w:tilt",    label:{fr:"TILT",en:"TILT"},           k:{m:"rel",p:"tilt",w:"coarse",k:5}},
- {id:"w:tiltfine",label:{fr:"TILT FIN",en:"TILT FINE"},  k:{m:"rel",p:"tilt",w:"coarse",k:1}},
+ {id:"w:tiltfine",label:"TILT FINE",  k:{m:"rel",p:"tilt",w:"coarse",k:1}},
  {id:"w:zoom",    label:{fr:"ZOOM",en:"ZOOM"},           k:{m:"rel",p:"zoom",w:"coarse",k:3}}
 ];
 const isWheel=id=>typeof id==="string"&&id.startsWith("w:");
@@ -746,15 +779,15 @@ function behLabel(strip,slot){
   return behName(b.b,cfg.faders[strip].t);
 }
 function faderAddr(ty,n){ return ty==="fader"?"/eos/fader/1/"+n:ty==="sub"?"/eos/sub/"+n:"/eos/chan/"+n+"/intens"; }
-// document : nom d'origine (modele, vide, fichier) + empreinte pour savoir s'il a ete modifie
+// profil : nom libre + empreinte pour savoir s'il a ete modifie depuis sa creation, son ouverture ou son enregistrement
 const sig=c=>JSON.stringify([c.buttons,c.faders,c.knobs,c.smr]);
-function setDoc(k,file){ cfg.doc={k,file:file||"",base:sig(cfg)}; }
-function docName(){ const d=cfg.doc||{}; return d.k==="file"?d.file:t("doc_"+(d.k||"mine")); }
+function setDoc(name){ cfg.doc={name:name||t("doc_mine"),base:sig(cfg)}; }
+const docName=()=>(cfg.doc&&cfg.doc.name)||t("doc_mine");
 const docModified=()=>!cfg.doc||cfg.doc.base!==sig(cfg);
-function renderDoc(){ const b=document.getElementById("proj-btn"), m=docModified(), n=docName();
-  b.innerHTML="📁 <span class='dname'></span><span class='dstate"+(m?" mod":"")+"'></span> ▾";
-  b.querySelector(".dname").textContent=n; b.querySelector(".dstate").textContent=m?"· "+t("doc_mod"):"";
-  b.title=t("doc_title",n); b.setAttribute("aria-label",t("doc_aria",n,t(m?"doc_mod":"doc_orig"))); }
+// nom de fichier : sans accents ni caracteres speciaux
+const slug=n=>n.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9_-]+/g,"-").replace(/^-+|-+$/g,"")||"profil";
+function renderDoc(){ const inp=document.getElementById("doc-name"); if(document.activeElement!==inp) inp.value=docName();
+  document.getElementById("doc-state").textContent=docModified()?t("doc_mod"):""; }
 function isEmpty(){ return !Object.keys(cfg.buttons).length && cfg.faders.every(f=>f.t==="none") && cfg.knobs.every(k=>k.m==="none"); }
 
 // ---------- mode "toucher une fonction puis un bouton" ----------
@@ -798,7 +831,7 @@ function chip(f,use){
   el.title=info; el.setAttribute("aria-description",info);
   el.addEventListener("mouseenter",()=>setDesc(info)); el.addEventListener("focus",()=>setDesc(info));
   el.addEventListener("mouseleave",()=>setDesc()); el.addEventListener("blur",()=>setDesc());
-  el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain","fn:"+f.id));
+  el.addEventListener("dragstart",e=>{ e.dataTransfer.setData("text/plain","fn:"+f.id); e.dataTransfer.effectAllowed="copy"; dragStart("fn"); });
   const pick=()=>{ setPick(selected===f.id?null:f.id); if(where.length) findOnNano(f.id); };
   el.addEventListener("click",pick);
   el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();}
@@ -859,7 +892,7 @@ function renderLib(){
 function renderButtons(){
   document.querySelectorAll(".target").forEach(x=>{
     const cc=x.dataset.cc, f=fnById(cfg.buttons[cc]);
-    x.className="target"+(f?" "+f.type:""); x.replaceChildren();
+    x.className="target dz"+(f?" "+f.type:""); x.replaceChildren();
     const hw=document.createElement("span"); hw.className="hw"; hw.textContent=BTN_LABEL[cc];
     const fn=document.createElement("span"); fn.className="fn"+(f?"":" empty"); fn.textContent=f?fnLabel(f):t("free_drop");
     x.append(hw,fn); x.title=f?(fnLabel(f)+" : "+f.value+t("x_hint")):t("free_title");
@@ -887,6 +920,16 @@ function roving(container,sel,key,grid){
       e.preventDefault(); if(n) n.focus(); }); }
   apply();
 }
+let fillSrc=null;
+function markFill(j){ document.querySelectorAll(".strip").forEach(s=>{ const k=+s.dataset.strip;
+  s.classList.toggle("fillsel",j!==null&&fillSrc!==null&&k!==fillSrc&&k>=Math.min(fillSrc,j)&&k<=Math.max(fillSrc,j));
+  s.classList.toggle("fillsrc",j!==null&&k===fillSrc); }); }
+// glisser-deposer : quel type d'element est en cours, et ce qu'accepte chaque zone
+const DROP={target:["fn","btn"],slot:["fn"],knob:["knob"],fader:["fader"]};
+const canDrop=z=>(DROP[z]||[]).includes(document.body.dataset.drag);
+function dragStart(kind){ setTimeout(()=>{ document.body.dataset.drag=kind; },0); }
+document.addEventListener("dragend",()=>{ fillSrc=null; markFill(null); delete document.body.dataset.drag; document.querySelectorAll(".over").forEach(x=>x.classList.remove("over")); });
+document.addEventListener("drop",()=>{ delete document.body.dataset.drag; });
 // croix de liberation : hors tabulation (au clavier : Suppr, ou « Libérer » dans le menu)
 function xButton(title,fn){ const b=document.createElement("span"); b.className="xq"; b.textContent="✕"; b.title=title; b.setAttribute("aria-hidden","true");
   b.addEventListener("click",e=>{ e.stopPropagation(); e.preventDefault(); fn(); }); b.addEventListener("mousedown",e=>e.stopPropagation()); return b; }
@@ -911,7 +954,7 @@ function renderStrips(){
       b.setAttribute("aria-label",t("slot_aria",slot,i+1,behLabel(i,slot))+(ok?"":t("slot_ignored")));
       b.innerHTML="<b>"+slot+"</b> "+esc(behLabel(i,slot));
       b.title=ok?t("slot_title",slot,i+1,behLabel(i,slot)):t("slot_na",behName(cur.b,"fader"),t("tn_"+cfg.faders[i].t));
-      b.addEventListener("dragover",e=>{e.preventDefault();b.classList.add("over");});
+      b.classList.add("dz"); b.addEventListener("dragover",e=>{ if(!canDrop("slot")) return; e.preventDefault(); b.classList.add("over"); });
       b.addEventListener("dragleave",()=>b.classList.remove("over"));
       b.addEventListener("drop",e=>{ e.preventDefault(); b.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(d.startsWith("fn:")) setSlotFn(i,slot,d.slice(3)); });
       b.addEventListener("click",e=>{ e.stopPropagation(); if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); } else openPop(i,slot,b); });
@@ -922,7 +965,21 @@ function renderStrips(){
     const fl=document.createElement("div"); fl.className="lbl t-"+cfg.faders[i].t+(cfg.faders[i].t==="none"?" empty":" set"); fl.textContent=targetLabel(cfg.faders[i].t,cfg.faders[i].n);
     const cf=document.createElement("button"); cf.type="button"; cf.className="cfg"; cf.dataset.row=4; cf.dataset.col=i; cf.tabIndex=-1; cf.textContent=openStrip===i?t("strip_close"):t("strip_set");
     cf.setAttribute("aria-expanded",openStrip===i?"true":"false"); cf.setAttribute("aria-controls","editor"); cf.setAttribute("aria-label",t("strip_set_aria",i+1));
-    s.append(fd,fl,cf);
+    const fw=document.createElement("div"); fw.className="fwrap dz"; fw.append(fd,fl); fw.draggable=cfg.faders[i].t!=="none";
+    fw.title=cfg.faders[i].t!=="none"?t("fader_drag"):"";
+    fw.addEventListener("dragstart",e=>{ e.stopPropagation(); e.dataTransfer.setData("text/plain","fader:"+i); dragStart("fader"); });
+    fw.addEventListener("dragover",e=>{ if(!canDrop("fader")) return; e.preventDefault(); fw.classList.add("over"); });
+    fw.addEventListener("dragleave",()=>fw.classList.remove("over"));
+    fw.addEventListener("drop",e=>{ e.preventDefault(); e.stopPropagation(); fw.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(d.startsWith("fader:")) swapFaders(+d.slice(6),i); });
+    s.append(fw,cf);
+    // poignee de recopie (souris) : tirer vers d'autres tranches
+    const fh=document.createElement("span"); fh.className="fillh"; fh.draggable=true; fh.title=t("fill_title"); fh.setAttribute("aria-hidden","true");
+    fh.addEventListener("click",e=>e.stopPropagation()); fh.addEventListener("mousedown",e=>e.stopPropagation());
+    fh.addEventListener("dragstart",e=>{ e.stopPropagation(); e.dataTransfer.setData("text/plain","fill:"+i); e.dataTransfer.effectAllowed="copy"; fillSrc=i; dragStart("fill"); });
+    s.append(fh);
+    s.addEventListener("dragover",e=>{ if(document.body.dataset.drag!=="fill"||fillSrc===null) return; e.preventDefault(); markFill(i); });
+    s.addEventListener("drop",e=>{ if(fillSrc===null) return; const d=e.dataTransfer.getData("text/plain"); if(!d.startsWith("fill:")) return; e.preventDefault(); e.stopPropagation();
+      const src=fillSrc, l=[]; for(let j=Math.min(src,i);j<=Math.max(src,i);j++) l.push(j); fillSrc=null; markFill(null); copyStrip(src,l,{f:true,k:true,s:true}); });
     const open=()=>{ openStrip=(openStrip===i)?null:i; renderStrips(); renderEditor(); const ns=document.querySelector('.strip[data-strip="'+i+'"] .cfg'); if(ns) ns.focus({preventScroll:true});
       if(openStrip!==null) document.getElementById("editor").scrollIntoView({behavior:"smooth",block:"nearest"}); };
     // potentiometre : menu (roues, autre reglage, liberer) ; glisser sur un autre potentiometre = echange
@@ -930,9 +987,9 @@ function renderStrips(){
     kn.addEventListener("click",knobAct);
     kn.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); knobAct(e); }
       if(e.key==="Delete"||e.key==="Backspace"){ e.preventDefault(); e.stopPropagation(); clearKnob(i); } });
-    kn.addEventListener("dragstart",e=>{ e.stopPropagation(); e.dataTransfer.setData("text/plain","knob:"+i); });
+    kn.classList.add("dz"); kn.addEventListener("dragstart",e=>{ e.stopPropagation(); e.dataTransfer.setData("text/plain","knob:"+i); dragStart("knob"); });
     [kn,kl].forEach(z=>{
-      z.addEventListener("dragover",e=>{ e.preventDefault(); kn.classList.add("over"); });
+      z.addEventListener("dragover",e=>{ if(!canDrop("knob")) return; e.preventDefault(); kn.classList.add("over"); });
       z.addEventListener("dragleave",()=>kn.classList.remove("over"));
       z.addEventListener("drop",e=>{ e.preventDefault(); e.stopPropagation(); kn.classList.remove("over"); const d=e.dataTransfer.getData("text/plain");
         if(d.startsWith("knob:")) swapKnobs(+d.slice(5),i);
@@ -945,6 +1002,21 @@ function renderStrips(){
 }
 function focusKnob(i){ const n=document.querySelector('.knob[data-knob="'+i+'"]'); if(n) n.focus(); }
 function setKnobWheel(i,w){ if(!w) return; closePop(false); cfg.knobs[i]={...w.k}; changed(); toast(t("knob_set",i+1,L(w.label))); focusKnob(i); }
+// recopie d'une tranche : numeros +1 par tranche (fader, sub, circuit), roues et S / M / R copies tels quels
+const copyOpt={f:true,k:true,s:true}; let copyRange=null;
+function copyStrip(src,targets,o){
+  targets=targets.filter(j=>j!==src&&j>=0&&j<8); if(!targets.length) return;
+  let capped=false;
+  const step=(x,off)=>{ if(!x||x.n===undefined) return {...x}; const max=MAXN[x.t||x.m]||99999, n=x.n+off, c=Math.max(1,Math.min(max,n)); if(c!==n) capped=true; return {...x,n:c}; };
+  const lo=Math.min(...targets)+1, hi=Math.max(...targets)+1;
+  // calcul d'abord, pour annoncer un eventuel plafonnement dans la meme notification (qui garde Annuler)
+  const res=targets.map(j=>{ const off=j-src; return {j,
+    f:o.f?step(cfg.faders[src],off):null,
+    k:o.k?(cfg.knobs[src].m==="rel"?{...cfg.knobs[src]}:step(cfg.knobs[src],off)):null,
+    s:o.s?JSON.parse(JSON.stringify(cfg.smr[src])):null}; });
+  undoable(t("copy_done",src+1,lo===hi?String(lo):lo+"–"+hi)+(capped?" "+t("copy_capped"):""),()=>{ res.forEach(r=>{ if(r.f) cfg.faders[r.j]=r.f; if(r.k) cfg.knobs[r.j]=r.k; if(r.s) cfg.smr[r.j]=r.s; }); });
+}
+function swapFaders(a,b){ if(a===b) return; [cfg.faders[a],cfg.faders[b]]=[cfg.faders[b],cfg.faders[a]]; [cfg.smr[a],cfg.smr[b]]=[cfg.smr[b],cfg.smr[a]]; changed(); toast(t("fader_swap",a+1,b+1)); }
 function swapKnobs(a,b){ if(a===b) return; [cfg.knobs[a],cfg.knobs[b]]=[cfg.knobs[b],cfg.knobs[a]]; changed(); toast(t("knob_swap",a+1,b+1)); focusKnob(b); }
 function clearKnob(i){ if(cfg.knobs[i].m==="none") return; undoable(t("knob_cleared",i+1),()=>{ cfg.knobs[i]={m:"none"}; }); }
 function focusSlot(i,slot){ const n=document.querySelector('.slot[data-strip="'+i+'"][data-slot="'+slot+'"]'); if(n) n.focus(); }
@@ -1000,6 +1072,24 @@ function renderEditor(){
     fs2.append(sent((kb.p==="intens"?"/eos/wheel/level":"/eos/wheel/"+kb.w+"/"+(kb.p||"…"))+t("ed_script")));
   } else if(kb.m!=="none") fs2.append(field(kb.m==="fader"?t("ed_bank"):t("ed_num"),numInput("ed-kn",kb.n,MAXN[kb.m],v=>{kb.n=v;changed();})), sent(faderAddr(kb.m,kb.n)));
   grid.append(fs2);
+
+  // recopier vers d'autres tranches
+  if(!copyRange||copyRange.src!==i) copyRange={src:i,from:i<7?i+2:1,to:i<7?8:7};
+  const fs3=document.createElement("fieldset"); fs3.className="copy"; const lg3=document.createElement("legend"); lg3.textContent=t("copy_title"); fs3.append(lg3);
+  const row=document.createElement("div"); row.className="f";
+  const num=(id,key)=>{ const n=document.createElement("input"); n.type="number"; n.id=id; n.min=1; n.max=8; n.value=copyRange[key];
+    n.addEventListener("change",()=>{ copyRange[key]=Math.max(1,Math.min(8,parseInt(n.value)||1)); n.value=copyRange[key]; }); return n; };
+  const lab=(txt,forId)=>{ const l=document.createElement("label"); l.textContent=txt; if(forId) l.htmlFor=forId; return l; };
+  row.append(lab(t("copy_from"),"ed-cf"),num("ed-cf","from"),lab(t("copy_to"),"ed-ct"),num("ed-ct","to"));
+  [["f","copy_f"],["k","copy_k"],["s","copy_s"]].forEach(([k,lbl])=>{ const c=document.createElement("input"); c.type="checkbox"; c.id="ed-c"+k; c.checked=copyOpt[k];
+    c.addEventListener("change",()=>{ copyOpt[k]=c.checked; }); const l=lab(t(lbl),c.id); l.className="ck"; l.prepend(c); row.append(l); });
+  const go=document.createElement("button"); go.type="button"; go.id="ed-copy"; go.className="primary"; go.textContent=t("copy_go");
+  go.onclick=()=>{ if(!copyOpt.f&&!copyOpt.k&&!copyOpt.s){ toast(t("copy_none")); return; }
+    const a=Math.min(copyRange.from,copyRange.to)-1, b=Math.max(copyRange.from,copyRange.to)-1, l=[]; for(let j=a;j<=b;j++) l.push(j);
+    copyStrip(i,l,copyOpt); document.getElementById("ed-copy")?.focus(); };
+  row.append(go); fs3.append(row);
+  const hp=document.createElement("p"); hp.className="hint"; hp.textContent=t("copy_hint"); fs3.append(hp);
+  grid.append(fs3);
 }
 
 // ---------- fenetre S / M / R ----------
@@ -1136,8 +1226,8 @@ function removeButton(cc){ const f=fnById(cfg.buttons[cc]); if(!f) return; undoa
 function initButtons(){
   document.querySelectorAll(".target").forEach(x=>{
     const cc=x.dataset.cc; x.tabIndex=0; x.setAttribute("role","button"); x.draggable=true;
-    x.addEventListener("dragstart",e=>{ if(cfg.buttons[cc]) e.dataTransfer.setData("text/plain","from:"+cc+":"+cfg.buttons[cc]); });
-    x.addEventListener("dragover",e=>{e.preventDefault();x.classList.add("over");});
+    x.classList.add("dz"); x.addEventListener("dragstart",e=>{ if(!cfg.buttons[cc]){ e.preventDefault(); return; } e.dataTransfer.setData("text/plain","from:"+cc+":"+cfg.buttons[cc]); dragStart("btn"); });
+    x.addEventListener("dragover",e=>{ if(!canDrop("target")) return; e.preventDefault(); x.classList.add("over"); });
     x.addEventListener("dragleave",()=>x.classList.remove("over"));
     x.addEventListener("drop",e=>{ e.preventDefault(); x.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(!d) return;
       if(d.startsWith("from:")){ const [,src,id]=d.split(":"); if(src===cc) return; const here=cfg.buttons[cc]; setButton(cc,id); setButton(src,here||null); toast(t("swapped",BTN_LABEL[src],BTN_LABEL[cc])); }
@@ -1242,7 +1332,7 @@ function exportProject(){
   const r=buildProject(), dir="nanoKONTROL2-EOS/";
   const files=[{name:dir+"nanoKONTROL2-EOS.noisette",text:JSON.stringify(r.project)},{name:dir+"nanokontrol2-config.json",text:JSON.stringify(cfg,null,1)},{name:dir+t("readme_name"),text:readme(!!r.script)}];
   if(r.script) files.splice(1,0,{name:dir+"encodeurs-relatifs.js",text:r.script});
-  download("nanoKONTROL2-EOS.zip",makeZip(files));
+  download("nanoKONTROL2-EOS-"+slug(docName())+".zip",makeZip(files));
   const d=document.getElementById("done");
   d.innerHTML="<h3>"+t("done_title",r.count)+"</h3><ol><li>"+t("done_1",r.script?t("done_1s"):"")+"</li><li>"+t("done_2")+"</li><li>"+t("done_3")+"</li><li>"+t("done_4",HELP_URL())+"</li></ol>";
   d.classList.add("show"); d.focus();
@@ -1268,7 +1358,7 @@ document.getElementById("custom-form").addEventListener("submit",e=>{
 function applyPreset(k,st,withWheels){ undoable(t(withWheels?"preset_done_full":"preset_done",t("preset_"+k)),()=>{
   const p=presetStrips(k,st); cfg.faders=p.faders; cfg.smr=p.smr;
   if(k==="wing"){ cfg.knobs[6]={m:"fader",n:9}; cfg.knobs[7]={m:"fader",n:10}; } else { cfg.knobs[6]={m:"none"}; cfg.knobs[7]={m:"none"}; }
-  if(withWheels){ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); if(k==="wing"&&!Object.keys(cfg.buttons).length) cfg.buttons={...DEFAULT_BUTTONS}; setDoc(k); }
+  if(withWheels){ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); if(k==="wing"&&!Object.keys(cfg.buttons).length) cfg.buttons={...DEFAULT_BUTTONS}; setDoc(t("doc_"+k)); }
   openStrip=null; }); }
 function placeWheels(){ undoable(t("wheels_placed"),()=>{ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); }); }
 document.getElementById("place-wheels").onclick=placeWheels;
@@ -1281,36 +1371,46 @@ document.querySelectorAll("#empty [data-preset]").forEach(b=>b.onclick=()=>apply
 document.getElementById("export").onclick=exportProject;
 document.getElementById("rules-count").onclick=()=>document.getElementById("rules").scrollIntoView({behavior:"smooth",block:"center"});
 document.getElementById("load-cfg").onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
-  r.onload=()=>{ try{ const c=JSON.parse(r.result); if(!c.faders||!c.knobs||!c.smr||!c.buttons) throw 0; undoable(t("opened",f.name),()=>{ cfg=c; cfg.custom=cfg.custom||[]; setDoc("file",f.name.replace(/\.json$/i,"")); openStrip=null; }); }
+  r.onload=()=>{ try{ const c=JSON.parse(r.result); if(!c.faders||!c.knobs||!c.smr||!c.buttons) throw 0; undoable(t("opened",f.name),()=>{ const nm=(c.doc&&c.doc.name)||f.name.replace(/\.json$/i,""); cfg=c; cfg.custom=cfg.custom||[]; setDoc(nm); openStrip=null; }); }
     catch(x){ toast(t("bad_file",f.name)); } };
   r.readAsText(f); e.target.value=""; };
-document.getElementById("legend-btn").onclick=()=>toggleUI("legend");
 document.getElementById("steps-btn").onclick=()=>toggleUI("steps");
 document.getElementById("set-btn").onclick=()=>toggleUI("settings");
-// menu Projet : nouveau, ouvrir, enregistrer (a l'oppose du bouton Telecharger)
+// menus deroulants (Nouveau, langue) : fleches, Echap, focus rendu au bouton
+const MENUS=[];
+function menu(btn,box){
+  const items=()=>[...box.querySelectorAll("[role^=menuitem]")];
+  const m={ open(last){ MENUS.forEach(o=>o!==m&&o.close()); box.hidden=false; btn.setAttribute("aria-expanded","true"); const l=items(); (l.find(x=>x.getAttribute("aria-checked")==="true")||(last?l[l.length-1]:l[0])).focus(); },
+    close(refocus){ if(box.hidden) return; box.hidden=true; btn.setAttribute("aria-expanded","false"); if(refocus) btn.focus(); }, box };
+  btn.addEventListener("click",e=>{ e.stopPropagation(); box.hidden?m.open():m.close(true); });
+  btn.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"){ e.preventDefault(); m.open(); } if(e.key==="ArrowUp"){ e.preventDefault(); m.open(true); } });
+  box.addEventListener("keydown",e=>{ const l=items(), i=l.indexOf(document.activeElement);
+    if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault(); l[(i+(e.key==="ArrowDown"?1:-1)+l.length)%l.length].focus(); }
+    else if(e.key==="Home"){ e.preventDefault(); l[0].focus(); } else if(e.key==="End"){ e.preventDefault(); l[l.length-1].focus(); }
+    else if(e.key==="Escape"){ e.preventDefault(); e.stopPropagation(); m.close(true); } else if(e.key==="Tab") m.close(false); });
+  MENUS.push(m); return m;
+}
+document.addEventListener("click",e=>{ MENUS.forEach(m=>{ if(!m.box.contains(e.target)) m.close(false); }); });
+// profil : nouveau, ouvrir, enregistrer, renommer
 const PROJ={
-  "new-wing":()=>undoable(t("reset_done"),()=>{ const c=cfg.custom; cfg=defaultCfg(); cfg.custom=c||[]; setDoc("wing"); openStrip=null; }),
-  "new-blank":()=>undoable(t("cleared"),()=>{ cfg=blankCfg(); setDoc("blank"); openStrip=null; }),
+  "new-wing":()=>undoable(t("reset_done"),()=>{ const c=cfg.custom; cfg=defaultCfg(); cfg.custom=c||[]; setDoc(t("doc_wing")); openStrip=null; }),
+  "new-blank":()=>undoable(t("cleared"),()=>{ cfg=blankCfg(); setDoc(t("doc_blank")); openStrip=null; }),
   "open":()=>document.getElementById("load-cfg").click(),
-  "save":()=>{ const fn=(cfg.doc&&cfg.doc.k==="file"&&cfg.doc.file)||"nanokontrol2-config"; setDoc("file",fn); store.save(); renderDoc(); download(fn+".json",JSON.stringify(cfg,null,1),"application/json"); toast(t("saved_file")); }
+  "save":()=>{ setDoc(docName()); store.save(); renderDoc(); download(slug(docName())+".json",JSON.stringify(cfg,null,1),"application/json"); toast(t("saved_file",slug(docName())+".json")); }
 };
-const projBtn=document.getElementById("proj-btn"), projMenu=document.getElementById("proj-menu");
-const projItems=()=>[...projMenu.querySelectorAll("[role=menuitem]")];
-function projOpen(focusLast){ projMenu.hidden=false; projBtn.setAttribute("aria-expanded","true"); (focusLast?projItems().slice(-1)[0]:projItems()[0]).focus(); }
-function projClose(refocus){ if(projMenu.hidden) return; projMenu.hidden=true; projBtn.setAttribute("aria-expanded","false"); if(refocus) projBtn.focus(); }
-projBtn.onclick=e=>{ e.stopPropagation(); projMenu.hidden?projOpen():projClose(true); };
-projBtn.addEventListener("keydown",e=>{ if(e.key==="ArrowDown"){ e.preventDefault(); projOpen(); } if(e.key==="ArrowUp"){ e.preventDefault(); projOpen(true); } });
-projMenu.addEventListener("keydown",e=>{ const l=projItems(), i=l.indexOf(document.activeElement);
-  if(e.key==="ArrowDown"||e.key==="ArrowUp"){ e.preventDefault(); l[(i+(e.key==="ArrowDown"?1:-1)+l.length)%l.length].focus(); }
-  else if(e.key==="Home"){ e.preventDefault(); l[0].focus(); } else if(e.key==="End"){ e.preventDefault(); l[l.length-1].focus(); }
-  else if(e.key==="Escape"){ e.preventDefault(); e.stopPropagation(); projClose(true); } else if(e.key==="Tab") projClose(false); });
-document.querySelectorAll("[data-act]").forEach(b=>b.addEventListener("click",e=>{ e.stopPropagation(); projClose(false); PROJ[b.dataset.act](); }));
-document.addEventListener("click",e=>{ if(!projMenu.contains(e.target)) projClose(false); });
+const newMenu=menu(document.getElementById("new-btn"),document.getElementById("new-menu"));
+document.querySelectorAll("[data-act]").forEach(b=>b.addEventListener("click",e=>{ e.stopPropagation(); newMenu.close(false); PROJ[b.dataset.act](); }));
+const docInp=document.getElementById("doc-name");
+docInp.addEventListener("input",()=>{ if(!cfg.doc) setDoc(); cfg.doc.name=docInp.value.trim(); store.save(); renderSummary(); });
+docInp.addEventListener("change",()=>{ if(!docInp.value.trim()){ cfg.doc.name=t("doc_mine"); store.save(); } renderDoc(); });
+docInp.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); docInp.blur(); } });
+// langue
+const langMenu=menu(document.getElementById("lang"),document.getElementById("lang-menu"));
+document.querySelectorAll("#lang-menu [data-lang]").forEach(b=>b.addEventListener("click",e=>{ e.stopPropagation(); langMenu.close(true); if(b.dataset.lang!==LANG) setLang(b.dataset.lang); }));
 // liens d'acces rapide : place vraiment le focus sur la cible
 document.querySelectorAll(".skip").forEach(a=>a.addEventListener("click",e=>{ const el=document.querySelector(a.getAttribute("href")); if(el){ e.preventDefault(); el.focus(); el.scrollIntoView({block:"center"}); } }));
-document.getElementById("lang").onclick=()=>setLang(LANG==="fr"?"en":"fr");
 
-store.load(); if(!cfg.doc) setDoc(sig(cfg)===sig(defaultCfg())?"wing":"mine"); applyStatic(); initButtons(); changedAll(); document.getElementById("saved").classList.remove("flash");
+store.load(); applyStatic(); if(cfg.doc&&!("name" in cfg.doc)) cfg.doc.name=cfg.doc.k==="file"?cfg.doc.file:t("doc_"+(cfg.doc.k||"mine")); if(!cfg.doc) setDoc(sig(cfg)===sig(defaultCfg())?t("doc_wing"):t("doc_mine")); initButtons(); changedAll(); document.getElementById("saved").classList.remove("flash");
 </script>
 </body>
 </html>
