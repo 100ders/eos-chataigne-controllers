@@ -109,7 +109,7 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
    - **Other**: Eos fader, sub or channel, set in **⚙ Set up**;
    - **✕ Clear**.
 
-   The **Knobs** row, above the nano, has two shortcuts: **🎚 Place the 6 wheels on 1–6** and **Clear all**. To change the order, drag a knob onto another: their settings swap. Speed, precision and direction are set in **⚙ Set up**.
+   In the **Settings** box, below the nano, the **Knobs** row has two shortcuts: **Default wheels** (1 Intensity · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom) and **Clear all**. To change the order, drag a knob onto another: their settings swap. Speed, precision and direction are set in **⚙ Set up**.
 3. **Set up a strip**: tap an **S**, **M** or **R** box for its role, or **⚙ Set up** for the full fader and knob settings.
 
    ![Strip setup](../docs/images/configurateur-tranche-en.png)
@@ -120,8 +120,10 @@ A web page, nothing to install, also works offline (`docs/index.html`): **[open 
 
 Good to know:
 - The configuration stays in the browser. To use it elsewhere, **Save to file**, then **Open file**. The `.json` is also in every `.zip`.
-- **Library**: below the nano, in tabs (All, Playback, Entry…), with a search box. A function already in use shows **✓**, or **×2** when it is on two buttons (duplicates are allowed but flagged). Clicking it selects it and makes the buttons carrying it flash.
+- **Page layout**: the nano alone in its box; below it, the **Settings** box (fader template, knobs, S / M / R buttons, and the **🎨 Colour legend** button); then the **Library**. The header steps fold away with **▴ Hide steps**, and the Settings box with **▴ Fold**: it then shows a one-line summary.
+- **Library**: about fifty functions, in tabs (All, Playback, Entry, Palettes, Editing…), with a search box. A function already in use shows **✓**, or **×2** when it is on two buttons (duplicates are allowed but flagged). Clicking it selects it and makes the buttons carrying it flash.
 - **Action bar**: Download, Save, Open, Clear all and the warning count stay at the bottom of the screen.
+- **Custom functions**: **Custom** tab. To delete one: the **✕** in its corner, or Delete on the keyboard. It is also removed from the buttons carrying it; **Undo** puts everything back.
 - **Clear an item**: the **✕** in the corner of a set button or knob, **✕ Clear** in its menu, or the Delete key on the keyboard.
 - Clearing, **Clear all**, applying a template or opening a file can be undone for 8 seconds with **Undo**.
 - Errors (red) block the download. Warnings (orange) don't.

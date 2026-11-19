@@ -37,17 +37,28 @@ section{background:var(--panel);border:1px solid var(--line);border-radius:10px;
 @media(max-width:900px){main{padding:10px}}
 #nano-section>h2{position:absolute;left:-9999px}
 #nano-section>h2:focus{position:static}
-.tools{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:center;margin-bottom:10px}
-.tools .tg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.tools label,.tools .bl{font-size:.85rem;color:var(--muted)}
+.sechead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.sechead h2{margin:0}
+.sechead .sep{flex:1}
+.setsum{font-size:.85rem;color:var(--text)}
+#set-section.folded .sechead{margin-bottom:0}
+.setgrid{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:10px 18px;align-items:center}
+.setgrid .sl{font-size:.88rem;color:var(--muted);font-weight:600}
+.setgrid .sc{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:center}
+.setgrid .sc label{font-size:.85rem;color:var(--muted)}
+.setgrid .shint{flex-basis:100%;font-size:.78rem;color:var(--muted)}
+@media(max-width:700px){.setgrid{grid-template-columns:minmax(0,1fr);gap:4px}.setgrid .sc{margin-bottom:8px}}
+#legends{margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
 .libhead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:8px}
 .libhead h2{margin:0}
 #lib-search{flex:1 1 220px;max-width:340px}
-.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);padding-bottom:0;scrollbar-width:thin}
-.tabs button{border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;background:none;color:var(--muted);white-space:nowrap;padding:6px 12px;font-size:.85rem}
-.tabs button[aria-selected="true"]{background:var(--panel2);color:var(--text);border-color:var(--line);font-weight:600}
-.tabs button .n{font-size:.72rem;color:var(--muted);margin-left:4px}
-.tabpanel{background:var(--panel2);border:1px solid var(--line);border-top:none;border-radius:0 0 8px 8px;padding:10px;min-height:56px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tabs button{border:1px solid var(--line);border-radius:999px;background:var(--panel2);color:var(--text);white-space:nowrap;padding:5px 11px;font-size:.85rem}
+.tabs button:hover{border-color:var(--accent)}
+.tabs button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#1b1b1b;font-weight:700}
+.tabs button .n{display:inline-block;min-width:1.6em;margin-left:6px;padding:0 5px;border-radius:999px;background:#0006;color:var(--muted);font-size:.72rem;font-weight:600;text-align:center}
+.tabs button[aria-selected="true"] .n{background:#0002;color:#1b1b1b}
+.tabpanel{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px;min-height:56px}
 #libs.all{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
 .grow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 #libs.all .grow{display:inline-flex;padding-left:10px;border-left:2px solid var(--line)}
@@ -75,6 +86,7 @@ h3{font-size:.85rem;margin:14px 0 6px;color:var(--muted)}
 .chip.cmd{border-left-color:var(--cmd)}
 .chip.sel{outline:3px solid var(--accent);background:#3a3326}
 .chip.alt{border-left-style:dashed}
+.chip.hasx{position:relative;padding-right:16px}
 .chip.alt::before{content:"↳ ";color:var(--muted)}
 .gnote{font-size:.78rem;color:var(--warn);margin:6px 0 0}
 form.custom{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
@@ -235,22 +247,6 @@ code{background:#000;padding:1px 4px;border-radius:4px}
       <p data-h="empty_msg"></p>
       <div class="bar"><button type="button" data-preset="wing" data-i="empty_wing"></button><button type="button" data-preset="subs" data-i="empty_subs"></button><button type="button" data-preset="chans" data-i="empty_chans"></button></div>
     </div>
-    <!-- reglages rapides : une seule barre (passe a la ligne si besoin) -->
-    <div class="tools">
-      <div class="tg">
-        <label for="preset" data-i="preset_l"></label>
-        <select id="preset">
-          <option value="wing" data-i="preset_wing"></option>
-          <option value="subs" data-i="preset_subs"></option>
-          <option value="chans" data-i="preset_chans"></option>
-        </select>
-        <label for="preset-start" data-i="preset_from"></label><input type="number" id="preset-start" min="1" value="1">
-        <button type="button" id="apply-preset" data-i="preset_apply"></button>
-      </div>
-      <div class="tg" id="knobbar"><span class="bl" data-i="knobbar_l"></span><button type="button" id="place-wheels" data-i="wheels_place"></button><button type="button" id="clear-knobs" data-i="knobs_clear"></button></div>
-      <div class="tg" id="rowbar"><span class="bl" data-i="rowbar_l"></span></div>
-      <div class="tg"><button type="button" id="legend-btn" aria-controls="legends"></button></div>
-    </div>
     <p class="scrollhint" data-i="scrollhint"></p>
     <div class="nanowrap">
       <div class="nano">
@@ -262,8 +258,33 @@ code{background:#000;padding:1px 4px;border-radius:4px}
         <div class="strips" id="strips" role="group" data-a="aria_strips"></div>
       </div>
     </div>
-    <div id="legends" hidden><div class="tlegend" id="tlegend"></div><div class="blegend" id="blegend"></div></div>
     <div id="editor" role="region" data-a="aria_editor"></div>
+  </section>
+
+  <!-- reglages globaux : une ligne par sujet -->
+  <section aria-labelledby="h-set" id="set-section">
+    <div class="sechead"><h2 id="h-set" data-i="set_title"></h2><span class="setsum" id="set-summary"></span>
+      <span class="sep"></span><button type="button" id="legend-btn" aria-controls="legends"></button><button type="button" id="set-btn" aria-controls="set-body"></button></div>
+    <div id="set-body">
+    <div class="setgrid">
+      <label class="sl" for="preset" data-i="preset_l"></label>
+      <div class="sc">
+        <select id="preset">
+          <option value="wing" data-i="preset_wing"></option>
+          <option value="subs" data-i="preset_subs"></option>
+          <option value="chans" data-i="preset_chans"></option>
+        </select>
+        <label for="preset-start" data-i="preset_from"></label><input type="number" id="preset-start" min="1" value="1">
+        <button type="button" id="apply-preset" data-i="preset_apply"></button>
+      </div>
+      <span class="sl" data-i="knobbar_l"></span>
+      <div class="sc" id="knobbar"><button type="button" id="place-wheels" data-i="wheels_place" aria-describedby="wheels-hint"></button><button type="button" id="clear-knobs" data-i="knobs_clear"></button>
+        <span class="shint" id="wheels-hint" data-i="wheels_hint"></span></div>
+      <span class="sl" data-i="rowbar_l"></span>
+      <div class="sc" id="rowbar"></div>
+    </div>
+    <div id="legends" hidden><div class="tlegend" id="tlegend"></div><div class="blegend" id="blegend"></div></div>
+    </div>
   </section>
 
   <!-- bibliotheque en onglets, juste sous le nano -->
@@ -326,7 +347,8 @@ const REPO = "https://github.com/100ders/eos-chataigne-controllers";
 const I18N = {
 fr:{
  lang_btn:"English", lang_aria:"Switch to English",
- tab_all:"Toutes", legend_show:"🎨 Légende des couleurs", legend_hide:"🎨 Masquer la légende", steps_show:"▾ Afficher les étapes", steps_hide:"▴ Masquer les étapes", search_ph:"Rechercher une fonction…", leg_used:"Déjà utilisée (✓, ×2 = doublon)", used_on:"utilisée sur {0}",
+ tab_all:"Toutes", set_fold:"▴ Replier", set_unfold:"▾ Déplier", sum_mixed:"mixte",
+ set_summary:"Faders : {0} · Roues : {1} · {2}", custom_deleted:"Fonction « {0} » supprimée.", custom_deleted_used:"Fonction « {0} » supprimée et retirée de {1} élément(s).", legend_show:"🎨 Légende des couleurs", legend_hide:"🎨 Masquer la légende", steps_show:"▾ Afficher les étapes", steps_hide:"▴ Masquer les étapes", search_ph:"Rechercher une fonction…", leg_used:"Déjà utilisée (✓, ×2 = doublon)", used_on:"utilisée sur {0}",
  lib_hint:"Survolez une fonction pour sa description. Cliquez-la pour la sélectionner et la retrouver sur le nano.", no_result:"Aucune fonction ne correspond.",
  custom_empty:"Aucune fonction personnalisée : créez-en une ci-dessous.", rules_err:"⛔ {0} erreur(s)", rules_warn:"⚠ {0} avertissement(s)",
  footer:"Logiciel libre (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Code source et mode d'emploi sur GitHub</a> · Projet indépendant, non affilié à ETC, Korg ni Chataigne.", bmc:"☕ Offrir un café",
@@ -343,9 +365,9 @@ fr:{
  lib_note:"Bleu : touche Eos ou adresse OSC. Vert : commande tapée sur Eos (<code>#</code> = Enter). ↳ : variante de la fonction au-dessus.",
  empty_msg:"<b>Le nano est vide.</b> Commencez par un modèle, ou glissez <b>GO</b> sur <b>▶ Play</b>.",
  empty_wing:"Modèle Fader Wing", empty_subs:"Modèle Subs", empty_chans:"Modèle Circuits",
- preset_l:"Modèle des faders", preset_wing:"Fader Wing (faders Eos 1–10)", preset_subs:"Subs", preset_chans:"Circuits",
+ preset_l:"Modèle des faders", set_title:"Réglages", wheels_hint:"1 Intensité · 2 Pan · 3 Pan fin · 4 Tilt · 5 Tilt fin · 6 Zoom", preset_wing:"Fader Wing (faders Eos 1–10)", preset_subs:"Subs", preset_chans:"Circuits",
  preset_from:"à partir du n°", preset_apply:"Appliquer le modèle",
- rowbar_l:"Boutons S / M / R :", row_aria:"Les 8 boutons {0}", row_diff:"(différents)", row_fngroup:"Fonction de la bibliothèque",
+ rowbar_l:"Boutons S / M / R", row_aria:"Les 8 boutons {0}", row_diff:"(différents)", row_fngroup:"Fonction de la bibliothèque",
  scrollhint:"↔ Faites glisser le contrôleur horizontalement pour voir toutes les tranches.",
  aria_transport:"Boutons de transport", aria_strips:"Tranches 1 à 8", aria_editor:"Réglages de la tranche", aria_file:"Fichier de configuration",
  export:"Télécharger le projet Chataigne (.zip)", saved:"✓ Enregistré dans ce navigateur", not_saved:"⚠ Non enregistré (navigation privée ?) : utilisez « Enregistrer dans un fichier »",
@@ -357,7 +379,7 @@ fr:{
  free:"libre", free_drop:"libre — déposez ici", free_title:"Libre : glissez une fonction ici",
  btn_free:"{0} est libre : choisissez une fonction dans la bibliothèque, puis touchez ce bouton.",
  removed:"{0} : « {1} » retirée.", swapped:"{0} ⇄ {1}",
- g_Restitution:"Restitution", g_Enregistrement:"Enregistrement", g_Saisie:"Saisie", "g_Sélection et niveaux":"Sélection et niveaux", g_Sneak:"Sneak", g_Affichage:"Affichage", "g_Pages Eos":"Pages Eos", g_Sécurité:"Sécurité", g_custom:"Personnalisées",
+ g_Palettes:"Palettes", "g_Édition":"Édition", g_Restitution:"Restitution", g_Enregistrement:"Enregistrement", g_Saisie:"Saisie", "g_Sélection et niveaux":"Sélection", g_Sneak:"Sneak", g_Affichage:"Affichage", "g_Pages Eos":"Pages Eos", g_Sécurité:"Sécurité", g_custom:"Personnalisées",
  gnote_pages:"⚠ L'affichage d'Eos boucle sur ses pages configurées, pas les faders du nano : ne pas dépasser la dernière page (voir le README).",
  chip_cmd:"Commande tapée : ", chip_osc:"Message OSC : ",
  tg_fader:"Fader Eos (banque)", tg_sub:"Sub", tg_chan:"Circuit", tg_none:"Rien", km_rel:"Roue Eos (pan, tilt…)",
@@ -394,10 +416,10 @@ fr:{
  done_4:"Dans Eos, activez la réception OSC sur le port 8000 : <a href='{0}' target='_blank' rel='noopener'>pas à pas</a>.",
  cf_macro_err:"Indiquez un numéro de macro (ex. 5).", cf_osc_err:"Une adresse OSC commence par « / » (ex. /eos/key/live).", cf_added:"Fonction « {0} » ajoutée : glissez-la sur un bouton.",
  preset_done:"Modèle « {0} » appliqué aux faders (potentiomètres 1–6 inchangés).", preset_done_full:"Modèle « {0} » appliqué, avec les 6 roues.",
- knobbar_l:"Potentiomètres :", knobs_clear:"Tout libérer", knobs_cleared:"Potentiomètres libérés.",
+ knobbar_l:"Potentiomètres", knobs_clear:"Tout libérer", knobs_cleared:"Potentiomètres libérés.",
  kpop_title:"Potentiomètre {0} — {1}", kpop_wheels:"Roues Eos", kpop_other:"Autre", kpop_setup:"Fader Eos / Sub / Circuit… → ⚙ Régler",
  free_btn:"✕ Libérer", bpop_title:"{0} — {1}", bpop_choose:"Choisir une fonction…", x_title:"Libérer {0}",
- wheels_place:"🎚 Placer les 6 roues sur 1–6", wheels_placed:"6 roues placées sur les potentiomètres 1–6.",
+ wheels_place:"Roues par défaut", wheels_placed:"Roues par défaut placées sur les potentiomètres 1 à 6.",
  knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", knob_cleared:"Potentiomètre {0} libéré.",
  knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : touchez-le ensuite pour choisir une roue.", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
  opened:"Configuration « {0} » ouverte.", bad_file:"« {0} » n'est pas une configuration du configurateur (fichier .json attendu).",
@@ -416,7 +438,8 @@ fr:{
 },
 en:{
  lang_btn:"Français", lang_aria:"Passer en français",
- tab_all:"All", legend_show:"🎨 Colour legend", legend_hide:"🎨 Hide legend", steps_show:"▾ Show steps", steps_hide:"▴ Hide steps", search_ph:"Search a function…", leg_used:"Already used (✓, ×2 = duplicate)", used_on:"used on {0}",
+ tab_all:"All", set_fold:"▴ Fold", set_unfold:"▾ Unfold", sum_mixed:"mixed",
+ set_summary:"Faders: {0} · Wheels: {1} · {2}", custom_deleted:"Function “{0}” deleted.", custom_deleted_used:"Function “{0}” deleted and removed from {1} item(s).", legend_show:"🎨 Colour legend", legend_hide:"🎨 Hide legend", steps_show:"▾ Show steps", steps_hide:"▴ Hide steps", search_ph:"Search a function…", leg_used:"Already used (✓, ×2 = duplicate)", used_on:"used on {0}",
  lib_hint:"Hover a function for its description. Click it to select it and find it on the nano.", no_result:"No matching function.",
  custom_empty:"No custom function yet: create one below.", rules_err:"⛔ {0} error(s)", rules_warn:"⚠ {0} warning(s)",
  footer:"Free software (GPL v3) · <a href='https://github.com/100ders/eos-chataigne-controllers' target='_blank' rel='noopener'>⭐ Source code and user guide on GitHub</a> · Independent project, not affiliated with ETC, Korg or Chataigne.", bmc:"☕ Buy me a coffee",
@@ -433,9 +456,9 @@ en:{
  lib_note:"Blue: Eos key or OSC address. Green: command typed on Eos (<code>#</code> = Enter). ↳: variant of the function above.",
  empty_msg:"<b>The nano is empty.</b> Start from a template, or drag <b>GO</b> onto <b>▶ Play</b>.",
  empty_wing:"Fader Wing template", empty_subs:"Subs template", empty_chans:"Channels template",
- preset_l:"Fader template", preset_wing:"Fader Wing (Eos faders 1–10)", preset_subs:"Subs", preset_chans:"Channels",
+ preset_l:"Fader template", set_title:"Settings", wheels_hint:"1 Intensity · 2 Pan · 3 Pan fine · 4 Tilt · 5 Tilt fine · 6 Zoom", preset_wing:"Fader Wing (Eos faders 1–10)", preset_subs:"Subs", preset_chans:"Channels",
  preset_from:"starting at no.", preset_apply:"Apply template",
- rowbar_l:"S / M / R buttons:", row_aria:"All 8 {0} buttons", row_diff:"(mixed)", row_fngroup:"Library function",
+ rowbar_l:"S / M / R buttons", row_aria:"All 8 {0} buttons", row_diff:"(mixed)", row_fngroup:"Library function",
  scrollhint:"↔ Swipe the controller sideways to see all strips.",
  aria_transport:"Transport buttons", aria_strips:"Strips 1 to 8", aria_editor:"Strip settings", aria_file:"Configuration file",
  export:"Download the Chataigne project (.zip)", saved:"✓ Saved in this browser", not_saved:"⚠ Not saved (private browsing?): use “Save to file”",
@@ -447,7 +470,7 @@ en:{
  free:"free", free_drop:"free — drop here", free_title:"Free: drag a function here",
  btn_free:"{0} is free: pick a function in the library, then tap this button.",
  removed:"{0}: “{1}” removed.", swapped:"{0} ⇄ {1}",
- g_Restitution:"Playback", g_Enregistrement:"Record", g_Saisie:"Entry", "g_Sélection et niveaux":"Selection and levels", g_Sneak:"Sneak", g_Affichage:"Display", "g_Pages Eos":"Eos pages", g_Sécurité:"Safety", g_custom:"Custom",
+ g_Palettes:"Palettes", "g_Édition":"Editing", g_Restitution:"Playback", g_Enregistrement:"Record", g_Saisie:"Entry", "g_Sélection et niveaux":"Selection and levels", g_Sneak:"Sneak", g_Affichage:"Display", "g_Pages Eos":"Eos pages", g_Sécurité:"Safety", g_custom:"Custom",
  gnote_pages:"⚠ The Eos display loops over its configured pages, the nano faders don't: don't go past the last page (see the README).",
  chip_cmd:"Typed command: ", chip_osc:"OSC message: ",
  tg_fader:"Eos fader (bank)", tg_sub:"Sub", tg_chan:"Channel", tg_none:"Nothing", km_rel:"Eos wheel (pan, tilt…)",
@@ -484,10 +507,10 @@ en:{
  done_4:"In Eos, enable OSC reception on port 8000: <a href='{0}' target='_blank' rel='noopener'>step by step</a>.",
  cf_macro_err:"Enter a macro number (e.g. 5).", cf_osc_err:"An OSC address starts with “/” (e.g. /eos/key/live).", cf_added:"Function “{0}” added: drag it onto a button.",
  preset_done:"Template “{0}” applied to the faders (knobs 1–6 unchanged).", preset_done_full:"Template “{0}” applied, with the 6 wheels.",
- knobbar_l:"Knobs:", knobs_clear:"Clear all", knobs_cleared:"Knobs cleared.",
+ knobbar_l:"Knobs", knobs_clear:"Clear all", knobs_cleared:"Knobs cleared.",
  kpop_title:"Knob {0} — {1}", kpop_wheels:"Eos wheels", kpop_other:"Other", kpop_setup:"Eos fader / Sub / Channel… → ⚙ Set up",
  free_btn:"✕ Clear", bpop_title:"{0} — {1}", bpop_choose:"Choose a function…", x_title:"Clear {0}",
- wheels_place:"🎚 Place the 6 wheels on 1–6", wheels_placed:"6 wheels placed on knobs 1–6.",
+ wheels_place:"Default wheels", wheels_placed:"Default wheels placed on knobs 1 to 6.",
  knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", knob_cleared:"Knob {0} cleared.",
  knob_nofn:"A button function can't go on a knob: tap the knob afterwards to pick a wheel.", saved_file:"Configuration saved to nanokontrol2-config.json.",
  opened:"Configuration “{0}” opened.", bad_file:"“{0}” is not a configurator file (.json expected).",
@@ -516,11 +539,25 @@ const OSC_DICT="https://www.etcconnect.com/WebDocs/Controls/EosFamilyOnlineHelp/
 const NANO_URL=()=>REPO+"/blob/main/nanokontrol2/README"+(LANG==="en"?".en":"")+".md";
 
 // etat de l'interface : legende ouverte, etapes affichees (memorise dans le navigateur)
-const ui=(()=>{ try{ return Object.assign({legend:false,steps:true},JSON.parse(localStorage.getItem("nano-eos-ui")||"{}")); }catch(e){ return {legend:false,steps:true}; } })();
+const ui=(()=>{ try{ return Object.assign({legend:false,steps:true,settings:true},JSON.parse(localStorage.getItem("nano-eos-ui")||"{}")); }catch(e){ return {legend:false,steps:true,settings:true}; } })();
 function applyUI(){
   document.getElementById("legends").hidden=!ui.legend; document.getElementById("steps").hidden=!ui.steps;
   const lb=document.getElementById("legend-btn"); lb.textContent=t(ui.legend?"legend_hide":"legend_show"); lb.setAttribute("aria-expanded",ui.legend?"true":"false");
+  // case Reglages : depliee = tout ; repliee = resume d'une ligne
+  document.getElementById("set-body").hidden=!ui.settings; document.getElementById("legend-btn").hidden=!ui.settings;
+  document.getElementById("set-section").classList.toggle("folded",!ui.settings); document.getElementById("set-summary").hidden=ui.settings;
+  const fb=document.getElementById("set-btn"); fb.textContent=t(ui.settings?"set_fold":"set_unfold"); fb.setAttribute("aria-expanded",ui.settings?"true":"false");
+  renderSummary();
   const sb=document.getElementById("steps-btn"); sb.textContent=t(ui.steps?"steps_hide":"steps_show"); sb.setAttribute("aria-expanded",ui.steps?"true":"false");
+}
+// resume des reglages, affiche quand la case est repliee
+function renderSummary(){
+  const el=document.getElementById("set-summary"); if(!el||ui.settings) return;
+  const ft=[...new Set(cfg.faders.map(f=>f.t))], fn=cfg.faders.map(f=>f.n);
+  const fad=ft.length>1?t("sum_mixed"):ft[0]==="none"?t("free"):targetLabel(ft[0],Math.min(...fn))+(Math.max(...fn)>Math.min(...fn)?"–"+Math.max(...fn):"");
+  const wheels=cfg.knobs.filter(k=>k.m==="rel").length;
+  const smr=["S","M","R"].map(sl=>{ const v=cfg.smr.map(x=>x[sl].b==="fn"?"fn:"+x[sl].id:x[sl].b); return sl+" "+(v.every(x=>x===v[0])?valLabel(v[0],"fader"):t("row_diff")); }).join(" · ");
+  el.textContent=t("set_summary",fad,wheels,smr);
 }
 function toggleUI(k){ ui[k]=!ui[k]; try{ localStorage.setItem("nano-eos-ui",JSON.stringify(ui)); }catch(e){} applyUI(); }
 function applyStatic(){
@@ -544,7 +581,7 @@ const CC = {fader:i=>i, knob:i=>16+i, S:i=>32+i, M:i=>48+i, R:i=>64+i};
 
 // ---------- bibliotheque (t = verifie sur console) ----------
 // g = cle de groupe (francais, stable) ; label et d peuvent etre bilingues {fr,en}
-const GROUPS = ["Restitution","Enregistrement","Saisie","Sélection et niveaux","Sneak","Affichage","Pages Eos","Sécurité"];
+const GROUPS = ["Restitution","Enregistrement","Saisie","Sélection et niveaux","Palettes","Édition","Sneak","Affichage","Pages Eos","Sécurité"];
 const LIB = [
  {g:"Restitution",id:"go",label:"GO",type:"key",value:"/eos/key/go_0",d:{fr:"Lance la cue suivante (touche Go)",en:"Fires the next cue (Go key)"},t:1},
  {g:"Restitution",id:"cuesfire",label:{fr:"GO — variante liste principale",en:"GO — main cue list variant"},type:"key",value:"/eos/cues/fire",d:{fr:"Déclenche directement la liste de cues principale",en:"Fires the main cue list directly"},alt:1,t:1},
@@ -552,11 +589,19 @@ const LIB = [
  {g:"Restitution",id:"cuesstop",label:{fr:"GO BACK — variante liste principale",en:"GO BACK — main cue list variant"},type:"key",value:"/eos/cues/stop",d:{fr:"Arrête le fondu ou revient d'une cue, sur la liste principale",en:"Stops the fade or goes back one cue, on the main cue list"},alt:1,t:1},
  {g:"Restitution",id:"gotocue",label:"GO TO CUE",type:"key",value:"/eos/key/go_to_cue",d:{fr:"Pose Go To Cue sur la ligne de commande",en:"Puts Go To Cue on the command line"},t:1},
  {g:"Enregistrement",id:"record",label:"RECORD",type:"key",value:"/eos/key/record",d:{fr:"Touche Record",en:"Record key"},t:1},
+ {g:"Enregistrement",id:"recordonly",label:"RECORD ONLY",type:"key",value:"/eos/key/record_only",d:{fr:"Touche Record Only : n'enregistre que les valeurs manuelles",en:"Record Only key: records manual values only"},t:1},
  {g:"Enregistrement",id:"update",label:"UPDATE",type:"cmd",value:"Update #",d:{fr:"Met à jour la cue active",en:"Updates the active cue"},t:1},
  {g:"Enregistrement",id:"updqo",label:"UPDATE CUE ONLY",type:"cmd",value:"Update CueOnly #",d:{fr:"Met à jour la cue active, sans suivi",en:"Updates the active cue, no tracking"},t:1},
  {g:"Saisie",id:"enter",label:"ENTER",type:"cmd",value:"#",d:{fr:"Valide la ligne de commande",en:"Confirms the command line"},t:1},
  {g:"Saisie",id:"clear",label:"CLEAR",type:"key",value:"/eos/key/clear_cmd",d:{fr:"Efface le dernier élément saisi",en:"Clears the last entry"},t:1},
  {g:"Saisie",id:"clearline",label:{fr:"CLEAR LIGNE",en:"CLEAR LINE"},type:"key",value:"/eos/key/clear_cmdline",d:{fr:"Efface toute la ligne de commande",en:"Clears the whole command line"},t:1},
+ {g:"Saisie",id:"time",label:"TIME",type:"key",value:"/eos/key/time",d:{fr:"Touche Time",en:"Time key"},t:1},
+ {g:"Saisie",id:"delay",label:"DELAY",type:"key",value:"/eos/key/delay",d:{fr:"Touche Delay",en:"Delay key"},t:1},
+ {g:"Saisie",id:"address",label:"ADDRESS",type:"key",value:"/eos/key/address",d:{fr:"Touche Address (adresse DMX)",en:"Address key (DMX address)"},t:1},
+ {g:"Saisie",id:"label",label:"LABEL",type:"key",value:"/eos/key/label",d:{fr:"Touche Label",en:"Label key"},t:1},
+ {g:"Saisie",id:"next",label:"NEXT",type:"key",value:"/eos/key/next",d:{fr:"Touche Next : élément suivant",en:"Next key: next item"},t:1},
+ {g:"Saisie",id:"last",label:"LAST",type:"key",value:"/eos/key/last",d:{fr:"Touche Last : élément précédent",en:"Last key: previous item"},t:1},
+ {g:"Saisie",id:"query",label:"QUERY",type:"key",value:"/eos/key/query",d:{fr:"Touche Query",en:"Query key"},t:1},
  {g:"Sélection et niveaux",id:"full",label:"FULL",type:"key",value:"/eos/at/full",d:{fr:"Sélection à fond",en:"Selection at full"},t:1},
  {g:"Sélection et niveaux",id:"out",label:"OUT",type:"key",value:"/eos/at/out",d:{fr:"Sélection à zéro",en:"Selection out"},t:1},
  {g:"Sélection et niveaux",id:"home",label:"HOME",type:"key",value:"/eos/at/home",d:{fr:"Sélection à sa valeur par défaut",en:"Selection to its default value"},t:1},
@@ -564,10 +609,27 @@ const LIB = [
  {g:"Sélection et niveaux",id:"minus",label:"−%",type:"key",value:"/eos/at/-%",d:{fr:"Baisse la sélection du % réglé dans Eos",en:"Lowers the selection by the % set in Eos"},t:1},
  {g:"Sélection et niveaux",id:"remdim",label:"REM DIM",type:"key",value:"/eos/at/remdim",d:{fr:"Éteint les circuits hors sélection",en:"Dims channels outside the selection"},t:1},
  {g:"Sélection et niveaux",id:"selact",label:"SELECT ACTIVE",type:"key",value:"/eos/key/select_active",d:{fr:"Sélectionne les circuits allumés",en:"Selects the channels that are on"},t:1},
+ {g:"Sélection et niveaux",id:"selectlast",label:"SELECT LAST",type:"key",value:"/eos/key/select_last",d:{fr:"Resélectionne la sélection précédente",en:"Reselects the previous selection"},t:1},
+ {g:"Palettes",id:"ip",label:"INTENSITY PALETTE",type:"key",value:"/eos/key/intensity_palette",d:{fr:"Touche Intensity Palette",en:"Intensity Palette key"},t:1},
+ {g:"Palettes",id:"fp",label:"FOCUS PALETTE",type:"key",value:"/eos/key/focus_palette",d:{fr:"Touche Focus Palette",en:"Focus Palette key"},t:1},
+ {g:"Palettes",id:"cp",label:"COLOR PALETTE",type:"key",value:"/eos/key/color_palette",d:{fr:"Touche Color Palette",en:"Color Palette key"},t:1},
+ {g:"Palettes",id:"bp",label:"BEAM PALETTE",type:"key",value:"/eos/key/beam_palette",d:{fr:"Touche Beam Palette",en:"Beam Palette key"},t:1},
+ {g:"Édition",id:"copyto",label:"COPY TO",type:"key",value:"/eos/key/copy_to",d:{fr:"Touche Copy To",en:"Copy To key"},t:1},
+ {g:"Édition",id:"recallfrom",label:"RECALL FROM",type:"key",value:"/eos/key/recall_from",d:{fr:"Touche Recall From",en:"Recall From key"},t:1},
+ {g:"Édition",id:"assert",label:"ASSERT",type:"key",value:"/eos/key/assert",d:{fr:"Touche Assert",en:"Assert key"},t:1},
+ {g:"Édition",id:"mark",label:"MARK",type:"key",value:"/eos/key/mark",d:{fr:"Touche Mark",en:"Mark key"},t:1},
+ {g:"Édition",id:"park",label:"PARK",type:"key",value:"/eos/key/park",d:{fr:"Touche Park",en:"Park key"},t:1},
+ {g:"Édition",id:"highlight",label:"HIGHLIGHT",type:"key",value:"/eos/key/highlight",d:{fr:"Touche Highlight : repérage des projecteurs",en:"Highlight key: fixture check"},t:1},
  {g:"Sneak",id:"sneak",label:"SNEAK",type:"cmd",value:"Sneak #",d:{fr:"Rend la main aux cues (temps par défaut)",en:"Hands back to cues (default time)"},t:1},
  {g:"Sneak",id:"sneak0",label:"SNEAK TIME 0",type:"cmd",value:"Sneak Time 0",d:{fr:"Sneak instantané (valider avec ENTER)",en:"Instant sneak (confirm with ENTER)"},t:1},
+ {g:"Sneak",id:"selsneak",label:"SELECT ACTIVE SNEAK",type:"cmd",value:"Select_Active Sneak #",d:{fr:"Rend la main aux cues pour les circuits allumés (temps par défaut)",en:"Hands active channels back to cues (default time)"},t:1},
+ {g:"Sneak",id:"selsneak0",label:"SELECT ACTIVE SNEAK 0",type:"cmd",value:"Select_Active Sneak Time 0 #",d:{fr:"Idem, sans temps (instantané)",en:"Same, instant (no time)"},t:1},
  {g:"Affichage",id:"live",label:"LIVE",type:"key",value:"/eos/key/live",d:{fr:"Passe en Live",en:"Switches to Live"},t:1},
  {g:"Affichage",id:"blind",label:"BLIND",type:"key",value:"/eos/key/blind",d:{fr:"Passe en Blind",en:"Switches to Blind"},t:1},
+ {g:"Affichage",id:"tab",label:"TAB",type:"key",value:"/eos/key/tab",d:{fr:"Touche Tab : choix d'un onglet",en:"Tab key: choose a tab"},t:1},
+ {g:"Affichage",id:"displays",label:"DISPLAYS",type:"key",value:"/eos/key/displays",d:{fr:"Touche Displays",en:"Displays key"},t:1},
+ {g:"Affichage",id:"format",label:"FORMAT",type:"key",value:"/eos/key/format",d:{fr:"Touche Format : change le format de l'affichage",en:"Format key: changes the display format"},t:1},
+ {g:"Affichage",id:"setup",label:"SETUP",type:"key",value:"/eos/key/open_setup",d:{fr:"Ouvre le Setup",en:"Opens Setup"},t:1},
  {g:"Pages Eos",id:"pageup",label:"PAGE FADERS +",type:"key",value:"/eos/fader/1/page/1 + /eos/key/page_up",multi:["/eos/fader/1/page/1","/eos/key/page_up"],d:{fr:"Page suivante (faders du nano + affichage Eos)",en:"Next page (nano faders + Eos display)"},t:1},
  {g:"Pages Eos",id:"pagedown",label:"PAGE FADERS −",type:"key",value:"/eos/fader/1/page/-1 + /eos/key/page_down",multi:["/eos/fader/1/page/-1","/eos/key/page_down"],d:{fr:"Page précédente (faders du nano + affichage Eos)",en:"Previous page (nano faders + Eos display)"},t:1},
  {g:"Sécurité",id:"reset",label:"RESET OSC",type:"key",value:"/eos/reset",d:{fr:"Arrête les mouvements continus, réinitialise l'OSC",en:"Stops continuous moves, resets OSC"},t:1}
@@ -694,6 +756,7 @@ function chip(f,use){
   const where=use[f.id]||[];
   if(where.length){ el.classList.add("used"); if(where.length>1) el.classList.add("dup");
     const b=document.createElement("span"); b.className="badge"; b.textContent=where.length>1?"×"+where.length:"✓"; el.append(b); }
+  if(f.custom){ el.classList.add("hasx"); el.append(xButton(t("x_title",fnLabel(f)),()=>deleteCustom(f.id))); }
   const info=fnDesc(f)+(where.length?" — "+t("used_on",where.join(", ")):"");
   el.title=info; el.setAttribute("aria-description",info);
   el.addEventListener("mouseenter",()=>setDesc(info)); el.addEventListener("focus",()=>setDesc(info));
@@ -701,9 +764,20 @@ function chip(f,use){
   el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain","fn:"+f.id));
   const pick=()=>{ setPick(selected===f.id?null:f.id); if(where.length) findOnNano(f.id); };
   el.addEventListener("click",pick);
-  el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();} });
+  el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();}
+    if(f.custom&&(e.key==="Delete"||e.key==="Backspace")){ e.preventDefault(); deleteCustom(f.id); } });
   if(selected===f.id) el.classList.add("sel");
   return el;
+}
+// supprime une fonction personnalisee et la retire des boutons et cases qui la portent (annulable)
+function deleteCustom(id){
+  const f=cfg.custom.find(x=>x.id===id); if(!f) return; const n=(usage()[id]||[]).length;
+  if(selected===id) setPick(null);
+  undoable(n?t("custom_deleted_used",f.label,n):t("custom_deleted",f.label),()=>{
+    cfg.custom=cfg.custom.filter(x=>x.id!==id);
+    Object.keys(cfg.buttons).forEach(cc=>{ if(cfg.buttons[cc]===id) delete cfg.buttons[cc]; });
+    cfg.smr.forEach(s=>["S","M","R"].forEach(sl=>{ if(s[sl].b==="fn"&&s[sl].id===id) s[sl]={b:"none"}; }));
+  });
 }
 function renderTabs(){
   const box=document.getElementById("lib-tabs"), keys=["all",...GROUPS,"__custom"];
@@ -987,10 +1061,10 @@ function checkRules(){
 
 function changed(){
   const fid=document.activeElement&&document.activeElement.id;
-  store.save(); renderRowbar(); renderStrips(); renderEditor(); renderButtons(); renderLib(); checkRules(); hideDone();
+  store.save(); renderRowbar(); renderStrips(); renderEditor(); renderButtons(); renderLib(); renderSummary(); checkRules(); hideDone();
   if(fid&&fid.startsWith("ed-")){ const n=document.getElementById(fid); if(n) n.focus(); }
 }
-function changedAll(){ store.save(); renderRowbar(); renderLib(); renderButtons(); renderStrips(); renderEditor(); checkRules(); hideDone(); }
+function changedAll(){ renderSummary(); store.save(); renderRowbar(); renderLib(); renderButtons(); renderStrips(); renderEditor(); checkRules(); hideDone(); }
 function hideDone(){ document.getElementById("done").classList.remove("show"); }
 
 // ---------- boutons de gauche ----------
@@ -1149,6 +1223,7 @@ document.getElementById("blank").onclick=()=>undoable(t("cleared"),()=>{ cfg=bla
 document.getElementById("reset").onclick=()=>undoable(t("reset_done"),()=>{ const c=cfg.custom; cfg=defaultCfg(); cfg.custom=c||[]; openStrip=null; });
 document.getElementById("legend-btn").onclick=()=>toggleUI("legend");
 document.getElementById("steps-btn").onclick=()=>toggleUI("steps");
+document.getElementById("set-btn").onclick=()=>toggleUI("settings");
 document.getElementById("lang").onclick=()=>setLang(LANG==="fr"?"en":"fr");
 
 store.load(); applyStatic(); initButtons(); changedAll(); document.getElementById("saved").classList.remove("flash");

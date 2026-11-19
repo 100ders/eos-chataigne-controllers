@@ -107,7 +107,7 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
    - **Autre** : fader Eos, sub ou circuit, réglés dans **⚙ Régler** ;
    - **✕ Libérer**.
 
-   La ligne **Potentiomètres**, au-dessus du nano, a deux raccourcis : **🎚 Placer les 6 roues sur 1–6** et **Tout libérer**. Pour changer l'ordre, glisser un potentiomètre sur un autre : leurs réglages s'échangent. Vitesse, précision et sens se règlent dans **⚙ Régler**.
+   Dans la case **Réglages**, sous le nano, la ligne **Potentiomètres** a deux raccourcis : **Roues par défaut** (1 Intensité · 2 Pan · 3 Pan fin · 4 Tilt · 5 Tilt fin · 6 Zoom) et **Tout libérer**. Pour changer l'ordre, glisser un potentiomètre sur un autre : leurs réglages s'échangent. Vitesse, précision et sens se règlent dans **⚙ Régler**.
 3. **Régler une tranche** : toucher une case **S**, **M** ou **R** pour son rôle, ou **⚙ Régler** pour tout le détail du fader et du potentiomètre.
 
    ![Réglage d'une tranche](../docs/images/configurateur-tranche.png)
@@ -118,8 +118,10 @@ Une page web, sans installation, qui fonctionne aussi hors ligne (`docs/index.ht
 
 Bon à savoir :
 - La configuration reste dans le navigateur. Pour la retrouver ailleurs, **Enregistrer dans un fichier**, puis **Ouvrir un fichier**. Le `.json` est aussi dans chaque `.zip`.
-- **Bibliothèque** : sous le nano, en onglets (Toutes, Restitution, Saisie…), avec une recherche. Une fonction déjà utilisée porte **✓**, ou **×2** si elle est sur deux boutons (doublon possible, mais signalé). La cliquer la sélectionne et fait clignoter les boutons qui la portent.
+- **Organisation de la page** : le nano seul dans sa case ; dessous, la case **Réglages** (modèle des faders, potentiomètres, boutons S / M / R, et le bouton **🎨 Légende des couleurs**) ; puis la **Bibliothèque**. Les étapes de l'en-tête se replient avec **▴ Masquer les étapes**, et la case Réglages avec **▴ Replier** : elle n'affiche alors qu'un résumé d'une ligne.
+- **Bibliothèque** : une cinquantaine de fonctions, en onglets (Toutes, Restitution, Saisie, Palettes, Édition…), avec une recherche. Une fonction déjà utilisée porte **✓**, ou **×2** si elle est sur deux boutons (doublon possible, mais signalé). La cliquer la sélectionne et fait clignoter les boutons qui la portent.
 - **Barre d'actions** : Télécharger, Enregistrer, Ouvrir, Tout vider et le nombre d'avertissements restent en bas de l'écran.
+- **Fonctions personnalisées** : onglet **Personnalisées**. Pour en supprimer une : la croix **✕** dans son coin, ou Suppr au clavier. Elle est aussi retirée des boutons qui la portent ; **Annuler** remet tout en place.
 - **Libérer un élément** : la croix **✕** dans le coin d'un bouton ou d'un potentiomètre réglé, **✕ Libérer** dans son menu, ou la touche Suppr au clavier.
 - Libérer, **Tout vider**, appliquer un modèle ou ouvrir un fichier s'annulent pendant 8 secondes avec **Annuler**.
 - Les erreurs (en rouge) bloquent le téléchargement. Les avertissements (en orange) non.
