@@ -233,6 +233,8 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 .pickbar.show,.toast.show{display:flex}
 .pickbar span,.toast span{flex:1;min-width:12em}
 .pickbar button,.toast button{padding:6px 12px}
+.toast .tclose{background:none;border:none;color:var(--muted);font-size:1rem;padding:4px 8px;margin-left:-4px}
+.toast .tclose:hover,.toast .tclose:focus{color:var(--text)}
 @media(pointer:coarse){
   .chip,.slot,button,select,input{min-height:44px}
   .slot{display:flex;align-items:center;justify-content:center}
@@ -390,7 +392,7 @@ code{background:#000;padding:1px 4px;border-radius:4px}
 <footer class="pagefoot" data-h="footer"></footer>
 <div class="dock" aria-live="polite">
   <div class="pickbar" id="pickbar"><span id="pickmsg"></span><button type="button" id="pick-go" data-i="pick_go"></button><button type="button" id="pick-cancel" data-i="cancel"></button></div>
-  <div class="toast" id="toast"><span id="toastmsg"></span></div>
+  <div class="toast" id="toast"><span id="toastmsg"></span><button type="button" class="tclose" id="toast-close" data-a="toast_close">✕</button></div>
 </div>
 
 <script type="application/json" id="template">__TEMPLATE__</script>
@@ -478,7 +480,7 @@ fr:{
  kpop_title:"Potentiomètre {0} — {1}", kpop_wheels:"Roues Eos", kpop_other:"Autre", kpop_setup:"Fader Eos / Sub / Circuit… → ⚙ Régler",
  free_btn:"✕ Libérer", bpop_title:"{0} — {1}", bpop_choose:"Choisir une fonction…", x_title:"Libérer {0}",
  wheels_place:"Roues par défaut", wheels_placed:"Roues par défaut placées sur les potentiomètres 1 à 6.",
- knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", fader_swap:"Tranches {0} ⇄ {1} : faders et S / M / R échangés", copy_title:"Recopier vers d'autres tranches", copy_from:"Tranches", copy_to:"à", copy_f:"Fader", copy_k:"Potentiomètre", copy_s:"S / M / R", copy_go:"Recopier", copy_none:"Cochez au moins un élément à recopier.", copy_hint:"Les numéros avancent de 1 par tranche (Sub 12 → 13 → 14…). Les roues et les S / M / R sont copiés tels quels. Avec la souris : tirez le petit carré orange dans le coin d'une tranche.", copy_done:"Tranche {0} recopiée vers {1}.", copy_capped:"Numéros plafonnés à la limite (faders Eos : 10).", fill_title:"Tirer vers d'autres tranches pour recopier (numéros +1)", fader_drag:"Glissez sur un autre fader pour échanger (avec S / M / R)", knob_cleared:"Potentiomètre {0} libéré.",
+ knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", toast_close:"Fermer la notification", fader_swap:"Tranches {0} ⇄ {1} : faders et S / M / R échangés", copy_title:"Recopier vers d'autres tranches", copy_from:"Tranches", copy_to:"à", copy_f:"Fader", copy_k:"Potentiomètre", copy_s:"S / M / R", copy_go:"Recopier", copy_none:"Cochez au moins un élément à recopier.", copy_hint:"Les numéros avancent de 1 par tranche (Sub 12 → 13 → 14…). Les roues et les S / M / R sont copiés tels quels. Avec la souris : tirez le petit carré orange dans le coin d'une tranche.", copy_done:"Tranche {0} recopiée vers {1}.", copy_capped:"Numéros plafonnés à la limite (faders Eos : 10).", fill_title:"Tirer vers d'autres tranches pour recopier (numéros +1)", fader_drag:"Glissez sur un autre fader pour échanger (avec S / M / R)", knob_cleared:"Potentiomètre {0} libéré.",
  knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : touchez-le ensuite pour choisir une roue.", saved_file:"Profil enregistré dans {0}.",
  opened:"Configuration « {0} » ouverte.", bad_file:"« {0} » n'est pas une configuration du configurateur (fichier .json attendu).",
  cleared:"Nouveau profil vide (fonctions personnalisées conservées).", reset_done:"Nouveau profil Fader Wing.",
@@ -569,7 +571,7 @@ en:{
  kpop_title:"Knob {0} — {1}", kpop_wheels:"Eos wheels", kpop_other:"Other", kpop_setup:"Eos fader / Sub / Channel… → ⚙ Set up",
  free_btn:"✕ Clear", bpop_title:"{0} — {1}", bpop_choose:"Choose a function…", x_title:"Clear {0}",
  wheels_place:"Default wheels", wheels_placed:"Default wheels placed on knobs 1 to 6.",
- knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", fader_swap:"Strips {0} ⇄ {1}: faders and S / M / R swapped", copy_title:"Copy to other strips", copy_from:"Strips", copy_to:"to", copy_f:"Fader", copy_k:"Knob", copy_s:"S / M / R", copy_go:"Copy", copy_none:"Tick at least one item to copy.", copy_hint:"Numbers go up by 1 per strip (Sub 12 → 13 → 14…). Wheels and S / M / R are copied as they are. With the mouse: drag the small orange square in a strip's corner.", copy_done:"Strip {0} copied to {1}.", copy_capped:"Numbers capped at the limit (Eos faders: 10).", fill_title:"Drag to other strips to copy (numbers +1)", fader_drag:"Drag onto another fader to swap (with S / M / R)", knob_cleared:"Knob {0} cleared.",
+ knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", toast_close:"Close the notification", fader_swap:"Strips {0} ⇄ {1}: faders and S / M / R swapped", copy_title:"Copy to other strips", copy_from:"Strips", copy_to:"to", copy_f:"Fader", copy_k:"Knob", copy_s:"S / M / R", copy_go:"Copy", copy_none:"Tick at least one item to copy.", copy_hint:"Numbers go up by 1 per strip (Sub 12 → 13 → 14…). Wheels and S / M / R are copied as they are. With the mouse: drag the small orange square in a strip's corner.", copy_done:"Strip {0} copied to {1}.", copy_capped:"Numbers capped at the limit (Eos faders: 10).", fill_title:"Drag to other strips to copy (numbers +1)", fader_drag:"Drag onto another fader to swap (with S / M / R)", knob_cleared:"Knob {0} cleared.",
  knob_nofn:"A button function can't go on a knob: tap the knob afterwards to pick a wheel.", saved_file:"Profile saved to {0}.",
  opened:"Configuration “{0}” opened.", bad_file:"“{0}” is not a configurator file (.json expected).",
  cleared:"New empty profile (custom functions kept).", reset_done:"New Fader Wing profile.",
@@ -755,10 +757,11 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 let undoSnap=null, toastTimer=null;
 function toast(msg,action){
   const tt=document.getElementById("toast"), m=document.getElementById("toastmsg");
-  tt.querySelectorAll("button").forEach(b=>b.remove()); m.textContent=msg; tt.classList.add("show");
-  if(action){ const b=document.createElement("button"); b.type="button"; b.textContent=action.label; b.onclick=()=>{ action.fn(); }; tt.append(b); }
+  tt.querySelectorAll("button:not(.tclose)").forEach(b=>b.remove()); m.textContent=msg; tt.classList.add("show");
+  if(action){ const b=document.createElement("button"); b.type="button"; b.textContent=action.label; b.onclick=()=>{ action.fn(); }; tt.insertBefore(b,document.getElementById("toast-close")); }
   clearTimeout(toastTimer); toastTimer=setTimeout(()=>tt.classList.remove("show"),action?8000:3500);
 }
+document.getElementById("toast-close").onclick=()=>{ clearTimeout(toastTimer); document.getElementById("toast").classList.remove("show"); };
 // action destructive : on garde l'etat precedent et on propose "Annuler"
 function undoable(msg,mutate){
   undoSnap=JSON.stringify(cfg); mutate(); changedAll();
