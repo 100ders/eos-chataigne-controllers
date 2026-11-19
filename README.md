@@ -6,7 +6,7 @@ Piloter **ETC Eos / ETCnomad** avec des contrôleurs USB bon marché, via [Chata
 
 | Contrôleur | Dossier | Fonctions |
 |---|---|---|
-| Korg **nanoKONTROL2** | [`nanokontrol2/`](nanokontrol2/README.md) | Fader wing (10 faders), S / M / R, GO / Back, Live / Blind, Sneak, Record, potards en roues pan / tilt / zoom / intensité. **[Configurateur](https://100ders.github.io/eos-chataigne-controllers/)** |
+| Korg **nanoKONTROL2** | [`nanokontrol2/`](nanokontrol2/README.md) | Fader wing (10 faders), S / M / R, GO / Back, Live / Blind, Sneak, Record, potentiomètres en roues pan / tilt / zoom / intensité. **[Configurateur](https://100ders.github.io/eos-chataigne-controllers/)** |
 | Contour **ShuttleXpress** | [`shuttlexpress/`](shuttlexpress/README.md) | Jog et bague sur intensité / pan / tilt / zoom, Home. Nécessite [ShuttleXpressOSC](https://github.com/100ders/shuttleXpress-OSC) |
 
 ```
@@ -22,8 +22,8 @@ Contrôleur ──USB──▶ Chataigne ──OSC :8000──▶ Eos
 [![Configurateur](docs/images/configurateur.png)](https://100ders.github.io/eos-chataigne-controllers/)
 
 1. **Assignez** des fonctions Eos aux boutons : glisser-déposer, ou toucher une fonction puis un bouton.
-2. **Réglez** chaque tranche : fader Eos, sub ou circuit, potard en roue (pan, tilt…), rôle des boutons S / M / R.
-3. **Téléchargez** le projet : un `.zip` prêt à ouvrir dans Chataigne, avec le script des potards, votre configuration et un mode d'emploi.
+2. **Réglez** chaque tranche : fader Eos, sub ou circuit, potentiomètre en roue (pan, tilt…), rôle des boutons S / M / R.
+3. **Téléchargez** le projet : un `.zip` prêt à ouvrir dans Chataigne, avec le script des potentiomètres, votre configuration et un mode d'emploi.
 
 Fonctionne sur ordinateur, tablette et téléphone, et hors ligne (fichier `docs/index.html`). Détails : [README du nano](nanokontrol2/README.md#le-configurateur).
 
@@ -54,7 +54,7 @@ docs/
   images/
 nanokontrol2/
   nanoKONTROL2-EOS.noisette   projet prêt
-  encodeurs-relatifs.js       potards en roues
+  encodeurs-relatifs.js       potentiomètres en roues
   README.md                   (+ README.en.md)
 shuttlexpress/
   Shuttle-EOS.noisette

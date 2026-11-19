@@ -17,7 +17,9 @@ h1{margin:0;font-size:1.3rem}
 .steps li{counter-increment:st;color:var(--muted);max-width:42ch;font-size:.9rem}
 .steps li::before{content:counter(st);display:inline-flex;align-items:center;justify-content:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--accent);color:#1b1b1b;font-weight:700;margin-right:6px;font-size:.85rem}
 .steps b{color:var(--text)}
-.help{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.help{font-size:.85rem;color:var(--muted);margin:8px 0 0;line-height:2}
+.help .guide{font-weight:600;color:var(--text);text-decoration:none;border:1px solid #8fc3ff;border-radius:6px;padding:3px 10px;background:rgba(143,195,255,.12)}
+.help .guide:hover{background:rgba(143,195,255,.25)}
 main{display:grid;grid-template-columns:minmax(0,290px) minmax(0,1fr);gap:16px;padding:12px 20px 20px}
 section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
 @media(max-width:900px){main{grid-template-columns:minmax(0,1fr);padding:10px}#nano-section{order:-1}}
@@ -93,9 +95,14 @@ button.link{background:none;border:none;color:#8fc3ff;text-decoration:underline;
 .bar select{max-width:100%}
 #rowbar .rl{font-weight:600;color:var(--accent);margin-left:6px;display:inline-block;width:1.3em}
 /* mode "toucher puis toucher" : les zones de depot pulsent */
-body.picking .target,body.picking .slot{animation:pulse 1.2s ease-in-out infinite}
+body.picking-fn .target,body.picking-fn .slot,body.picking-wheel .knob{animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 3px var(--accent)}}
-@media(prefers-reduced-motion:reduce){body.picking .target,body.picking .slot{animation:none;box-shadow:0 0 0 2px var(--accent)}}
+@media(prefers-reduced-motion:reduce){body.picking-fn .target,body.picking-fn .slot,body.picking-wheel .knob{animation:none;box-shadow:0 0 0 2px var(--accent)}}
+.chip.wheel{border-left-color:#3fc6e2}
+.wheelbtn{margin-top:6px;font-size:.82rem}
+.knob{cursor:pointer}
+.knob.over{outline:3px solid var(--accent)}
+@media(pointer:coarse){.knob{width:44px;height:44px}}
 .pop{position:absolute;z-index:20;background:var(--panel);border:1px solid var(--accent);border-radius:8px;padding:10px;width:260px;box-shadow:0 8px 24px #000a}
 .pop h4{margin:0 0 6px;font-size:.85rem}
 .pop .opts{display:grid;gap:4px}
@@ -253,10 +260,10 @@ const I18N = {
 fr:{
  lang_btn:"English", lang_aria:"Switch to English", bmc:"☕ Offrir un café",
  title:"Configurateur nanoKONTROL2 → ETC Eos", skip:"Aller au nanoKONTROL2",
- step1:"<b>Assignez</b> des fonctions aux boutons : glissez-les, ou touchez une fonction puis un bouton.",
+ step1:"<b>Assignez</b> des fonctions aux boutons et des roues aux potentiomètres : glissez-les, ou touchez puis touchez la cible.",
  step2:"<b>Réglez</b> chaque tranche : cliquez dessus (⚙ Régler) ou sur ses cases S, M, R.",
  step3:"<b>Téléchargez</b> le projet et ouvrez-le dans Chataigne.",
- help:"Aide : <a href='{0}' target='_blank' rel='noopener'>régler l'OSC dans Eos</a> · <a href='{1}' target='_blank' rel='noopener'>mode d'emploi</a> · <a href='{2}' target='_blank' rel='noopener'>dictionnaire OSC d'Eos (en anglais) ↗</a>",
+ help:"💡 Aide : <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 Mode d'emploi</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ régler l'OSC dans Eos</a> · <a href='{2}' target='_blank' rel='noopener'>📚 dictionnaire OSC d'Eos (en anglais) ↗</a>",
  dict_hint:"Liste des adresses : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
  dict_param:"Noms des paramètres : <a href='{0}' target='_blank' rel='noopener'>dictionnaire OSC d'ETC (en anglais) ↗</a>",
  lib_title:"Bibliothèque de fonctions", leg_key:"Touche Eos", leg_cmd:"Commande tapée",
@@ -265,14 +272,14 @@ fr:{
  lib_note:"Bleu : touche Eos ou adresse OSC. Vert : commande tapée sur Eos (<code>#</code> = Enter). ↳ : variante de la fonction au-dessus.",
  empty_msg:"<b>Le nano est vide.</b> Commencez par un modèle, ou glissez <b>GO</b> sur <b>▶ Play</b>.",
  empty_wing:"Modèle Fader Wing", empty_subs:"Modèle Subs", empty_chans:"Modèle Circuits",
- preset_l:"Modèle des 8 tranches", preset_wing:"Fader Wing (faders Eos 1–10, potards en roues)", preset_subs:"Subs", preset_chans:"Circuits",
+ preset_l:"Modèle des faders", preset_wing:"Fader Wing (faders Eos 1–10)", preset_subs:"Subs", preset_chans:"Circuits",
  preset_from:"à partir du n°", preset_apply:"Appliquer le modèle",
  rowbar_l:"Rôle des boutons S, M, R (toutes les tranches) :", row_aria:"Les 8 boutons {0}", row_diff:"(différents)", row_fngroup:"Fonction de la bibliothèque",
  scrollhint:"↔ Faites glisser le contrôleur horizontalement pour voir toutes les tranches.",
  aria_transport:"Boutons de transport", aria_strips:"Tranches 1 à 8", aria_editor:"Réglages de la tranche", aria_file:"Fichier de configuration",
  export:"Télécharger le projet Chataigne (.zip)", saved:"✓ Enregistré dans ce navigateur", not_saved:"⚠ Non enregistré (navigation privée ?) : utilisez « Enregistrer dans un fichier »",
  save_file:"Enregistrer dans un fichier", open_file:"Ouvrir un fichier", clear_all:"Tout vider", reset_wing:"Revenir au modèle Fader Wing",
- bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potards en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. La configuration reste dans ce navigateur : enregistrez-la dans un fichier pour la retrouver ailleurs.",
+ bottom_note:"La banque de faders Eos fait 10 faders : les pages Eos défilent par 10 avec PAGE FADERS + / −. Les potentiomètres en mode roue utilisent le script <code>encodeurs-relatifs.js</code>, inclus dans le .zip. La configuration reste dans ce navigateur : enregistrez-la dans un fichier pour la retrouver ailleurs.",
  pick_go:"Aller au nano ↑", cancel:"Annuler", undo:"Annuler", remove:"Retirer", close:"Fermer",
  pick_msg:"« {0} » sélectionnée : touchez un bouton du nano ou une case S / M / R.",
  undone:"Modification annulée.",
@@ -288,25 +295,25 @@ fr:{
  beh_full:"Full", beh_out:"Out", beh_flash:"Flash (maintenu)", beh_bump:"Bump (maintenu)", beh_fire:"Fire / GO", beh_stop:"Stop", beh_load:"Load", beh_home:"Home", beh_sel:"Sélection", beh_out0:"Out (0)", beh_none:"— Rien", beh_fn:"Fonction de la bibliothèque",
  bd_full:"Met à fond", bd_out:"Met à zéro", bd_flash:"À fond tant que le bouton est enfoncé", bd_fire:"Lance la cue du fader", bd_stop:"Arrête la cue du fader", bd_load:"Charge la cue sélectionnée sur le fader", bd_home:"Revient à la valeur par défaut", bd_sel:"Sélectionne le circuit",
  tn_fader:"un fader Eos", tn_sub:"un sub", tn_chan:"un circuit", tn_none:"une tranche sans fader",
- strip_aria:"Tranche {0} : fader {1}, potard {2}. Régler", strip_set:"⚙ Régler", strip_close:"▲ Fermer",
- knob_title:"Potard {0} : {1}", knob_wheel:"roue — ",
+ strip_aria:"Tranche {0} : fader {1}, potentiomètre {2}. Régler", strip_set:"⚙ Régler", strip_close:"▲ Fermer",
+ knob_title:"Potentiomètre {0} : {1}", knob_wheel:"roue — ",
  slot_aria:"Bouton {0}{1} : {2}", slot_ignored:" (ignoré à l'export)", slot_title:"{0}{1} : {2} — cliquer pour modifier", slot_na:"{0} n'existe pas pour {1} : ignoré à l'export. Cliquer pour modifier.",
- ed_title:"Réglages de la tranche {0}", ed_close:"Fermer ✕", ed_fader:"Fader (CC{0})", ed_knob:"Potard (CC{0})",
- ed_fctl:"Ce fader contrôle", ed_kctl:"Ce potard contrôle", ed_bank:"N° dans la banque (1–10)", ed_num:"Numéro",
+ ed_title:"Réglages de la tranche {0}", ed_close:"Fermer ✕", ed_fader:"Fader (CC{0})", ed_knob:"Potentiomètre (CC{0})",
+ ed_fctl:"Ce fader contrôle", ed_kctl:"Ce potentiomètre contrôle", ed_bank:"N° dans la banque (1–10)", ed_num:"Numéro",
  ed_param:"Paramètre", ed_other:"Autre paramètre…", ed_other_l:"Nom Eos du paramètre", ed_other_ph:"ex. gobo_index",
  ed_prec:"Précision", ed_normal:"Normale", ed_fine:"Fine", ed_speed:"Vitesse (crans Eos par cran)", ed_inv:"Inverser le sens",
  ed_sends:"Envoie : ", ed_script:" (via le script)", fader_changed:"Fader {0} → {1} (S / M / R remis par défaut)",
  pop_title:"Bouton {0}{1} — {2}", pop_other:"Autre fonction de la bibliothèque…", pop_row:"Appliquer aux 8 boutons {0}", pop_na:"N'existe pas pour {0}",
  row_set:"Ligne {0} → {1}", slot_set:"{0} → {1}",
- t_legend:"Faders et potards :", t_fader:"Fader Eos", t_sub:"Sub", t_chan:"Circuit", t_rel:"Roue (×n = vitesse, ⇄ = inversé)", t_none:"Libre", b_legend:"S / M / R :",
- r_dup:"{0} est piloté par plusieurs contrôles : {1}.", r_param:"Potard {0} : indiquez le nom du paramètre Eos (ex. gobo_index).",
+ t_legend:"Faders et potentiomètres :", t_fader:"Fader Eos", t_sub:"Sub", t_chan:"Circuit", t_rel:"Roue (×n = vitesse, ⇄ = inversé)", t_none:"Libre", b_legend:"S / M / R :",
+ r_dup:"{0} est piloté par plusieurs contrôles : {1}.", r_param:"Potentiomètre {0} : indiquez le nom du paramètre Eos (ex. gobo_index).",
  r_tip:"Astuce : ajoutez PAGE FADERS + / − sur des boutons pour changer de page Eos.",
  r_pair:"Utilisez PAGE FADERS + et − ensemble, sinon vous ne pourrez pas revenir en arrière.",
  r_pages:"Pages : démarrez sur la page 1 et ne dépassez pas la dernière page configurée dans Eos (son affichage boucle, pas les faders du nano).",
  r_nobank:"Les boutons PAGE FADERS n'ont d'effet sur les faders du nano qu'en mode « Fader Eos ».",
  r_missing:"Bouton {0}{1} : fonction introuvable (supprimée ?). Choisissez-en une autre.",
  r_na:"{0}{1} : « {2} » n'existe pas pour {3} — ignoré à l'export.", r_err:"Erreur : ",
- w_fader:"fader {0}", w_knob:"potard {0}",
+ w_fader:"fader {0}", w_knob:"potentiomètre {0}",
  exp_blocked:"Impossible de télécharger : corrigez d'abord les erreurs en rouge ({0}).",
  done_title:"✅ Projet prêt ({0} éléments)",
  done_1:"Décompressez <code>nanoKONTROL2-EOS.zip</code> et gardez les fichiers ensemble{0}.",
@@ -315,7 +322,11 @@ fr:{
  done_3:"Vérifiez le périphérique MIDI (nanoKONTROL2) et l'adresse IP de la console dans le module OSC.",
  done_4:"Dans Eos, activez la réception OSC sur le port 8000 : <a href='{0}' target='_blank' rel='noopener'>pas à pas</a>.",
  cf_macro_err:"Indiquez un numéro de macro (ex. 5).", cf_osc_err:"Une adresse OSC commence par « / » (ex. /eos/key/live).", cf_added:"Fonction « {0} » ajoutée : glissez-la sur un bouton.",
- preset_done:"Modèle « {0} » appliqué aux 8 tranches.", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
+ preset_done:"Modèle « {0} » appliqué aux faders (potentiomètres 1–6 inchangés).", preset_done_full:"Modèle « {0} » appliqué, avec les 6 roues.",
+ g_wheels:"Roues (potentiomètres)", wheels_place:"Placer les 6 roues sur les potentiomètres 1–6", wheels_placed:"6 roues placées sur les potentiomètres 1–6.",
+ wheel_d:"Roue Eos : {0}", pick_wheel:"« {0} » sélectionnée : touchez un potentiomètre.",
+ knob_set:"Potentiomètre {0} → {1}", knob_swap:"Potentiomètres {0} ⇄ {1}", knob_cleared:"Potentiomètre {0} libéré.",
+ knob_nofn:"Une fonction de bouton ne va pas sur un potentiomètre : choisissez une roue.", wheel_noknob:"Une roue va sur un potentiomètre (cercle en haut de chaque tranche).", saved_file:"Configuration enregistrée dans nanokontrol2-config.json.",
  opened:"Configuration « {0} » ouverte.", bad_file:"« {0} » n'est pas une configuration du configurateur (fichier .json attendu).",
  cleared:"Tout est vidé (fonctions personnalisées conservées).", reset_done:"Modèle Fader Wing rétabli.",
  readme_name:"LISEZ-MOI.txt",
@@ -333,10 +344,10 @@ fr:{
 en:{
  lang_btn:"Français", lang_aria:"Passer en français", bmc:"☕ Buy me a coffee",
  title:"nanoKONTROL2 → ETC Eos configurator", skip:"Skip to the nanoKONTROL2",
- step1:"<b>Assign</b> functions to buttons: drag them, or tap a function then a button.",
+ step1:"<b>Assign</b> functions to buttons and wheels to knobs: drag them, or tap one then tap the target.",
  step2:"<b>Set up</b> each strip: click it (⚙ Set up) or its S, M, R boxes.",
  step3:"<b>Download</b> the project and open it in Chataigne.",
- help:"Help: <a href='{0}' target='_blank' rel='noopener'>Eos OSC setup</a> · <a href='{1}' target='_blank' rel='noopener'>nano user guide</a> · <a href='{2}' target='_blank' rel='noopener'>Eos OSC dictionary ↗</a>",
+ help:"💡 Help: <a class='guide' href='{1}' target='_blank' rel='noopener'>📖 User guide</a> · <a href='{0}' target='_blank' rel='noopener'>⚙️ Eos OSC setup</a> · <a href='{2}' target='_blank' rel='noopener'>📚 Eos OSC dictionary ↗</a>",
  dict_hint:"Address list: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
  dict_param:"Parameter names: <a href='{0}' target='_blank' rel='noopener'>ETC OSC dictionary ↗</a>",
  lib_title:"Function library", leg_key:"Eos key", leg_cmd:"Typed command",
@@ -345,7 +356,7 @@ en:{
  lib_note:"Blue: Eos key or OSC address. Green: command typed on Eos (<code>#</code> = Enter). ↳: variant of the function above.",
  empty_msg:"<b>The nano is empty.</b> Start from a template, or drag <b>GO</b> onto <b>▶ Play</b>.",
  empty_wing:"Fader Wing template", empty_subs:"Subs template", empty_chans:"Channels template",
- preset_l:"Template for the 8 strips", preset_wing:"Fader Wing (Eos faders 1–10, knobs as wheels)", preset_subs:"Subs", preset_chans:"Channels",
+ preset_l:"Fader template", preset_wing:"Fader Wing (Eos faders 1–10)", preset_subs:"Subs", preset_chans:"Channels",
  preset_from:"starting at no.", preset_apply:"Apply template",
  rowbar_l:"S, M, R button roles (all strips):", row_aria:"All 8 {0} buttons", row_diff:"(mixed)", row_fngroup:"Library function",
  scrollhint:"↔ Swipe the controller sideways to see all strips.",
@@ -395,7 +406,11 @@ en:{
  done_3:"Check the MIDI device (nanoKONTROL2) and the console's IP address in the OSC module.",
  done_4:"In Eos, enable OSC reception on port 8000: <a href='{0}' target='_blank' rel='noopener'>step by step</a>.",
  cf_macro_err:"Enter a macro number (e.g. 5).", cf_osc_err:"An OSC address starts with “/” (e.g. /eos/key/live).", cf_added:"Function “{0}” added: drag it onto a button.",
- preset_done:"Template “{0}” applied to the 8 strips.", saved_file:"Configuration saved to nanokontrol2-config.json.",
+ preset_done:"Template “{0}” applied to the faders (knobs 1–6 unchanged).", preset_done_full:"Template “{0}” applied, with the 6 wheels.",
+ g_wheels:"Wheels (knobs)", wheels_place:"Place the 6 wheels on knobs 1–6", wheels_placed:"6 wheels placed on knobs 1–6.",
+ wheel_d:"Eos wheel: {0}", pick_wheel:"“{0}” selected: tap a knob.",
+ knob_set:"Knob {0} → {1}", knob_swap:"Knobs {0} ⇄ {1}", knob_cleared:"Knob {0} cleared.",
+ knob_nofn:"A button function can't go on a knob: pick a wheel.", wheel_noknob:"A wheel goes on a knob (circle at the top of each strip).", saved_file:"Configuration saved to nanokontrol2-config.json.",
  opened:"Configuration “{0}” opened.", bad_file:"“{0}” is not a configurator file (.json expected).",
  cleared:"Everything cleared (custom functions kept).", reset_done:"Fader Wing template restored.",
  readme_name:"README.txt",
@@ -454,6 +469,7 @@ const LIB = [
  {g:"Enregistrement",id:"updqo",label:"UPDATE CUE ONLY",type:"cmd",value:"Update CueOnly #",d:{fr:"Met à jour la cue active, sans suivi",en:"Updates the active cue, no tracking"},t:1},
  {g:"Saisie",id:"enter",label:"ENTER",type:"cmd",value:"#",d:{fr:"Valide la ligne de commande",en:"Confirms the command line"},t:1},
  {g:"Saisie",id:"clear",label:"CLEAR",type:"key",value:"/eos/key/clear_cmd",d:{fr:"Efface le dernier élément saisi",en:"Clears the last entry"},t:1},
+ {g:"Saisie",id:"clearline",label:{fr:"CLEAR LIGNE",en:"CLEAR LINE"},type:"key",value:"/eos/key/clear_cmdline",d:{fr:"Efface toute la ligne de commande",en:"Clears the whole command line"},t:1},
  {g:"Sélection et niveaux",id:"full",label:"FULL",type:"key",value:"/eos/at/full",d:{fr:"Sélection à fond",en:"Selection at full"},t:1},
  {g:"Sélection et niveaux",id:"out",label:"OUT",type:"key",value:"/eos/at/out",d:{fr:"Sélection à zéro",en:"Selection out"},t:1},
  {g:"Sélection et niveaux",id:"home",label:"HOME",type:"key",value:"/eos/at/home",d:{fr:"Sélection à sa valeur par défaut",en:"Selection to its default value"},t:1},
@@ -484,21 +500,30 @@ const BEH_DEFAULT = {fader:["full","out","flash"],sub:["full","out","flash"],cha
 const available=(i,b)=>b==="none"||b==="fn"||BEH_KEYS[cfg.faders[i].t].includes(b);
 const MAXN = {fader:10,sub:999,chan:99999};
 
+// Les 6 roues de la bibliotheque (vitesse par defaut = crans Eos par cran de potentiometre)
+const WHEELS = [
+ {id:"w:intens",  label:{fr:"INTENSITÉ",en:"INTENSITY"}, k:{m:"rel",p:"intens",w:"coarse",k:1}},
+ {id:"w:pan",     label:{fr:"PAN",en:"PAN"},             k:{m:"rel",p:"pan",w:"coarse",k:10}},
+ {id:"w:panfine", label:{fr:"PAN FIN",en:"PAN FINE"},    k:{m:"rel",p:"pan",w:"coarse",k:1}},
+ {id:"w:tilt",    label:{fr:"TILT",en:"TILT"},           k:{m:"rel",p:"tilt",w:"coarse",k:5}},
+ {id:"w:tiltfine",label:{fr:"TILT FIN",en:"TILT FINE"},  k:{m:"rel",p:"tilt",w:"coarse",k:1}},
+ {id:"w:zoom",    label:{fr:"ZOOM",en:"ZOOM"},           k:{m:"rel",p:"zoom",w:"coarse",k:3}}
+];
+const isWheel=id=>typeof id==="string"&&id.startsWith("w:");
+const wheelById=id=>WHEELS.find(w=>w.id===id);
+// Un modele ne regle que les faders et leurs S / M / R.
+// Fader Wing regle aussi les potentiometres 7-8 (faders Eos 9-10) ; les potentiometres 1-6 ne sont jamais touches.
 function presetStrips(kind,start){
-  const s=Math.max(1,parseInt(start)||1), faders=[], knobs=[], smr=[];
+  const s=Math.max(1,parseInt(start)||1), faders=[], smr=[];
   for(let i=0;i<8;i++){
     if(kind==="wing"){ faders.push({t:"fader",n:i+1}); }
     else faders.push({t:kind==="subs"?"sub":"chan",n:s+i});
     const d=BEH_DEFAULT[faders[i].t]; smr.push({S:{b:d[0]},M:{b:d[1]},R:{b:d[2]}});
   }
-  if(kind==="wing"){
-    knobs.push({m:"rel",p:"intens",w:"coarse",k:1},{m:"rel",p:"pan",w:"coarse",k:10},{m:"rel",p:"pan",w:"coarse",k:1},
-               {m:"rel",p:"tilt",w:"coarse",k:5},{m:"rel",p:"tilt",w:"coarse",k:1},{m:"rel",p:"zoom",w:"coarse",k:3},
-               {m:"fader",n:9},{m:"fader",n:10});
-  } else for(let i=0;i<8;i++) knobs.push({m:kind==="subs"?"sub":"chan",n:s+8+i});
-  return {faders,knobs,smr};
+  return {faders,smr};
 }
-function defaultCfg(){ return Object.assign({buttons:{...DEFAULT_BUTTONS},custom:[]},presetStrips("wing",1)); }
+const wheelKnobs=()=>WHEELS.map(w=>({...w.k}));
+function defaultCfg(){ return Object.assign({buttons:{...DEFAULT_BUTTONS},custom:[]},presetStrips("wing",1),{knobs:wheelKnobs().concat([{m:"fader",n:9},{m:"fader",n:10}])}); }
 function blankCfg(){ const n={b:"none"}; return {buttons:{},custom:cfg.custom||[],
   faders:Array.from({length:8},()=>({t:"none",n:1})), knobs:Array.from({length:8},()=>({m:"none"})),
   smr:Array.from({length:8},()=>({S:{...n},M:{...n},R:{...n}}))}; }
@@ -548,14 +573,14 @@ function isEmpty(){ return !Object.keys(cfg.buttons).length && cfg.faders.every(
 
 // ---------- mode "toucher une fonction puis un bouton" ----------
 function setPick(id){
-  selected=id; document.body.classList.toggle("picking",!!id);
+  selected=id; document.body.classList.toggle("picking-fn",!!id&&!isWheel(id)); document.body.classList.toggle("picking-wheel",isWheel(id));
   const bar=document.getElementById("pickbar");
-  if(id){ document.getElementById("pickmsg").textContent=t("pick_msg",fnLabel(fnById(id))); bar.classList.add("show"); }
+  if(id){ document.getElementById("pickmsg").textContent=isWheel(id)?t("pick_wheel",L(wheelById(id).label)):t("pick_msg",fnLabel(fnById(id))); bar.classList.add("show"); }
   else bar.classList.remove("show");
   renderLib();
 }
 document.getElementById("pick-cancel").onclick=()=>setPick(null);
-document.getElementById("pick-go").onclick=()=>{ document.getElementById("nano-section").scrollIntoView({behavior:"smooth",block:"start"}); const x=document.querySelector(".target"); if(x) x.focus({preventScroll:true}); };
+document.getElementById("pick-go").onclick=()=>{ document.getElementById("nano-section").scrollIntoView({behavior:"smooth",block:"start"}); const x=document.querySelector(isWheel(selected)?".knob":".target"); if(x) x.focus({preventScroll:true}); };
 
 // ---------- rendu ----------
 function chip(f){
@@ -572,6 +597,16 @@ function chip(f){
   if(selected===f.id) el.classList.add("sel");
   return el;
 }
+function wheelChip(w){
+  const el=document.createElement("div"); el.className="chip wheel"+(selected===w.id?" sel":""); el.draggable=true; el.tabIndex=0; el.dataset.id=w.id;
+  el.setAttribute("role","button"); el.setAttribute("aria-pressed",selected===w.id?"true":"false");
+  el.append(L(w.label)); const sm=document.createElement("small"); sm.textContent=t("wheel_d",knobLabel(w.k)); el.append(sm);
+  el.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain","wheel:"+w.id));
+  const pick=()=>setPick(selected===w.id?null:w.id);
+  el.addEventListener("click",pick);
+  el.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();pick();} });
+  return el;
+}
 function renderLib(){
   const fid=document.activeElement&&document.activeElement.classList.contains("chip")?document.activeElement.dataset.id:null;
   const box=document.getElementById("libs"); box.replaceChildren();
@@ -580,6 +615,9 @@ function renderLib(){
     l.append(...LIB.filter(f=>f.g===g).map(chip)); box.append(h,l);
     if(GROUP_NOTE[g]){ const n=document.createElement("p"); n.className="gnote"; n.textContent=t(GROUP_NOTE[g]); box.append(n); }
   });
+  const hw=document.createElement("h3"); hw.textContent=t("g_wheels"); const lw=document.createElement("div"); lw.className="lib";
+  lw.append(...WHEELS.map(wheelChip)); const pb=document.createElement("button"); pb.type="button"; pb.className="wheelbtn"; pb.textContent=t("wheels_place"); pb.onclick=placeWheels;
+  box.append(hw,lw,pb);
   document.getElementById("lib-custom").replaceChildren(...cfg.custom.map(chip));
   if(fid){ const c=document.querySelector('.chip[data-id="'+fid+'"]'); if(c) c.focus(); }
 }
@@ -601,8 +639,9 @@ function renderStrips(){
     s.setAttribute("role","button"); s.setAttribute("aria-expanded",openStrip===i?"true":"false"); s.setAttribute("aria-controls","editor");
     s.setAttribute("aria-label",t("strip_aria",i+1,targetLabel(cfg.faders[i].t,cfg.faders[i].n),knobLabel(cfg.knobs[i])));
     const km=cfg.knobs[i].m;
-    const kn=document.createElement("div"); kn.className="knob t-"+km;
+    const kn=document.createElement("div"); kn.className="knob t-"+km; kn.dataset.knob=i; kn.tabIndex=0; kn.setAttribute("role","button"); kn.draggable=km!=="none";
     kn.title=t("knob_title",i+1,(km==="rel"?t("knob_wheel"):"")+knobLabel(cfg.knobs[i]));
+    kn.setAttribute("aria-label",kn.title);
     const kl=document.createElement("div"); kl.className="lbl t-"+km+(km==="none"?" empty":" set kset"); kl.textContent=knobLabel(cfg.knobs[i]);
     s.append(kn,kl);
     for(const slot of ["S","M","R"]){
@@ -615,8 +654,8 @@ function renderStrips(){
       b.addEventListener("dragover",e=>{e.preventDefault();b.classList.add("over");});
       b.addEventListener("dragleave",()=>b.classList.remove("over"));
       b.addEventListener("drop",e=>{ e.preventDefault(); b.classList.remove("over"); const d=e.dataTransfer.getData("text/plain"); if(d.startsWith("fn:")) setSlotFn(i,slot,d.slice(3)); });
-      b.addEventListener("click",e=>{ e.stopPropagation(); if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); } else openPop(i,slot,b); });
-      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); focusSlot(i,slot); } else openPop(i,slot,b); } });
+      b.addEventListener("click",e=>{ e.stopPropagation(); if(isWheel(selected)){ toast(t("wheel_noknob")); return; } if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); } else openPop(i,slot,b); });
+      b.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); e.stopPropagation(); if(isWheel(selected)){ toast(t("wheel_noknob")); return; } if(selected){ const id=selected; setPick(null); setSlotFn(i,slot,id); focusSlot(i,slot); } else openPop(i,slot,b); } });
       s.append(b);
     }
     const fd=document.createElement("div"); fd.className="fader t-"+cfg.faders[i].t;
@@ -625,11 +664,32 @@ function renderStrips(){
     s.append(fd,fl,cf);
     const open=()=>{ openStrip=(openStrip===i)?null:i; renderStrips(); renderEditor(); const ns=document.querySelector('.strip[data-strip="'+i+'"]'); if(ns) ns.focus({preventScroll:true});
       if(openStrip!==null) document.getElementById("editor").scrollIntoView({behavior:"smooth",block:"nearest"}); };
+    // potentiometre : depot d'une roue, echange avec un autre potentiometre, toucher puis toucher
+    const knobAct=e=>{ e.stopPropagation();
+      if(isWheel(selected)){ const w=wheelById(selected); setPick(null); setKnobWheel(i,w); focusKnob(i); }
+      else if(selected) toast(t("knob_nofn"));
+      else open(); };
+    kn.addEventListener("click",knobAct);
+    kn.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); knobAct(e); }
+      if(e.key==="Delete"||e.key==="Backspace"){ e.preventDefault(); e.stopPropagation(); clearKnob(i); } });
+    kn.addEventListener("dragstart",e=>{ e.stopPropagation(); e.dataTransfer.setData("text/plain","knob:"+i); });
+    [kn,kl].forEach(z=>{
+      z.addEventListener("dragover",e=>{ e.preventDefault(); kn.classList.add("over"); });
+      z.addEventListener("dragleave",()=>kn.classList.remove("over"));
+      z.addEventListener("drop",e=>{ e.preventDefault(); e.stopPropagation(); kn.classList.remove("over"); const d=e.dataTransfer.getData("text/plain");
+        if(d.startsWith("wheel:")) setKnobWheel(i,wheelById(d.slice(6)));
+        else if(d.startsWith("knob:")) swapKnobs(+d.slice(5),i);
+        else if(d.startsWith("fn:")) toast(t("knob_nofn")); });
+    });
     s.addEventListener("click",open);
     s.addEventListener("keydown",e=>{ if(e.target===s&&(e.key==="Enter"||e.key===" ")){e.preventDefault();open();} });
     box.append(s);
   }
 }
+function focusKnob(i){ const n=document.querySelector('.knob[data-knob="'+i+'"]'); if(n) n.focus(); }
+function setKnobWheel(i,w){ if(!w) return; cfg.knobs[i]={...w.k}; changed(); toast(t("knob_set",i+1,L(w.label))); }
+function swapKnobs(a,b){ if(a===b) return; [cfg.knobs[a],cfg.knobs[b]]=[cfg.knobs[b],cfg.knobs[a]]; changed(); toast(t("knob_swap",a+1,b+1)); focusKnob(b); }
+function clearKnob(i){ if(cfg.knobs[i].m==="none") return; undoable(t("knob_cleared",i+1),()=>{ cfg.knobs[i]={m:"none"}; }); }
 function focusSlot(i,slot){ const n=document.querySelector('.slot[data-strip="'+i+'"][data-slot="'+slot+'"]'); if(n) n.focus(); }
 function setSlotFn(i,slot,id){ cfg.smr[i][slot]={b:"fn",id}; changed(); toast(t("slot_set",slot+(i+1),fnLabel(fnById(id)))); }
 
@@ -659,7 +719,7 @@ function renderEditor(){
   if(fa.t!=="none"){ fs1.append(field(fa.t==="fader"?t("ed_bank"):t("ed_num"),numInput("ed-fn",fa.n,MAXN[fa.t],v=>{fa.n=v;changed();})), sent(faderAddr(fa.t,fa.n))); }
   grid.append(fs1);
 
-  // potard
+  // potentiomètre
   const fs2=document.createElement("fieldset"); const lg2=document.createElement("legend"); lg2.textContent=t("ed_knob",CC.knob(i)); fs2.append(lg2);
   const kb=cfg.knobs[i], km=document.createElement("select"); km.id="ed-km"; KMODES.forEach(k=>opt(km,k,targetName(k),kb.m));
   km.addEventListener("change",()=>{ const m=km.value; cfg.knobs[i]=m==="rel"?{m,p:"pan",w:"coarse",k:1}:m==="none"?{m}:{m,n:1}; changed(); });
@@ -788,6 +848,7 @@ function initButtons(){
       if(d.startsWith("from:")){ const [,src,id]=d.split(":"); if(src===cc) return; const here=cfg.buttons[cc]; setButton(cc,id); setButton(src,here||null); toast(t("swapped",BTN_LABEL[src],BTN_LABEL[cc])); }
       else if(d.startsWith("fn:")){ const id=d.slice(3); setButton(cc,id); toast(t("slot_set",BTN_LABEL[cc],fnLabel(fnById(id)))); } });
     const act=()=>{
+      if(isWheel(selected)){ toast(t("wheel_noknob")); return; }
       if(selected){ const id=selected; setPick(null); setButton(cc,id); toast(t("slot_set",BTN_LABEL[cc],fnLabel(fnById(id)))); x.focus(); return; }
       const f=fnById(cfg.buttons[cc]);
       if(f) toast(t("slot_set",BTN_LABEL[cc],fnLabel(f)+" ("+f.value+")"),{label:t("remove"),fn:()=>removeButton(cc)});
@@ -837,18 +898,18 @@ function state(name,x,y,w,items){ const s=clone(TPL.state); s.niceName=name;
 
 function buildScript(){
   const rel=cfg.knobs.map((k,i)=>({k,i})).filter(o=>o.k.m==="rel"); if(!rel.length) return null;
-  let s="// Genere par le configurateur nanoKONTROL2 -> ETC Eos\n// Potards en roue : crans de roue Eos par cran de potard (negatif = sens inverse).\n";
+  let s="// Genere par le configurateur nanoKONTROL2 -> ETC Eos\n// Potentiometres en roue : crans de roue Eos par cran de potentiometre (negatif = sens inverse).\n";
   rel.forEach(o=>{ s+="var last"+CC.knob(o.i)+" = -1;\n"; });
   s+="\nfunction step(last, value) { return (last >= 0) ? value - last : 0; }\nfunction wheel(address, ticks) { if (ticks != 0) root.modules.osc.send(address, ticks); }\n\nfunction ccEvent(channel, number, value) {\n";
   rel.forEach((o,j)=>{ const cc=CC.knob(o.i), k=o.k, addr=k.p==="intens"?"/eos/wheel/level":"/eos/wheel/"+k.w+"/"+k.p;
-    s+="  "+(j?"} else ":"")+"if (number == "+cc+") {   // potard "+(o.i+1)+" : "+ascii(knobLabel(k,"fr"))+"\n    wheel(\""+addr+"\", step(last"+cc+", value) * "+k.k+");\n    last"+cc+" = value;\n"; });
+    s+="  "+(j?"} else ":"")+"if (number == "+cc+") {   // potentiometre "+(o.i+1)+" : "+ascii(knobLabel(k,"fr"))+"\n    wheel(\""+addr+"\", step(last"+cc+", value) * "+k.k+");\n    last"+cc+" = value;\n"; });
   s+="  }\n}\n"; return s;
 }
 function buildProject(){
   const p=clone(TPL.project), script=buildScript();
   const faders=[], smr=[], keys=[];
   cfg.faders.forEach((f,i)=>{ if(f.t!=="none") faders.push(mapping("FADER "+(i+1)+" - "+targetLabel(f.t,f.n,"fr").toUpperCase(),CC.fader(i),f.t,f.n)); });
-  cfg.knobs.forEach((k,i)=>{ if(k.m!=="rel"&&k.m!=="none") faders.push(mapping("POTARD "+(i+1)+" - "+targetLabel(k.m,k.n,"fr").toUpperCase(),CC.knob(i),k.m,k.n)); });
+  cfg.knobs.forEach((k,i)=>{ if(k.m!=="rel"&&k.m!=="none") faders.push(mapping("POTENTIOMETRE "+(i+1)+" - "+targetLabel(k.m,k.n,"fr").toUpperCase(),CC.knob(i),k.m,k.n)); });
   for(let i=0;i<8;i++) for(const sl of ["S","M","R"]){ const a=smrAction(i,sl); if(a) smr.push(a); }
   // boutons dans l'ordre physique du nano : Track, Cycle / Set / Marker, transport
   BTN_ORDER.forEach(cc=>{ const f=fnById(cfg.buttons[cc]); if(f&&!f.script) keys.push(fnAction(BTN_NAME[cc]+" - "+fnLabel(f,"fr"),cc,f)); });
@@ -908,9 +969,15 @@ document.getElementById("custom-form").addEventListener("submit",e=>{
   Object.assign(f,{id:"c"+Date.now(),label,custom:1}); cfg.custom.push(f); store.save(); renderLib(); renderRowbar(); e.target.reset(); updateCustomValue();
   toast(t("cf_added",label));
 });
-function applyPreset(k,st){ undoable(t("preset_done",t("preset_"+k)),()=>{ Object.assign(cfg,presetStrips(k,st)); if(k==="wing"&&!Object.keys(cfg.buttons).length) cfg.buttons={...DEFAULT_BUTTONS}; openStrip=null; }); }
-document.getElementById("apply-preset").onclick=()=>applyPreset(document.getElementById("preset").value,document.getElementById("preset-start").value);
-document.querySelectorAll("#empty [data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset,1));
+// withWheels : nano vide -> on place aussi les 6 roues (et les boutons par defaut pour le Fader Wing)
+function applyPreset(k,st,withWheels){ undoable(t(withWheels?"preset_done_full":"preset_done",t("preset_"+k)),()=>{
+  const p=presetStrips(k,st); cfg.faders=p.faders; cfg.smr=p.smr;
+  if(k==="wing"){ cfg.knobs[6]={m:"fader",n:9}; cfg.knobs[7]={m:"fader",n:10}; }
+  if(withWheels){ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); if(k==="wing"&&!Object.keys(cfg.buttons).length) cfg.buttons={...DEFAULT_BUTTONS}; }
+  openStrip=null; }); }
+function placeWheels(){ undoable(t("wheels_placed"),()=>{ wheelKnobs().forEach((w,i)=>{ cfg.knobs[i]=w; }); }); }
+document.getElementById("apply-preset").onclick=()=>applyPreset(document.getElementById("preset").value,document.getElementById("preset-start").value,false);
+document.querySelectorAll("#empty [data-preset]").forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset,1,true));
 document.getElementById("export").onclick=exportProject;
 document.getElementById("save-cfg").onclick=()=>{ download("nanokontrol2-config.json",JSON.stringify(cfg,null,1),"application/json"); toast(t("saved_file")); };
 document.getElementById("load-cfg-btn").onclick=()=>document.getElementById("load-cfg").click();

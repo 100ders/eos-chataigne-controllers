@@ -104,11 +104,15 @@ Nothing in 1: MIDI problem (see [MIDI module](#midi-module)). Nothing in 2: proj
 A web page, nothing to install, also works offline (`docs/index.html`): **[open the configurator](https://100ders.github.io/eos-chataigne-controllers/?lang=en)**, in English or French (button at the top right).
 
 1. **Assign**: drag a function from the library onto a button, or tap a function then a button (tablet, phone, keyboard). Custom functions accept an Eos macro, an OSC address or command-line text.
-2. **Set up a strip**: click the strip (**⚙ Set up**) to choose what its fader and knob control, then an **S**, **M** or **R** box for its role.
+2. **Place the wheels**: the library's **Wheels (knobs)** group holds INTENSITY, PAN, PAN FINE, TILT, TILT FINE and ZOOM. Drag them onto the knobs (the circle at the top of each strip), or tap a wheel then a knob. The **Place the 6 wheels on knobs 1–6** button sets them all at once.
+   - **Change the order**: drag a knob onto another to swap their settings.
+   - **Clear a knob**: select it with the keyboard and press Delete.
+   - Speed, precision and direction are then set in **⚙ Set up**.
+3. **Set up a strip**: click the strip (**⚙ Set up**) to choose what its fader and knob control, then an **S**, **M** or **R** box for its role.
 
    ![Strip setup](../docs/images/configurateur-tranche-en.png)
 
-3. **Download the Chataigne project**: a `.zip` with the `.noisette`, the knob script, your configuration (`nanokontrol2-config.json`) and a `README.txt`. Then follow the [setup](#setup).
+4. **Download the Chataigne project**: a `.zip` with the `.noisette`, the knob script, your configuration (`nanokontrol2-config.json`) and a `README.txt`. Then follow the [setup](#setup).
 
    ![Project ready](../docs/images/configurateur-export-en.png)
 
@@ -116,6 +120,7 @@ Good to know:
 - The configuration stays in the browser. To use it elsewhere, **Save to file**, then **Open file**. The `.json` is also in every `.zip`.
 - **Clear all**, applying a template or opening a file can be undone for 8 seconds with **Undo**.
 - Errors (red) block the download. Warnings (orange) don't.
+- The **Fader template** menu (Fader Wing, Subs, Channels) only sets the faders and their S / M / R. It **leaves knobs 1 to 6 alone**: the wheels stay in place. Fader Wing also sets knobs 7 and 8 to Eos faders 9 and 10. On an empty nano, the template buttons also place the 6 wheels.
 
 **What a strip can control**
 | Fader or knob | Message | Possible S / M / R roles |

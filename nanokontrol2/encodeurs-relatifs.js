@@ -1,10 +1,10 @@
-// nanoKONTROL2 -> ETC Eos : potards en mode relatif (comme des encodeurs).
+// nanoKONTROL2 -> ETC Eos : potentiometres en mode relatif (comme des encodeurs).
 // Charge dans le module MIDI de Chataigne. Le reste (faders, boutons, banque de faders) est dans les States.
-// Multiplicateur = crans de roue Eos par cran de potard (negatif = sens inverse).
-var INTENS = 1;                      // CC16 - potard 1
-var PAN_WIDE = 10, PAN_FINE = 1;     // CC17, CC18 - potards 2 et 3
-var TILT_WIDE = 5, TILT_FINE = 1;    // CC19, CC20 - potards 4 et 5
-var ZOOM = 3;                        // CC21 - potard 6
+// Multiplicateur = crans de roue Eos par cran de potentiometre (negatif = sens inverse).
+var INTENS = 1;                      // CC16 - potentiometre 1
+var PAN_WIDE = 10, PAN_FINE = 1;     // CC17, CC18 - potentiometres 2 et 3
+var TILT_WIDE = 5, TILT_FINE = 1;    // CC19, CC20 - potentiometres 4 et 5
+var ZOOM = 3;                        // CC21 - potentiometre 6
 
 var lastIntens = -1, lastPanWide = -1, lastPanFine = -1;
 var lastTiltWide = -1, lastTiltFine = -1, lastZoom = -1;
